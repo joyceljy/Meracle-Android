@@ -10,11 +10,11 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     GoRegister: () => {
-        Actions.pop();
+        //Actions.pop();
         Actions.MemberRegister();
     },
     Forgetpw: () => {
-        //Actions.MemberRegister();
+    Actions.ForgetPassword();
     },
     LoginButtonClick: (account, password) => {
         dispatch(LoginAction(account, password));
@@ -27,20 +27,40 @@ class MemberLoginContainer extends MemberLoginComponent {
         super(props);
         this.state = {
             Account: '',
-            Password: ''
+            Password: '',
+            apierr: false,
+            loginfail: false,
+            err1:false,
         }
     }
+
+    componentDidMount() {
+
+        //若login_account有值則直接登入&&login_status==="登入成功"
+         if(this.props.login_account!=null &&this.props.login_account!=""){
+             Actions.home({type: "reset"});
+         }
+           
+
+    };
+
     componentWillReceiveProps(nextProps) {
-         const { login_account } = nextProps;
-        const { login_status } = nextProps; 
+        const { login_account } = nextProps;
+        const { login_status } = nextProps;
         //登入成功則跳頁至首頁
-       if (login_status == true) {
-              Actions.MemberRegister();
-            }
+        if (login_status === "登入成功") {
+            Actions.home({type: "reset"});
+        }
+            
+        // } else if(login_status ==="尚未填寫問卷"){
+        //     //未填寫調查
+        //      Actions.RegisterSurvey();
+        // }
+        }
     }
-    
 
 
-}
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(MemberLoginContainer);

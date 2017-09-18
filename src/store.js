@@ -5,7 +5,7 @@ import * as api from './service/api';
 
 const store = createStore(
    reducers,
-  applyMiddleware(thunk.withExtraArgument(api))
+   applyMiddleware(thunk.withExtraArgument({ api }))
  );
 
  export default store;

@@ -1,9 +1,15 @@
-export default (state=null, action) => {
+export default (state = null, action) => {
     switch (action.type) {
         case 'LOGIN_SUCCESS':
-            return true;
+            console.log(action.Message)
+            action.Callback(action.Message)
+            return action.Message;
         case 'LOGIN_FAIL':
-            return false;
+            console.log(action.Message)
+            action.Callback(action.Message)
+            return action.Message;
+            case 'Logout_SUCCESS':
+            return "";
         default:
             return state;
     }

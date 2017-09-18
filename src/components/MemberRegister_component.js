@@ -12,46 +12,26 @@ import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
 import { Kohana } from 'react-native-textinput-effects';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-
-var radio_props = [
-    { label: '男', value: 0 },
-    { label: '女', value: 1 }
-];
+import Toast from 'react-native-root-toast';
 
 
 class Memory extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            birthdate: "",
-            isDateTimePickerVisible: false,
-            gender: '男',
-            value: 0
-        }
+
     }
 
-
-
-    _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
-
-    _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
-
-    _handleDatePicked = (date) => {
-        var newDate = date.getFullYear().toString() + "/" + date.getMonth().toString() + "/" + date.getDate().toString();
-        this.setState({ birthdate: newDate })
-        this._hideDateTimePicker();
-    };
 
     AccountInput() {
         return <Kohana
             style={styles.InputTextStyle}
-            label={'帳號'}
+            label={'信箱(帳號)'}
             iconClass={MaterialsIcon}
-            iconName={'account-box'}
-            iconColor={'#AD5A5A'}
-            labelStyle={{ color: '#AD5A5A' }}
+            iconName={'email'}
+            iconColor={'white'}
+            labelStyle={{ color: 'white' }}
             inputStyle={{}}
-
+            onChangeText={(text) => this.setState({ Account: text })}
             useNativeDriver
         />
     }
@@ -61,10 +41,10 @@ class Memory extends Component {
             label={'密碼'}
             iconClass={MaterialsIcon}
             iconName={'lock'}
-            iconColor={'#AD5A5A'}
-            labelStyle={{ color: '#AD5A5A' }}
+            iconColor={'white'}
+            labelStyle={{ color: 'white' }}
             inputStyle={{}}
-
+            onChangeText={(text) => this.setState({ Password: text })}
             useNativeDriver
         />
     }
@@ -74,10 +54,10 @@ class Memory extends Component {
             label={'密碼確認'}
             iconClass={MaterialsIcon}
             iconName={'lock'}
-            iconColor={'#AD5A5A'}
-            labelStyle={{ color: '#AD5A5A' }}
+            iconColor={'white'}
+            labelStyle={{ color: 'white' }}
             inputStyle={{}}
-
+            onChangeText={(text) => this.setState({ VPassword: text })}
             useNativeDriver
         />
     }
@@ -87,69 +67,27 @@ class Memory extends Component {
             label={'地址'}
             iconClass={MaterialsIcon}
             iconName={'home'}
-            iconColor={'#AD5A5A'}
-            labelStyle={{ color: '#AD5A5A' }}
+            iconColor={'white'}
+            labelStyle={{ color: 'white' }}
             inputStyle={{}}
-
+            onChangeText={(text) => this.setState({ Address: text })}
             useNativeDriver
         />
     }
-    BirthdayInput() {
-        return <Kohana
-            onFocus={() => this._showDateTimePicker()}
-            onChangeText={() => this._showDateTimePicker()}
-            value={this.state.birthdate}
-            style={styles.InputTextStyle}
-            label={'生日'}
-            iconClass={MaterialsIcon}
-            iconName={'cake'}
-            iconColor={'#AD5A5A'}
-            labelStyle={{ color: '#AD5A5A' }}
-            inputStyle={{}}
-
-            useNativeDriver
-        />
-    }
-
-    JobInput() {
+    
+    NameInput() {
         return <Kohana
             style={styles.InputTextStyle}
-            label={'職業'}
+            label={'家長姓名'}
             iconClass={MaterialsIcon}
-            iconName={'work'}
-            iconColor={'#AD5A5A'}
-            labelStyle={{ color: '#AD5A5A' }}
+            iconName={'account-box'}
+            iconColor={'white'}
+            labelStyle={{ color: 'white' }}
             inputStyle={{}}
-
+            onChangeText={(text) => this.setState({ Name: text })}
             useNativeDriver
         />
     }
-
-    GenderInput() {
-        return <RadioForm
-            radio_props={radio_props}
-            initial={0}
-            formHorizontal={true}
-            buttonColor={'#AD5A5A'}
-            onPress={(value) => this.setState({ value: value })}
-            onPress={(value) => this.setgender(value)}
-        />
-
-
-    }
-    setgender(value) {
-
-        if (value == 0) {
-            this.setState({ gender: '男' })
-        } else {
-            this.setState({ gender: '女' })
-        }
-
-    }
-
-
-
-
 
     render() {
         return (
@@ -168,6 +106,9 @@ class Memory extends Component {
                         {/*Account*/}
                         {this.AccountInput()}
                         <Text>{"\n"}</Text>
+                        {/*Name*/}
+                        {this.NameInput()}
+                        <Text>{"\n"}</Text>
                         {/*Password*/}
                         {this.PasswordInput()}
                         <Text>{"\n"}</Text>
@@ -177,29 +118,56 @@ class Memory extends Component {
                         {/*Address*/}
                         {this.AddressInput()}
                         <Text>{"\n"}</Text>
-                        {/*Birthday*/}
-                        {this.BirthdayInput()}
-                        <DateTimePicker
-                            isVisible={this.state.isDateTimePickerVisible}
-                            onConfirm={this._handleDatePicked}
-                            onCancel={this._hideDateTimePicker}
-                        />
-                        <Text>{"\n"}</Text>
-                        {/*Job*/}
-                        {this.JobInput()}
-                        <Text>{"\n"}</Text>
-                        {/*Gender*/}
-                        <Text style={{ fontSize: 15, color: '#AD5A5A', fontWeight: 'bold' }}>   性別：</Text>
-                        {this.GenderInput()}
                         
-                        <TouchableOpacity style={styles.Buttonstyle} onPress={() => this.props.RegisterPress()}>
+                        <TouchableOpacity style={styles.Buttonstyle} onPress={() => {
+                            if (this.state.Account == '' || this.state.Password == '' || this.state.Name == ''
+                                || this.state.VPassword == ''  || this.state.Address == '') {
+
+                                //顯示錯誤訊息
+                                setTimeout(() => this.setState({
+                                    err1: true
+                                }), 300); // show toast after 0.5s
+
+                                setTimeout(() => this.setState({
+                                    err1: false
+                                }), 5000); // hide toast after 5s
+                            } else if (this.state.Password != this.state.VPassword) {
+                                //顯示錯誤訊息
+                                setTimeout(() => this.setState({
+                                    err2: true
+                                }), 300); // show toast after 0.5s
+
+                                setTimeout(() => this.setState({
+                                    err2: false
+                                }), 5000); // hide toast after 5s
+                            } else {
+                                this.props.RegisterButtonClick(this.state.Account, this.state.Password, this.state.Name, this.state.Address,)
+                            }
+                        }}>
                             <Text style={style = styles.ButtonText}>註冊</Text>
                         </TouchableOpacity>
 
                         <Text style={styles.Info} onPress={() => this.props.GoLogin()}>已有帳號？ 前往登入</Text>
                     </View>
 
+                    {/*Toast*/}
+                    <Toast
+                        backgroundColor='rgba(0,0,0,0.8)'
+                        visible={this.state.err1}
+                        position={600}
+                        shadow={false}
+                        animation={false}
+                        hideOnPress={true}
+                    >欄位不能為空！</Toast>
 
+                    <Toast
+                        backgroundColor='rgba(0,0,0,0.8)'
+                        visible={this.state.err2}
+                        position={600}
+                        shadow={false}
+                        animation={false}
+                        hideOnPress={true}
+                    >兩次密碼輸入不一致！</Toast>
 
                 </View>
             </Image>
@@ -226,25 +194,25 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     Buttonstyle: {
-        backgroundColor: '#AD5A5A',
+        backgroundColor: 'rgb(255,255,255)',
         width: 100,
         height: 40,
         alignSelf: 'center',
         justifyContent: 'center',
-        borderRadius: 5
+        borderRadius: 30
     },
     ButtonText: {
         textAlign: 'center',
-        color: 'white'
+        color: 'black'
     },
     Info: {
         textAlign: 'center',
-        alignSelf: 'center',
+        color: 'white'
     },
 
     InputTextStyle: {
-        backgroundColor: '#EBD6D6',
-        borderRadius: 5,
+        backgroundColor: 'rgba(255,255,255,0.5)',
+        borderRadius: 30,
         width: 350,
         height: 40,
     }

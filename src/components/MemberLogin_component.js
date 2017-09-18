@@ -10,24 +10,25 @@ import {
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
 import { Kohana } from 'react-native-textinput-effects';
-
+import Toast from 'react-native-root-toast';
 
 
 class Memory extends Component {
     constructor(props) {
         super(props);
-        
+
     }
     AccountInput() {
         return <Kohana
             style={styles.InputTextStyle}
-            label={'帳號'}
+            label={'信箱'}
             iconClass={MaterialsIcon}
-            iconName={'account-box'}
-            iconColor={'#AD5A5A'}
-            labelStyle={{ color: '#AD5A5A' }}
+            iconName={'email'}
+            iconColor={'white'}
+            labelStyle={{ color: 'white' }}
             inputStyle={{}}
-           onChangeText={(text) => this.setState({ Account: text })}
+            //onChangeText={(text) => this.setState({ Account: text })}
+            onEndEditing={(evt) => this.setState({ Account: evt.nativeEvent.text })}
             useNativeDriver
         />
     }
@@ -37,8 +38,8 @@ class Memory extends Component {
             label={'密碼'}
             iconClass={MaterialsIcon}
             iconName={'lock'}
-            iconColor={'#AD5A5A'}
-            labelStyle={{ color: '#AD5A5A' }}
+            iconColor={'white'}
+            labelStyle={{ color: 'white' }}
             inputStyle={{}}
             onChangeText={(text) => this.setState({ Password: text })}
             useNativeDriver
@@ -50,6 +51,7 @@ class Memory extends Component {
             <Image source={require('../images/backgroundImg.png')} style={styles.backgroundImage} >
 
                 <View style={styles.Viewstyle}>
+
 
                     {/*logoView*/}
                     <View style={styles.logo}>
@@ -64,11 +66,18 @@ class Memory extends Component {
                         {/*Password*/}
                         {this.PasswordInput()}
                         <Text>{"\n"}</Text>
-                        
+
 
                         <TouchableOpacity style={styles.Buttonstyle} onPress={() => {
                             if (this.state.Account == '' || this.state.Password == '') {
-                                alert('帳號或密碼不能為空');
+                                setTimeout(() => this.setState({
+                                    err1: true
+                                }), 500); // show toast after 0.5s
+
+                                setTimeout(() => this.setState({
+                                    err1: false
+                                }), 4000); // hide toast after 4s
+
                             } else {
                                 this.props.LoginButtonClick(this.state.Account, this.state.Password)
                             }
@@ -88,7 +97,26 @@ class Memory extends Component {
 
 
                 </View>
+                <Toast
+                    backgroundColor='rgba(0,0,0,0.8)'
+                    visible={this.state.apierr}
+                    position={600}
+                    shadow={false}
+                    animation={false}
+                    hideOnPress={true}
+                >帳號或密碼錯誤！</Toast>
+
+                <Toast
+                    backgroundColor='rgba(0,0,0,0.8)'
+                    visible={this.state.err1}
+                    position={600}
+                    shadow={false}
+                    animation={false}
+                    hideOnPress={true}
+                >帳號或密碼不能為空！</Toast>
             </Image>
+
+
         );
     }
 }
@@ -110,23 +138,25 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     Buttonstyle: {
-        backgroundColor: '#AD5A5A',
-        width: 100,
+        backgroundColor: 'rgb(255,255,255)',
+        width: 350,
         height: 40,
         alignSelf: 'center',
         justifyContent: 'center',
-        borderRadius: 5
+        borderRadius: 30,
+
     },
     ButtonText: {
         textAlign: 'center',
-        color: 'white'
+        color: 'black'
     },
     Info: {
         textAlign: 'center',
+        color: 'white'
     },
     InputTextStyle: {
-        backgroundColor: '#EBD6D6',
-        borderRadius: 5,
+        backgroundColor: 'rgba(255,255,255,0.5)',
+        borderRadius: 30,
         width: 350
     }
 
