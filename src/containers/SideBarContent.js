@@ -39,6 +39,9 @@ const mapDispatchToProps = (dispatch) => ({
     GamePointClick: () => {
         Actions.GamePointTimeSeriesLineChart();
     },
+    GamePointcclick: () => {
+        Actions.GamePointTimeSeriesLineChart();
+    },
     ParentsTroubleClick: () => {
         Actions.ParentsTroublePieChart();
     },

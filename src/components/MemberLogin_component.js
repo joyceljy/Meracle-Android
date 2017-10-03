@@ -11,7 +11,7 @@ import {
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
 import { Kohana } from 'react-native-textinput-effects';
 import Toast from 'react-native-root-toast';
-
+//import LinearGradient from 'react-native-linear-gradient';
 
 class Memory extends Component {
     constructor(props) {
@@ -48,55 +48,60 @@ class Memory extends Component {
     render() {
         return (
             //backgroundimage
-            <Image source={require('../images/backgroundImg.png')} style={styles.backgroundImage} >
+            <Image source={require('../images/Bg_image.png')} style={styles.backgroundImage} resizeMode="cover" >
 
-                <View style={styles.Viewstyle}>
+                <View style={styles.mainView}>
 
+                <View style={styles.Inputtextview}>
+                <Image source={require('../images/email.png')} style={styles.InputtextIcon} />
+                <TextInput
+                    style={styles.InputtextText}
+                    onChangeText={(text) => this.setState({ Account: text })}
+                    value={this.state.Account}
+                    placeholder="輸入信箱"
+                    placeholderStyle={styles.InputtextPlaceholder}
+                    placeholderTextColor='rgba(255,255,255,0.5)'
+                    autoCorrect={false}
+                    underlineColorAndroid='transparent'
+                />
+            </View>
 
-                    {/*logoView*/}
-                    <View style={styles.logo}>
-                        <Text>LOGO</Text>
-                    </View>
-                    {/*loginView*/}
-                    <View>
-                        <Text>{"\n"}</Text>
-                        {/*Account*/}
-                        {this.AccountInput()}
-                        <Text>{"\n"}</Text>
-                        {/*Password*/}
-                        {this.PasswordInput()}
-                        <Text>{"\n"}</Text>
-
-
-                        <TouchableOpacity style={styles.Buttonstyle} onPress={() => {
-                            if (this.state.Account == '' || this.state.Password == '') {
-                                setTimeout(() => this.setState({
-                                    err1: true
-                                }), 500); // show toast after 0.5s
-
-                                setTimeout(() => this.setState({
-                                    err1: false
-                                }), 4000); // hide toast after 4s
-
-                            } else {
-                                this.props.LoginButtonClick(this.state.Account, this.state.Password)
-                            }
-                        }}>
-                            <Text style={style = styles.ButtonText}>登入</Text>
-                        </TouchableOpacity>
-
-
-                        <Text style={style = styles.Info}
-                            onPress={() => this.props.GoRegister()}
-                        >
-                            {"\n"}還不是會員？ 前往註冊{"\n"}</Text>
-
-                        <Text style={style = styles.Info} onPress={() => this.props.Forgetpw()}>忘記密碼？</Text>
-                    </View>
+                    {/*Password*/}
+                    {this.PasswordInput()}
 
 
 
+                    <TouchableOpacity style={styles.Buttonstyle} onPress={() => {
+                        if (this.state.Account == '' || this.state.Password == '') {
+                            setTimeout(() => this.setState({
+                                err1: true
+                            }), 500); // show toast after 0.5s
+
+                            setTimeout(() => this.setState({
+                                err1: false
+                            }), 4000); // hide toast after 4s
+
+                        } else {
+                            this.props.LoginButtonClick(this.state.Account, this.state.Password)
+                        }
+                    }}>
+                        <Text style={style = styles.ButtonText}>登入</Text>
+                    </TouchableOpacity>
+
+
+                    <Text style={style = styles.Info}
+                        onPress={() => this.props.GoRegister()}
+                    >
+                        {"\n"}還不是會員？ 前往註冊{"\n"}</Text>
+
+                    <Text style={style = styles.Info} onPress={() => this.props.Forgetpw()}>忘記密碼？</Text>
                 </View>
+
+
+
+
+
+
                 <Toast
                     backgroundColor='rgba(0,0,0,0.8)'
                     visible={this.state.apierr}
@@ -122,15 +127,47 @@ class Memory extends Component {
 }
 
 const styles = StyleSheet.create({
-    Viewstyle: {
-        alignItems: 'center',
-        flex: 1,
-        justifyContent: 'center'
+    mainView: {
+        width: 304,
+        height: 285,
+        borderRadius: 8,
+        backgroundColor: 'rgb(255,255,255)',
+        borderWidth:1,
+        borderColor:'#E0E5ED',
     },
     backgroundImage: {
         flex: 1,
         alignSelf: 'stretch',
-        width: null,
+        opacity: 0.75,
+
+    },
+    Inputtextview: {
+        flexDirection: 'row',
+        backgroundColor: 'rgba(180,218,229,0.30)',
+        borderRadius: 100,
+        width:272,
+        height: 48,
+        marginTop: 73,
+        marginLeft: 16,
+    },
+    InputtextText: {
+        width: 250,
+        marginLeft: 16,
+        marginTop:12,
+        fontSize: 16,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Regular',
+        color: '#FFFFFF',
+    },
+    InputtextPlaceholder: {
+        fontSize: 16,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Regular',
+    },
+    InputtextIcon: {
+        marginTop: 12,
+        marginLeft: 24,
+
     },
     logo: {
         width: 100,
@@ -154,11 +191,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'white'
     },
-    InputTextStyle: {
-        backgroundColor: 'rgba(255,255,255,0.5)',
-        borderRadius: 30,
-        width: 350
-    }
+ 
 
 
 });

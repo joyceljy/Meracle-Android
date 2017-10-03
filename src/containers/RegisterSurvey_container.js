@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import RegisterSurveyComponent from '../components/RegisterSurvey_component';
 import { Actions } from 'react-native-router-flux';
-import { RegisterSurveyAction } from '../actions/RegisterSurvey_action';
+//import { RegisterSurveyAction } from '../actions/RegisterSurvey_action';
 
 const mapStateToProps = (state) => ({
     survey_status:state.survey_status,
@@ -12,7 +12,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
    
     ButtonClick: (account,problem,sleep,fruit,veg,cereal,meat,milk) => {
-        dispatch(RegisterSurveyAction(account,problem,sleep,fruit,veg,cereal,meat,milk));
+        //dispatch(RegisterSurveyAction(account,problem,sleep,fruit,veg,cereal,meat,milk));
     },
 }
 );

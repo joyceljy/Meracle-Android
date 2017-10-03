@@ -82,7 +82,13 @@ class Memory extends Component {
                                     <Icon name="arrow-forward" style={{ fontSize: 12, color: "black" }} />
                                 </Right>
                             </Button>
-
+                            <Button transparent onPress={() => this.props.GamePointcclick()} style={{ width: 288, height: 37 }}>
+                            <Left><MaterialCommunityIcon name="gamepad-variant" style={{ fontSize: 12 }} /></Left>
+                            <Text style={{ fontSize: 10, fontFamily: 'monospace', color: "black" }}>遊戲分析圖</Text>
+                            <Right>
+                                <Icon name="arrow-forward" style={{ fontSize: 12, color: "black" }} />
+                            </Right>
+                        </Button>
                             <Button transparent onPress={() => this.props.PersonalHighMemoryTimeClick()} style={{ width: 288, height: 37 }}>
                                 <Left><Ionicons name="md-time" style={{ fontSize: 12 }} /></Left>
                                 <Text style={{ fontSize: 10, fontFamily: 'monospace', color: "black" }}>個人記憶力最佳時段</Text>

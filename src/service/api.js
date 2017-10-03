@@ -1,6 +1,9 @@
 const get_base_url = () => {
     return 'http://163.17.135.185/7thWebApi/api';
 };
+const token=()=>{
+    return '';
+}
 
 //登入（POST）
 export function fetch_login(account, password) {
@@ -33,6 +36,7 @@ export function fetch_register(account, password, name, address) {
             //'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Authorization':token
         },
         body: JSON.stringify({
             "Account": account,

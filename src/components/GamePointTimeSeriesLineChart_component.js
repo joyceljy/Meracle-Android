@@ -59,18 +59,19 @@ class GamePointTimeSeriesLineChart extends React.Component {
 
                     label: '您的小孩',
                     config: {
-                        lineWidth: 1,
-                        drawValues: true,
-                        circleRadius: 2,
-                        highlightEnabled: true,
-                        drawHighlightIndicators: true,
-                        color: processColor('#0080FF'),
+                        lineWidth: 2,
+                        drawCircles: false,
+                        highlightColor: processColor('red'),
+                        color: processColor('red'),
                         drawFilled: true,
-                        valueTextSize: 10,
-                        fillColor: processColor('#0080FF'),
-                        fillAlpha: 80,
-                        valueFormatter: "###",
-                        circleColor: processColor('#0080FF')
+                        fillColor: processColor('red'),
+                        fillAlpha: 60,
+                        valueTextSize: 15,
+                        valueFormatter: "##.000",
+                        dashedLine: {
+                            lineLength: 20,
+                            spaceLength: 20
+                        }
                     }
                 }],
             },
@@ -82,11 +83,11 @@ class GamePointTimeSeriesLineChart extends React.Component {
             },
             legend: {
                 enabled: true,
-                textColor: processColor('black'),
-                textSize: 8,
+                textColor: processColor('blue'),
+                textSize: 12,
                 position: 'BELOW_CHART_RIGHT',
                 form: 'SQUARE',
-                formSize: 8,
+                formSize: 14,
                 xEntrySpace: 10,
                 yEntrySpace: 5,
                 formToTextSpace: 5,
@@ -99,9 +100,9 @@ class GamePointTimeSeriesLineChart extends React.Component {
             },
             marker: {
                 enabled: true,
+                backgroundTint: processColor('teal'),
                 markerColor: processColor('#F0C0FF8C'),
                 textColor: processColor('white'),
-                markerFontSize: 14,
             },
 
             selectedEntry: ""
@@ -157,32 +158,28 @@ class GamePointTimeSeriesLineChart extends React.Component {
                     <LineChart
                         style={styles.chart}
                         data={this.state.data}
-                        chartDescription={{ text: '' }}
+                        description={{ text: '' }}
                         legend={this.state.legend}
                         marker={this.state.marker}
+                        xAxis={this.state.xAxis}
+                        drawGridBackground={false}
+                        borderColor={processColor('teal')}
+                        borderWidth={1}
+                        drawBorders={true}
 
-                        animation={{ durationX: 500 }}
-                        drawGridBackground={true}
-                        // borderWidth={null}
-                        drawBorders={false}
-                        touchEnabled={false}
+                        touchEnabled={true}
                         dragEnabled={true}
                         scaleEnabled={true}
                         scaleXEnabled={true}
                         scaleYEnabled={true}
                         pinchZoom={true}
-                        doubleTapToZoomEnabled={false}
+                        doubleTapToZoomEnabled={true}
 
                         dragDecelerationEnabled={true}
                         dragDecelerationFrictionCoef={0.99}
-                        // yAxis={{ left: { axisMaximum: 1000 } }}
-                        drawGridBackground={true}
-                        gridBackgroundColor={processColor('rgba(221, 221, 255, 0.3)')}
+
                         keepPositionOnRotation={false}
-
-                        xAxis={this.state.xAxis}
-
-
+                        onSelect={this.handleSelect.bind(this)}
                     />
 
 
@@ -208,7 +205,7 @@ const styles = StyleSheet.create({
         // backgroundColor: '#FF8EFF'
 
     },
-     menuIcon: {
+    menuIcon: {
         width: 48,
         height: 45
     }
