@@ -9,66 +9,54 @@ import {
     TouchableOpacity
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
-import { Kohana } from 'react-native-textinput-effects';
 import Toast from 'react-native-root-toast';
-//import LinearGradient from 'react-native-linear-gradient';
+
 
 class Memory extends Component {
     constructor(props) {
         super(props);
 
     }
-    AccountInput() {
-        return <Kohana
-            style={styles.InputTextStyle}
-            label={'信箱'}
-            iconClass={MaterialsIcon}
-            iconName={'email'}
-            iconColor={'white'}
-            labelStyle={{ color: 'white' }}
-            inputStyle={{}}
-            //onChangeText={(text) => this.setState({ Account: text })}
-            onEndEditing={(evt) => this.setState({ Account: evt.nativeEvent.text })}
-            useNativeDriver
-        />
-    }
-    PasswordInput() {
-        return <Kohana secureTextEntry={true}
-            style={styles.InputTextStyle}
-            label={'密碼'}
-            iconClass={MaterialsIcon}
-            iconName={'lock'}
-            iconColor={'white'}
-            labelStyle={{ color: 'white' }}
-            inputStyle={{}}
-            onChangeText={(text) => this.setState({ Password: text })}
-            useNativeDriver
-        />
-    }
+
     render() {
         return (
             //backgroundimage
-            <Image source={require('../images/Bg_image.png')} style={styles.backgroundImage} resizeMode="cover" >
-
+            <Image source={require('../images/Bg.png')} style={styles.backgroundImage} resizeMode="cover" >
+                <View style={styles.logoView}>
+                    <Image source={require('../images/Logo.png')} style={styles.logoImage} />
+                </View>
                 <View style={styles.mainView}>
-
-                <View style={styles.Inputtextview}>
-                <Image source={require('../images/email.png')} style={styles.InputtextIcon} />
-                <TextInput
-                    style={styles.InputtextText}
-                    onChangeText={(text) => this.setState({ Account: text })}
-                    value={this.state.Account}
-                    placeholder="輸入信箱"
-                    placeholderStyle={styles.InputtextPlaceholder}
-                    placeholderTextColor='rgba(255,255,255,0.5)'
-                    autoCorrect={false}
-                    underlineColorAndroid='transparent'
-                />
-            </View>
+                    {/*Account*/}
+                    <View style={[styles.Inputtextview, { marginTop: 73 }]}>
+                        <Image source={require('../images/email.png')} style={styles.InputtextIcon} />
+                        <TextInput
+                            style={styles.InputtextText}
+                            onChangeText={(text) => this.setState({ Account: text })}
+                            value={this.state.Account}
+                            placeholder="輸入信箱"
+                            placeholderStyle={styles.InputtextPlaceholder}
+                            placeholderTextColor='rgba(20, 70, 105,0.5)'
+                            autoCorrect={false}
+                            underlineColorAndroid='transparent'
+                        />
+                    </View>
 
                     {/*Password*/}
-                    {this.PasswordInput()}
-
+                    <View style={[styles.Inputtextview, { marginTop: 8 }]}>
+                        <Image source={require('../images/password.png')} style={styles.InputtextIcon} />
+                        <TextInput
+                            style={styles.InputtextText}
+                            onChangeText={(text) => this.setState({ Password: text })}
+                            value={this.state.Password}
+                            placeholder="輸入密碼"
+                            placeholderStyle={styles.InputtextPlaceholder}
+                            placeholderTextColor='rgba(20, 70, 105,0.5)'
+                            autoCorrect={false}
+                            underlineColorAndroid='transparent'
+                            secureTextEntry={true}
+                        />
+                    </View>
+                    <Text style={style = styles.forgetText} onPress={() => this.props.Forgetpw()}>忘記密碼？</Text>
 
 
                     <TouchableOpacity style={styles.Buttonstyle} onPress={() => {
@@ -82,21 +70,23 @@ class Memory extends Component {
                             }), 4000); // hide toast after 4s
 
                         } else {
+
                             this.props.LoginButtonClick(this.state.Account, this.state.Password)
                         }
+
                     }}>
                         <Text style={style = styles.ButtonText}>登入</Text>
                     </TouchableOpacity>
 
-
-                    <Text style={style = styles.Info}
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.notmemberText}>還不是會員？</Text>
+                    <Text style={style = styles.registerText}
                         onPress={() => this.props.GoRegister()}
                     >
-                        {"\n"}還不是會員？ 前往註冊{"\n"}</Text>
-
-                    <Text style={style = styles.Info} onPress={() => this.props.Forgetpw()}>忘記密碼？</Text>
+                        前往註冊
+                    </Text>
                 </View>
-
 
 
 
@@ -132,32 +122,49 @@ const styles = StyleSheet.create({
         height: 285,
         borderRadius: 8,
         backgroundColor: 'rgb(255,255,255)',
-        borderWidth:1,
-        borderColor:'#E0E5ED',
+        borderWidth: 1,
+        borderColor: '#E0E5ED',
+        marginLeft: 40,
+        marginTop: -57,
+        zIndex: 1,
     },
     backgroundImage: {
         flex: 1,
         alignSelf: 'stretch',
-        opacity: 0.75,
+        zIndex: -1,
 
+    },
+    logoView: {
+        width: 120,
+        height: 120,
+        zIndex: 2,
+        borderRadius: 100,
+        backgroundColor: 'rgba(255,255,255,0.9)',
+        marginTop: 110,
+        marginLeft: 132,
+    },
+    logoImage: {
+        width: 88,
+        height: 88,
+        marginLeft: 16,
+        marginTop: 16,
     },
     Inputtextview: {
         flexDirection: 'row',
         backgroundColor: 'rgba(180,218,229,0.30)',
         borderRadius: 100,
-        width:272,
+        width: 272,
         height: 48,
-        marginTop: 73,
         marginLeft: 16,
     },
     InputtextText: {
         width: 250,
+        height: 48,
         marginLeft: 16,
-        marginTop:12,
         fontSize: 16,
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',
-        color: '#FFFFFF',
+        color: '#144669',
     },
     InputtextPlaceholder: {
         fontSize: 16,
@@ -169,29 +176,49 @@ const styles = StyleSheet.create({
         marginLeft: 24,
 
     },
-    logo: {
-        width: 100,
-        height: 100,
-        backgroundColor: 'white',
-    },
     Buttonstyle: {
-        backgroundColor: 'rgb(255,255,255)',
-        width: 350,
-        height: 40,
-        alignSelf: 'center',
-        justifyContent: 'center',
+        backgroundColor: 'rgb(20, 70, 105)',
+        width: 272,
+        height: 48,
         borderRadius: 30,
+        shadowColor: 'rgba(0,0,0,0.25)',
+        borderRadius: 100,
+        marginLeft: 16,
+        marginTop: 16,
 
     },
     ButtonText: {
-        textAlign: 'center',
-        color: 'black'
+        marginLeft: 116,
+        marginTop: 12,
+        fontSize: 18,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Medium',
+        color: '#FFFFFF',
     },
-    Info: {
-        textAlign: 'center',
-        color: 'white'
+    forgetText: {
+        marginLeft: 116,
+        marginTop: 8,
+        fontSize: 14,
+        lineHeight: 20,
+        fontFamily: 'Roboto-Regular',
+        color: '#144669',
     },
- 
+    notmemberText: {
+        marginLeft: 118,
+        marginTop: 16,
+        fontSize: 14,
+        fontFamily: 'Roboto-Light',
+        color: '#FFFFFF',
+    },
+    registerText: {
+        marginLeft: 4,
+        marginTop: 16,
+        fontSize: 14,
+        fontFamily: 'Roboto-Medium',
+        color: '#FFFFFF',
+        textDecorationLine:'underline'
+    },
+
 
 
 });
