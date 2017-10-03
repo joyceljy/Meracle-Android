@@ -12,9 +12,12 @@ const mapDispatchToProps = (dispatch) => ({
         Actions.pop();
         //Actions.MemberLogin();
     },
-    RegisterButtonClick: (account, password,name,address) => {
-        dispatch(RegisterAction(account, password,name,address));
+    RegisterButtonClick: (account, password,name,birth,gender) => {
+       // dispatch(RegisterAction(account, password,name,address));
     },
+    checkAccountbtn:(account)=>{
+
+    }
 }
 );
 
@@ -27,10 +30,16 @@ class MemberRegisterContainer extends MemberRegisterComponent {
             Work:'',
             Name:'',
             VPassword:'',
-            Address:'',
+            Birthdate:'',
             err2:false,
             err1:false,
-            //err3:false,
+            err3:false,
+            //步驟
+            step:1,
+
+            //性別
+            genderSelected:0,
+            Gender:'男',
 
         }
      }

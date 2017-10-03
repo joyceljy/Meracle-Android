@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
     InputtextIcon: {
         marginTop: 12,
         marginLeft: 24,
+        opacity:0.5,
 
     },
     Buttonstyle: {
