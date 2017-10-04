@@ -17,10 +17,13 @@ import SaveChildrenData_reducer from './SaveChildrenData_reducer';
 import eegpowerdelta_reducer from './eegpowerdelta_reducer';
 import eegpowerlowbeta_reducer from './eegpowerlowbeta_reducer';
 import esense_reducer from './esense_reducer';
+import CheckMemAccount_reducer from './CheckMemAccount_reducer';
+import CheckChildName_reducer from './CheckChildName_reducer';
+
 const root_reducers = combineReducers({
 
     //login
-    login_status: Login_reducer,
+    login_token: Login_reducer,
     login_account: Loginaccount_reducer, //login
 
     //Editpwd
@@ -28,6 +31,7 @@ const root_reducers = combineReducers({
 
     //register
     reg_status: Register_reducer,
+    checkMemAccount_status:CheckMemAccount_reducer,
 
     //forgetpassword
     forget_status: ForgetPassword_reducer,
@@ -48,6 +52,7 @@ const root_reducers = combineReducers({
     //child register
     child_reg_status: ChildrenRegister_reducer,
     childRegStep: ChangeStep_reducer,
+    checkChildName_status:CheckChildName_reducer,
 
     //childdata
     children_data: ChildrenData_reducer,

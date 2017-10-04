@@ -189,6 +189,7 @@ class Memory extends Component {
                                 placeholderTextColor='rgba(255,255,255,0.5)'
                                 autoCorrect={false}
                                 underlineColorAndroid='transparent'
+                                onEndEditing={this.props.checkChildButton(this.props.login_account,this.state.Name,this.props.login_token)}
                             />
                         </View>
                         {/*Birthday*/}
@@ -258,7 +259,7 @@ class Memory extends Component {
 
                         <TouchableOpacity style={[styles.nextButton, { marginTop: 64 }]} onPress={() => {
                             //判斷小孩名稱是否重複
-                            //this.props.checkChildButton(this.props.login_account, this.state.Name);
+
                             if (this.state.Name == '' || this.state.birthdate == '') {
 
                                 //顯示錯誤訊息
@@ -270,10 +271,10 @@ class Memory extends Component {
                                     err1: false
                                 }), 5000); // hide toast after 5s
                             } else {
+                                if (this.state.nameCheck != "") {
+                                    this.props.changeRegisterStep('2');
+                                }
 
-
-
-                                this.props.changeRegisterStep('2');
                             }
                         }}>
                             <Text style={[styles.nextButtonText, { marginLeft: 88 }]}>繼續下一步</Text>
@@ -417,12 +418,12 @@ class Memory extends Component {
                             && this.state.Q2selectedItem != ''
                             && this.state.Q3showText != '') {
                             //儲存問卷
-                            //this.props.saveQButton(this.props.login_account, this.state.Q1selectedItem.label, this.state.Q2selectedItem.label, this.state.fruit, this.state.veg,
-                            // this.state.cereal, this.state.meat, this.state.milk)
+                            this.props.saveQButton(this.props.login_account,this.state.Name, this.state.Q1selectedItem.label, this.state.Q2selectedItem.label, this.state.fruit, this.state.veg,
+                             this.state.cereal, this.state.meat, this.state.milk,this.props.login_token)
                             //儲存小孩基本資料
-                            //this.props.ChildRegisterButton(this.props.login_account, this.state.Name, this.state.birthdate, this.state.gender)
+                            this.props.ChildRegisterButton(this.props.login_account, this.state.Name, this.state.birthdate, this.state.gender,this.props.login_token)
                             //儲存小孩照片
-                            //this.props.saveChildpicButton(this.props.login_account, this.state.Name, this.state.imagedata_base64);
+                            //this.props.saveChildpicButton(this.props.login_account, this.state.Name, this.state.imagedata_base64,this.props.login_token);
                             //跳至第四步驟
                             this.props.changeRegisterStep('4');
                         } else {

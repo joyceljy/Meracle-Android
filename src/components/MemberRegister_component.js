@@ -31,6 +31,27 @@ class Memory extends Component {
         this._hideDateTimePicker();
     };
 
+    // time() {
+    //     var count = 0;
+    //     this.timer = setInterval(
+    //         () => {
+    //             count++
+    //             if (count == 4) {
+    //                 clearTimeout(this.timer)
+    //                 this.setState({
+    //                     skipLogin: true,
+
+    //                 });
+    //                 clearTimeout(this.timer);
+    //             }
+    //         }, 1000)
+
+    //     if (this.state.skipLogin == true) {
+    //         this.props.GoLogin();
+    //     }
+    // }
+
+
     render() {
         if (this.state.step == '1') {
             return (
@@ -52,6 +73,8 @@ class Memory extends Component {
                                 placeholderTextColor='rgba(20, 70, 105,0.5)'
                                 autoCorrect={false}
                                 underlineColorAndroid='transparent'
+                                //blurOnSubmit={false}
+                                onEndEditing={this.props.checkAccountbtn(this.state.Account)}
                             />
                         </View>
 
@@ -111,9 +134,10 @@ class Memory extends Component {
                                 }), 5000); // hide toast after 5s
                             } else {
                                 //確認帳號沒重複
-                                this.props.checkAccountbtn(this.state.Account);
-                                this.setState({ step: 2 })
-
+                                //this.props.checkAccountbtn(this.state.Account);
+                                if (this.state.accountCheck !="") {
+                                    this.setState({ step: 2 })
+                                }
                             }
 
                         }}>
@@ -125,7 +149,7 @@ class Memory extends Component {
                         <Text style={styles.alreadyText}>已經是會員？</Text>
                         <Text style={styles.loginText}
                             onPress={() => this.props.GoLogin()}>
-                            前往登入
+                            前往登入 
                         </Text>
                     </View>
                     {/*Toast*/}
@@ -166,7 +190,7 @@ class Memory extends Component {
                             <Image source={require('../images/person_darkBlue.png')} style={styles.InputtextIcon} />
                             <TextInput
                                 style={styles.InputtextText}
-                                onChangeText={(text) => this.setState({ Account: Name })}
+                                onChangeText={(text) => this.setState({ Name: text })}
                                 value={this.state.Name}
                                 placeholder="輸入您的姓名"
                                 placeholderStyle={styles.InputtextPlaceholder}
@@ -236,7 +260,7 @@ class Memory extends Component {
                             </TouchableHighlight>
                         </View>
 
-                        <TouchableOpacity style={[styles.Buttonstyle,{marginTop:24}]} onPress={() => {
+                        <TouchableOpacity style={[styles.Buttonstyle, { marginTop: 24 }]} onPress={() => {
                             if (this.state.Name == '' || this.state.Birthdate == '') {
 
                                 //顯示錯誤訊息
@@ -249,13 +273,15 @@ class Memory extends Component {
                                 }), 5000); // hide toast after 5s
                             }
                             else {
-
+                               
                                 this.props.RegisterButtonClick(this.state.Account, this.state.Password, this.state.Name, this.state.Birthdate, this.state.Gender)
+
                             }
 
                         }}>
-                            <Text style={[styles.ButtonText,{marginLeft:114,marginTop:12}]}>註冊</Text>
+                            <Text style={[styles.ButtonText, { marginLeft: 114, marginTop: 12 }]}>註冊</Text>
                         </TouchableOpacity>
+
 
                     </View>
                     <View style={{ flexDirection: 'row' }}>
@@ -309,7 +335,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255,255,255,0.9)',
         marginTop: 93,
         marginLeft: 132,
-        shadowOffset:{  width: 0,  height: 1,  },
+        shadowOffset: { width: 0, height: 1, },
     },
     logoImage: {
         width: 88,
@@ -384,14 +410,14 @@ const styles = StyleSheet.create({
         marginTop: 4,
         width: 130,
         height: 40,
-        borderRadius:100,
-        flexDirection:'row',
+        borderRadius: 100,
+        flexDirection: 'row',
     },
     genderImage: {
         marginTop: 8,
         marginLeft: 35,
-        borderRadius:100,
-        shadowColor:'rgba(0,0,0,0.1)',
+        borderRadius: 100,
+        shadowColor: 'rgba(0,0,0,0.1)',
     },
     genderText: {
         fontSize: 14,

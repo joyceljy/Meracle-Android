@@ -1,10 +1,8 @@
 export default (state = null, action) => {
     switch (action.type) {
-        case 'LOGIN_SUCCESS':
-            console.log(action.Message)
-            action.Callback(action.Message)
-            return action.Token;
-        case 'LOGIN_FAIL':
+        case 'CHECK_NAME_SUCCESS':
+            return true;
+        case 'CHECK_NAME_FAIL':
             console.log(action.Message)
             action.Callback(action.Message)
             return "";

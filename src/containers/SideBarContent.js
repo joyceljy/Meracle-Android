@@ -11,7 +11,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
 
-
+MemberClick: () => {
+    Actions.Member();
+},
     MemberEditClick: () => {
         Actions.MemberEdit();
     },

@@ -1,9 +1,16 @@
+import { connect } from 'react-redux';
+const mapStateToProps = (state) => ({
+    login_token: state.login_token,
+});
+// const get_base_url = () => {
+//     return 'http://163.17.135.185/7thWebApi/api';
+// };
 const get_base_url = () => {
-    return 'http://163.17.135.185/7thWebApi/api';
+    return 'http://meracal.azurewebsites.net/api';
 };
-const token=()=>{
-    return '';
-}
+// const token = () => {
+//     return login_token;
+// }
 
 //登入（POST）
 export function fetch_login(account, password) {
@@ -15,7 +22,6 @@ export function fetch_login(account, password) {
             //'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            
         },
         body: JSON.stringify({
             "Account": account,
@@ -27,7 +33,7 @@ export function fetch_login(account, password) {
 }
 
 //註冊（POST）
-export function fetch_register(account, password, name, address) {
+export function fetch_register(account, password, name, birth, gender) {
     const api_url = `${get_base_url()}/Member/Register`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
@@ -36,14 +42,33 @@ export function fetch_register(account, password, name, address) {
             //'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization':token
         },
         body: JSON.stringify({
             "Account": account,
             "Password": password,
             "Name": name,
-            "Address": address,
+            "Birthday": birth,
+            "Gender": gender,
 
+        })
+    }).then(response => {
+        return response.json()
+    });
+}
+
+//註冊帳號確認重複（POST）
+export function fetch_checkAccount(account) {
+    const api_url = `${get_base_url()}/Member/CheckMemAccount`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            "Account": account,
         })
     }).then(response => {
         return response.json()
@@ -154,7 +179,7 @@ export function fetch_editpassword(account, password) {
 }
 
 //註冊調查
-export function fetch_registersurvey(account, problem, sleep, fruit, veg, cereal, meat, milk) {
+export function fetch_registersurvey(account, name, problem, sleep, fruit, veg, cereal, meat, milk, login_token) {
     const api_url = `${get_base_url()}/Survey/Questionnaire`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
@@ -163,10 +188,11 @@ export function fetch_registersurvey(account, problem, sleep, fruit, veg, cereal
             //'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            
+            'Authorization': login_token,
         },
         body: JSON.stringify({
             Account: account,
+            CdName: name,
             Problem: problem,
             Avg_Sleep: sleep,
             Eat_Fruit: fruit,
@@ -181,7 +207,7 @@ export function fetch_registersurvey(account, problem, sleep, fruit, veg, cereal
 }
 
 //小孩註冊（POST）
-export function fetch_childrenregister(account,name, birth, gender) {
+export function fetch_childrenregister(account, name, birth, gender, login_token) {
     const api_url = `${get_base_url()}/Member/CdRegister`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
@@ -190,6 +216,7 @@ export function fetch_childrenregister(account,name, birth, gender) {
             //'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Authorization': login_token,
         },
         body: JSON.stringify({
             Account: account,
@@ -197,6 +224,49 @@ export function fetch_childrenregister(account,name, birth, gender) {
             Birthday: birth,
             Gender: gender
 
+        })
+    }).then(response => {
+        return response.json()
+    });
+}
+
+//小孩新增姓名確認重複（POST）
+export function fetch_checkChildName(account, name, login_token) {
+    const api_url = `${get_base_url()}/Member/CheckCdAccount`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': login_token,
+        },
+        body: JSON.stringify({
+            "Account": account,
+            "CdName": name,
+        })
+    }).then(response => {
+        return response.json()
+    });
+}
+
+//小孩大頭（POST）
+export function fetch_childrenimage(account, name, pic64, login_token) {
+    const api_url = `${get_base_url()}/Member/ReactPostImage`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': login_token,
+        },
+        body: JSON.stringify({
+            "Account": account,
+            "CdName": name,
+            "FileStr": pic64
         })
     }).then(response => {
         return response.json()

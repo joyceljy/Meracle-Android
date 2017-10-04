@@ -24,7 +24,7 @@ import MindwaveTest from './MindwaveTest_scene'
 import Member from './Member_scene';
 
 const scenes = Actions.create(
-    <Scene key="root">
+    <Scene key="root" >
 
         <Scene key="MemberLogin" component={MemberLogin} hideNavBar={true} />
         <Scene key="MemberRegister" component={MemberRegister} hideNavBar={true} />

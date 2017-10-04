@@ -20,12 +20,12 @@ export const LoginAction = (account, password) => {
                 console.log(data)
                 if (data.result === "登入成功") { //登入
                     dispatch({
-                        type: 'LOGIN_SUCCESS', loginuser: data.Account,Message:data.result,Callback:callback
+                        type: 'LOGIN_SUCCESS', loginuser: data.Account,Message:data.result,Callback:callback,Token:data.Authorization
                     })
                 }
                 else {
                     dispatch({
-                        type: 'LOGIN_FAIL', loginuser: data.Account,Message:data.result,Callback:callback
+                        type: 'LOGIN_FAIL', loginuser: data.Account,Message:"帳號或密碼錯誤",Callback:callback
                     })
                 }
             })

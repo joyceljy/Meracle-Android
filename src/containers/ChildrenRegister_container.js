@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import ChildrenRegisterComponent from '../components/ChildrenRegister_component';
 import { Actions } from 'react-native-router-flux';
-import { ChildrenRegisterAction, RegisterSurveyAction } from '../actions/ChildrenRegister_action';
+import { ChildrenRegisterAction, RegisterSurveyAction, CheckChildNameAction, ChildImageAction } from '../actions/ChildrenRegister_action';
 import { changeRegisterStep } from '../actions/ChangeStep_action';
 
 const mapStateToProps = (state) => ({
@@ -9,34 +9,36 @@ const mapStateToProps = (state) => ({
     child_account: state.child_account,
     login_account: state.login_account,
     childRegStep: state.childRegStep,
+    checkChildName_status: state.checkChildName_status,
+    login_token: state.login_token,
 
 });
 
 const mapDispatchToProps = (dispatch) => ({
     //新增小孩資料
-    ChildRegisterButton: (account, name, birth, gender) => {
-        dispatch(ChildrenRegisterAction(account, name, birth, gender));
+    ChildRegisterButton: (account, name, birth, gender,login_token) => {
+        dispatch(ChildrenRegisterAction(account, name, birth, gender,login_token));
     },
     //變換步驟
     changeRegisterStep: (step) => {
         dispatch(changeRegisterStep(step));
     },
     //檢查小孩名稱重複
-    checkChildButton: (account, name) => {
-
+    checkChildButton: (account, name,login_token) => {
+        dispatch(CheckChildNameAction(account, name,login_token));
     },
     //新增小孩照片
-    saveChildpicButton: (account, name, pic64) => {
-
+    saveChildpicButton: (account, name, pic64,login_token) => {
+        dispatch(ChildImageAction(account, name, pic64,login_token));
     },
     //儲存問卷
-    saveQButton: (account, problem, sleep, fruit, veg, cereal, meat, milk) => {
-        dispatch(RegisterSurveyAction(account, problem, sleep, fruit, veg, cereal, meat, milk));
+    saveQButton: (account, name, problem, sleep, fruit, veg, cereal, meat, milk,login_token) => {
+        dispatch(RegisterSurveyAction(account, name, problem, sleep, fruit, veg, cereal, meat, milk,login_token));
     },
     //自動跳轉
     skipMemberButton: () => {
         //Actions.pop();
-        Actions.Member({type: "reset"});
+        Actions.Member({ type: "reset" });
     }
 }
 );
@@ -79,21 +81,27 @@ class ChildrenRegisterContainer extends ChildrenRegisterComponent {
 
             //自動跳轉
             skipMember: false,
+
+            //確認小孩名字重複
+            nameCheck: true,
         }
     }
     componentWillReceiveProps(nextProps) {
         const { childRegStep: previous_childRegStep } = this.props;
         const { child_reg_status } = nextProps;
         const { childRegStep } = nextProps;
+        const { checkChildName_status } = nextProps;
+
         if (previous_childRegStep != childRegStep) {
             this.setState({ RegisterStep: childRegStep })
         }
 
+        const { checkChildName_status: previous_checkChildName } = this.props;
 
-        //成功則
-        if (child_reg_status === true) {
-            Actions.home();
+        if (previous_checkChildName != checkChildName_status) {
+            this.setState({ nameCheck: checkChildName_status })
         }
+        
     }
     componentDidMount() {
         //預設第一步驟
