@@ -40,7 +40,6 @@ class MemberEditContainer extends MemberEditComponent {
             gender: '',
             value: 0,
             Account: '',
-            Work: '',
             Name: '',
             Address: '',
             err2: false,
@@ -48,7 +47,9 @@ class MemberEditContainer extends MemberEditComponent {
             imageurl: '',
             avatarSource: null,
             imagedata_base64: null,
-            init: 0,
+
+            genderSelected:0,
+
 
         }
 

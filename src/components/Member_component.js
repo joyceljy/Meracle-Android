@@ -62,7 +62,7 @@ class Memory extends Component {
                         </View>
 
                         <View style={styles.parentInfoView}>
-                            <TouchableOpacity onPress={this.goMemberEdit}>
+                            <TouchableOpacity onPress={this.props.goMemberEdit}>
 
                                 <View style={styles.avatarView}>
                                     {(this.state.avatarSource === null) ? (
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     parentInfoView: {
         width: '100%',
         height: 102,
-        backgroundColor: '#144690',
+        backgroundColor: '#144669',
         marginTop: 16,
         flexDirection: 'row',
         alignItems: "stretch",

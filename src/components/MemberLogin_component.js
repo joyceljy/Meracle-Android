@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     },
     forgetText: {
         marginLeft: 116,
-        marginTop: 8,
+        marginTop: 12,
         fontSize: 14,
         lineHeight: 20,
         fontFamily: 'Roboto-Regular',

@@ -97,8 +97,10 @@ class Memory extends Component {
 
     //裝置連線
     _deviceconnect() {
-        console.log("Try To Connect To Device " + this.state.devices[0].id + "_" + this.state.devices[0].name)
-        mwm.connect(this.state.devices[0].id)
+        // console.log("Try To Connect To Device " + this.state.devices[0].id + "_" + this.state.devices[0].name)
+        // mwm.connect(this.state.devices[0].id)
+        console.log("device connect");
+        mwm.connect("A0:E6:F8:F7:B7:3B");
     }
 
     //切斷裝置
@@ -124,6 +126,7 @@ class Memory extends Component {
                 console.log('scan');
             }, 1000)
         mwm.onFoundDevice(device => {
+            console.log('onFoundDevice');
             console.log(device)
             this.state.devices.push(device)
             this.setState({
@@ -133,6 +136,8 @@ class Memory extends Component {
             this._deviceconnect()
         })
         mwm.onConnect(state => {
+            console.log('mwm.onConnect');
+            console.log(state);
             if (!this.state.mindwaveConnected && this.state.deviceFound) {
                 console.log(state.success = true ? "Connect Success" : "Connect Failed")
                 //讓畫面至少停留在腦波連線中3秒
@@ -153,6 +158,8 @@ class Memory extends Component {
             }
         })
         mwm.onDisconnect(state => {
+            console.log('onDisconnect');
+            console.log(state);
             if (!this.state.mindwaveConnected) {
                 this.setState({
                     mindwaveConnected: false
@@ -163,17 +170,24 @@ class Memory extends Component {
 
         //以下三個為接收腦波的function
         mwm.onEEGPowerDelta(data => {
+            console.log('onEEGPowerDelta');
+            console.log(data);
             this.setState({
                 mindwaveTimer: this.state.mindwaveTimer + 1
             })
             this.props.onEEGPowerDelta(data, this.state.mindwaveTimer)
         })
         mwm.onEEGPowerLowBeta(data => {
+            console.log('onEEGPowerLowBeta');
+            console.log(data);
             this.props.onEEGPowerLowBeta(data)
         })
         mwm.onESense(data => {
+            console.log('onESense');
+            console.log(data);
             this.props.onESense(data)
         })
+        this._deviceconnect();
     }
     componentWillReceiveProps(nextProps) {
         //耳機訊號傳回時間（為了讓以上三個function稍微同步）
