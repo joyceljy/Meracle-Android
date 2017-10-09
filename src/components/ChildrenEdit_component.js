@@ -9,26 +9,19 @@ import {
     TouchableOpacity
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
-import { Kohana } from 'react-native-textinput-effects';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import Toast from 'react-native-root-toast';
 import Icon from 'react-native-vector-icons/Entypo';
-import Drawer from 'react-native-drawer';
-import SideBarContent from '../containers/SideBarContent';
 
-var radio_props = [
-    { label: '男', value: 0 },
-    { label: '女', value: 1 }
-];
+
+
 
 var ImagePicker = require('react-native-image-picker');
 
 class Memory extends Component {
     constructor(props) {
         super(props);
-        this.closeControlPanel = this.closeControlPanel.bind(this);
-        this.openControlPanel = this.openControlPanel.bind(this);
+
     }
 
 
@@ -43,46 +36,7 @@ class Memory extends Component {
         this._hideDateTimePicker();
     };
 
-    BirthdayInput() {
-        return <Kohana
-            onFocus={() => this._showDateTimePicker()}
-            onChangeText={() => this._showDateTimePicker()}
-            value={this.state.birthdate}
-            style={styles.InputTextStyle}
-            label={'小孩生日'}
-            iconClass={MaterialsIcon}
-            iconName={'cake'}
-            iconColor={'white'}
-            labelStyle={{ color: 'white' }}
-            inputStyle={{}}
 
-            useNativeDriver
-        />
-    }
-
-    GenderInput() {
-
-        return <RadioForm
-            radio_props={radio_props}
-            initial={this.state.init}
-            formHorizontal={true}
-            buttonColor={'white'}
-            labelColor={'white'}
-            onPress={(value) => this.setState({ value: value })}
-            onPress={(value) => this.setgender(value)}
-        />
-
-
-    }
-    setgender(value) {
-
-        if (value == 0) {
-            this.setState({ gender: '男' })
-        } else {
-            this.setState({ gender: '女' })
-        }
-
-    }
 
     ImageSelect = () => {
         const options = {
@@ -124,129 +78,154 @@ class Memory extends Component {
                     avatarSource: source,
                     imagedata_base64: response.data
                 });
-                this.props.SaveImage(this.props.login_account,this.props.child_account, this.state.imagedata_base64)
+                //this.props.SaveImage(this.props.login_account,this.props.child_account, this.state.imagedata_base64)
             }
         });
     }
 
 
-    closeControlPanel = () => {
-        this._drawer.close()
-    };
-    openControlPanel = () => {
-        this._drawer.open()
-    };
     render() {
-        const drawerStyles = {
-            drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
-            main: { paddingLeft: 0 }
-        }
-        
+
+
         return (
 
-            <Drawer
-                type="displace"
-                ref={(ref) => this._drawer = ref}
-                content={<SideBarContent />}
-                openDrawerOffset={100}
-                panOpenMask={0.80}
-                captureGestures="open"
-                styles={drawerStyles}
-                tweenHandler={ratio => ({
-                    main: {
-                        opacity: 1,
-                    },
-                    mainOverlay: {
-                        opacity: ratio / 2,
-                        backgroundColor: 'black',
-                    },
-                })}
-            >
-            <View style={styles.menuIcon}>
-                    <Icon.Button name="menu" size={30} backgroundColor={null} color='#FFFFFF' onPress={this.openControlPanel}>
-                    </Icon.Button>
+            <View style={styles.Viewstyle}>
+                <View style={styles.topbarView}>
+                    <TouchableOpacity onPress={this.props.BackButton()}>
+                        <Image source={require('../images/back.png')} style={styles.topbarIcon} />
+                    </TouchableOpacity>
+                    <Text style={styles.topbarText}>編輯孩童資料</Text>
+
                 </View>
-                <View style={styles.Viewstyle}>
+                <View style={[styles.imageView, { marginLeft: 128 }]}>
+                    {(this.state.avatarSource === null) ? (
+                        <Image style={styles.avatar} source={{ uri: 'http://meracal.azurewebsites.net/Filefolder/' + this.state.imageurl }} />
+                    ) : (
+                            <Image style={styles.avatar} source={this.state.avatarSource} />
+                        )}
 
-                    <View style={styles.avatarView}>
-                        {(this.state.avatarSource === null) ? (
-                            <Image style={styles.avatar} source={{ uri: 'http://163.17.135.185/7thWebApi/Filefolder/' + this.state.imageurl + '-Member.png' }} />
-                        ) : (
-                                <Image style={styles.avatar} source={this.state.avatarSource} />
-                            )}
+                </View>
+                <TouchableOpacity style={styles.uploadImageView} onPress={this.ImageSelect}>
+                    <Image
+                        style={styles.uploadImage}
+                        source={require('../images/upload.png')}
+                    />
+                </TouchableOpacity>
+                <View style={styles.Inputtextview}>
+                    <Image source={require('../images/person.png')} style={styles.InputtextIcon} />
+                    <TextInput
+                        style={styles.InputtextText}
+                        onChangeText={(text) => this.setState({ Name: text })}
+                        value={this.state.Name}
+                        placeholder="輸入姓名"
+                        placeholderStyle={styles.InputtextPlaceholder}
+                        placeholderTextColor='rgba(255,255,255,0.5)'
+                        autoCorrect={false}
+                        underlineColorAndroid='transparent'
 
+                    />
+                </View>
+                <View style={styles.Inputtextview}>
+                    <Image source={require('../images/calendar.png')} style={styles.InputtextIcon} />
+                    <TextInput
+                        style={styles.InputtextText}
+                        onFocus={() => this._showDateTimePicker()}
+                        onChangeText={() => this._showDateTimePicker()}
+                        value={this.state.birthdate}
+                        placeholder="出生年月日"
+                        placeholderStyle={styles.InputtextPlaceholder}
+                        placeholderTextColor='rgba(255,255,255,0.5)'
+                        autoCorrect={false}
+                        underlineColorAndroid='transparent'
+                    />
+                </View>
+                <DateTimePicker
+                    isVisible={this.state.isDateTimePickerVisible}
+                    onConfirm={this._handleDatePicked}
+                    onCancel={this._hideDateTimePicker}
+                />
 
+                <View style={{ flexDirection: 'row' }}>
+                    <TouchableHighlight style={[styles.genderView, this.state.genderSelected === 0 ? { backgroundColor: 'rgba(255,255,255,0.25)' } : { backgroundColor: 'rgba(255,255,255,0)' }]}
 
-                        <TouchableOpacity onPress={this.ImageSelect} style={styles.imageMask}>
+                        onPress={() => {
+                            this.setState({
+                                genderSelected: 0,
+                                gender: '男'
+                            })
+                        }} >
+
+                        <View style={{ flexDirection: 'row' }}>
                             <Image
-                                source={require('../images/camera.png')}
-                                style={styles.editAvatarIcon}
+                                style={styles.genderImage}
+                                source={require('../images/avatar_boy.png')}
                             />
-                        </TouchableOpacity>
-                    </View>
+                            <Text style={styles.genderText}>男生</Text>
+                        </View>
 
-                    {/*EditView*/}
-                    <View>
-                        
-                        <Text>{"\n"}</Text>
-                        {/*Birthday*/}
-                        {this.BirthdayInput()}
-                        <DateTimePicker
-                            isVisible={this.state.isDateTimePickerVisible}
-                            onConfirm={this._handleDatePicked}
-                            onCancel={this._hideDateTimePicker}
-                        />
-                        <Text>{"\n"}</Text>
+                    </TouchableHighlight>
 
-                        {/*Gender*/}
-                        <Text style={{ fontSize: 15, color: 'white', fontWeight: 'bold' }}>   性別：</Text>
-                        {this.GenderInput()}
+                    <TouchableHighlight style={[styles.genderView, this.state.genderSelected === 1 ? { backgroundColor: 'rgba(255,255,255,0.25)' } : { backgroundColor: 'rgba(255,255,255,0)' }]}
 
-                        <TouchableOpacity style={styles.Buttonstyle} onPress={() => {
-                            if (this.state.birthdate == '') {
+                        onPress={() => {
+                            this.setState({
+                                genderSelected: 1,
+                                gender: '女'
+                            })
+                        }} >
+                        <View style={{ flexDirection: 'row' }}>
+                            <Image
+                                style={styles.genderImage}
+                                source={require('../images/avatar_girl.png')}
+                            />
+                            <Text style={styles.genderText}>女生</Text>
+                        </View>
 
-                                //顯示錯誤訊息
-                                setTimeout(() => this.setState({
-                                    err1: true
-                                }), 300); // show toast after 0.5s
-
-                                setTimeout(() => this.setState({
-                                    err1: false
-                                }), 5000); // hide toast after 5s
-                            } else {
-                                this.props.SaveButtonClick(this.props.login_account, this.props.child_account,
-                                    this.state.birthdate, this.state.gender)
-                            }
-                        }}>
-                            <Text style={style = styles.ButtonText}>儲存</Text>
-                        </TouchableOpacity>
-
-
-                    </View>
-
-                    {/*Toast*/}
-                    <Toast
-                        backgroundColor='rgba(0,0,0,0.8)'
-                        visible={this.state.err1}
-                        position={600}
-                        shadow={false}
-                        animation={false}
-                        hideOnPress={true}
-                    >欄位不能為空！</Toast>
-
-                    <Toast
-                        backgroundColor='rgba(0,0,0,0.8)'
-                        visible={this.state.success1}
-                        position={600}
-                        shadow={false}
-                        animation={false}
-                        hideOnPress={true}
-                    >修改成功！</Toast>
-
-
-
+                    </TouchableHighlight>
                 </View>
-            </Drawer>
+                <TouchableOpacity style={styles.editButton} onPress={() => {
+                    //判斷小孩名稱是否重複
+
+                    if (this.state.Name == '' || this.state.birthdate == '') {
+
+                        //顯示錯誤訊息
+                        setTimeout(() => this.setState({
+                            err1: true
+                        }), 100); // show toast after 0.5s
+
+                        setTimeout(() => this.setState({
+                            err1: false
+                        }), 5000); // hide toast after 5s
+                    } else {
+                        // this.props.SaveButtonClick(this.props.login_account, this.state.Name, this.state.Address, this.state.birthdate, this.state.gender)
+                        // this.props.SaveImage(this.props.login_account, this.state.imagedata_base64)
+                    }
+                }}>
+                    <Text style={styles.editButtonText}>確定更新</Text>
+                </TouchableOpacity>
+                {/*Toast*/}
+                <Toast
+                    backgroundColor='rgba(0,0,0,0.8)'
+                    visible={this.state.err1}
+                    position={600}
+                    shadow={false}
+                    animation={false}
+                    hideOnPress={true}
+                >欄位不能為空！</Toast>
+
+                <Toast
+                    backgroundColor='rgba(0,0,0,0.8)'
+                    visible={this.state.success1}
+                    position={600}
+                    shadow={false}
+                    animation={false}
+                    hideOnPress={true}
+                >修改成功！</Toast>
+
+
+
+            </View>
+
 
         );
     }
@@ -254,33 +233,27 @@ class Memory extends Component {
 
 const styles = StyleSheet.create({
     Viewstyle: {
-        alignItems: 'center',
         flex: 1,
-        justifyContent: 'center'
-
-
+        width: '100%',
+        backgroundColor: '#144669',
     },
-
-    logo: {
-        width: 100,
-        height: 100,
-        backgroundColor: 'white',
+    topbarView: {
+        flexDirection: 'row',
+        width: '100%',
+        backgroundColor: '#144669',
+        height: 56,
     },
-    Buttonstyle: {
-        backgroundColor: 'rgb(255,255,255)',
-        width: 100,
-        height: 40,
-        alignSelf: 'center',
-        justifyContent: 'center',
-        borderRadius: 30
+    topbarIcon: {
+        marginLeft: 16,
+        marginTop: 16,
     },
-    ButtonText: {
-        textAlign: 'center',
-        color: 'black'
-    },
-    Info: {
-        textAlign: 'center',
-        color: 'white'
+    topbarText: {
+        marginTop: 14,
+        marginLeft: 32,
+        fontSize: 16,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Regular',
+        color: '#FFFFFF',
     },
 
     InputTextStyle: {
@@ -289,49 +262,101 @@ const styles = StyleSheet.create({
         width: 350,
         height: 40,
     },
-    avatarView: {
-        width: 77,
-        height: 77,
-        borderWidth: 2,
-        borderColor: 'rgba(255, 255, 255, 0.61)',
-        borderRadius: 37,
-        backgroundColor: 'transparent',
-        overflow: 'hidden',
-        zIndex: 1
+    imageView: {
+        backgroundColor: 'rgba(255,25,255,0.2)',
+        width: 128,
+        height: 128,
+        marginTop: 16,
+        borderRadius: 100,
+        marginBottom: 16,
     },
     avatar: {
-        width: 37.5 * 2,
-        height: 37.5 * 2,
-        borderColor: 'rgba(255, 255, 255, 0.61)',
-        borderRadius: 37.5
+        marginTop: 24,
+        marginLeft: 19,
+    },
+    Inputtextview: {
+        flexDirection: 'row',
+        backgroundColor: 'rgba(255,255,255,0.25)',
+        borderRadius: 100,
+        width: 304,
+        height: 48,
+        marginTop: 8,
+        marginLeft: 40,
+    },
+    InputtextText: {
+        width: 250,
+        marginLeft: 16,
+        fontSize: 16,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Regular',
+        color: '#FFFFFF',
+    },
+    InputtextPlaceholder: {
+        fontSize: 16,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Regular',
+    },
+    InputtextIcon: {
+        marginTop: 12,
+        marginLeft: 24,
+
+    },
+    genderImage: {
+        marginTop: 8,
+        marginLeft: 16,
     },
 
-    imageMask: {
-        position: 'absolute',
-        top: 37.5,
-        width: 37.5 * 2,
-        height: 37.5,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(3, 3, 3, 0.7)',
-        borderBottomLeftRadius: 37.5,
-        borderBottomRightRadius: 37.5
+    genderView: {
+        flexDirection: 'row',
+        //backgroundColor: 'rgba(255,255,255,0.25)',
+        borderRadius: 100,
+        width: 133,
+        height: 48,
+        marginTop: 8,
+        marginLeft: 40,
     },
-    editAvatarIcon: {
-        width: 9.3 * 2,
-        height: 7.5 * 2
+    genderText: {
+        fontSize: 18,
+        lineHeight: 24,
+        fontFamily: 'PingFangTC-Medium',
+        marginTop: 12,
+        marginLeft: 16,
+        color: '#FFFFFF',
     },
-    menuIcon: {
+    editButton: {
+        backgroundColor: '#009688',
+        width: 272,
+        height: 56,
+        borderRadius: 100,
+        shadowOffset: { width: 0.6, height: 8, },
+        shadowColor: 'rgba(0,0,0,0.20)',
+        shadowRadius: 8,
+        shadowOpacity: 0,
+        marginLeft: 56,
+        marginTop: 40,
+    },
+    editButtonText: {
+        marginTop: 16,
+        fontSize: 18,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Medium',
+        color: '#FFFFFF',
+        marginLeft: 97,
+    },
+    uploadImageView: {
+        backgroundColor: 'rgb(255,255,255)',
         width: 48,
-        height: 45
-    }
-    //backgroundimage
-    //<Image source={require('../images/backgroundImg.png')} style={styles.backgroundImage} ></Image>
-    // backgroundImage: {
-    //         flex: 1,
-    //         alignSelf: 'stretch',
-    //         width: null,
-    //     },
-});
+        height: 48,
+        borderRadius: 100,
+        shadowColor: 'rgba(0,0,0,0.12)',
+        shadowRadius: 6,
+        marginTop: -48,
+        marginLeft: 216,
+        zIndex: 2,
+    },
+    uploadImage: {
+        marginLeft: 12.4,
+        marginTop: 12.4,
+    },
 
 export default Memory;

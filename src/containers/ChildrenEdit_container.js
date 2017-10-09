@@ -12,23 +12,19 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
-    // ForgetButtonClick: (account) => {
-    //     dispatch(ForgetPasswordAction(account));
-    // },
-    // BackButtonClick: () => {
-    //     Actions.pop();
-    // }
-    GetChildrenData: (login_account,childname) => {
-        dispatch(GetChildrenData(login_account,childname));
+    BackButton: () => {
+        Actions.Member();
+    },
+    GetChildrenData: (login_account, childname) => {
+        dispatch(GetChildrenData(login_account, childname));
     }
     ,
     SaveButtonClick: (login_account, childname, birthdate, gender) => {
 
         dispatch(SaveChildrenData(login_account, childname, address, birthdate, gender));
     },
-    SaveImage: (login_account,childname, image) => {
-        dispatch(SaveChildrenImage(login_account,childname, image));
+    SaveImage: (login_account, childname, image) => {
+        dispatch(SaveChildrenImage(login_account, childname, image));
     },
 });
 
@@ -39,25 +35,25 @@ class ChildrenEditContainer extends ChildrenEditComponent {
             birthdate: '',
             isDateTimePickerVisible: false,
             gender: '',
-            value: 0,
             Account: '',
             err2: false,
             err1: false,
             imageurl: '',
             avatarSource: null,
             imagedata_base64: null,
-            init: 0,
+
+            genderSelected: 0
 
         }
 
     }
 
     componentDidMount() {
-        this.props.GetChildrenData(this.props.login_account,this.props.child_account);
+        this.props.GetChildrenData(this.props.login_account, this.props.child_account);
         if (this.state.gender == '男') {
-            this.setState({ init: 0 })
+            this.setState({ genderSelected: 0 })
         } else {
-            this.setState({ init: 1 })
+            this.setState({ genderSelected: 1 })
         }
     };
 

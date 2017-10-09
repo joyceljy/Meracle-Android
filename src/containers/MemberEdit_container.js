@@ -12,12 +12,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
 
-    // ForgetButtonClick: (account) => {
-    //     dispatch(ForgetPasswordAction(account));
-    // },
-    // BackButtonClick: () => {
-    //     Actions.pop();
-    // }
+    BackButton: () => {
+        Actions.Member();
+    },
     GetMemberData: (login_account) => {
         dispatch(GetMemberData(login_account));
     }
@@ -48,7 +45,7 @@ class MemberEditContainer extends MemberEditComponent {
             avatarSource: null,
             imagedata_base64: null,
 
-            genderSelected:0,
+            genderSelected: 0,
 
 
         }

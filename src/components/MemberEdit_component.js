@@ -18,10 +18,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import Drawer from 'react-native-drawer';
 import SideBarContent from '../containers/SideBarContent';
 
-var radio_props = [
-    { label: '男', value: 0 },
-    { label: '女', value: 1 }
-];
+
 
 var ImagePicker = require('react-native-image-picker');
 
@@ -98,7 +95,9 @@ class Memory extends Component {
 
             <View style={styles.Viewstyle}>
                 <View style={styles.topbarView}>
-                    <Image source={require('../images/back.png')} style={styles.topbarIcon} />
+                    <TouchableOpacity onPress={this.props.BackButton()}>
+                        <Image source={require('../images/back.png')} style={styles.topbarIcon} />
+                    </TouchableOpacity>
                     <Text style={styles.topbarText}>編輯會員資料</Text>
                 </View>
                 <View style={[styles.imageView, { marginLeft: 128 }]}>
@@ -362,14 +361,14 @@ const styles = StyleSheet.create({
     },
     uploadImageView: {
         backgroundColor: 'rgb(255,255,255)',
-        width:48,
+        width: 48,
         height: 48,
         borderRadius: 100,
         shadowColor: 'rgba(0,0,0,0.12)',
         shadowRadius: 6,
         marginTop: -48,
         marginLeft: 216,
-        zIndex:2,
+        zIndex: 2,
     },
     uploadImage: {
         marginLeft: 12.4,
