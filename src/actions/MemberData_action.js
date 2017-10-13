@@ -1,9 +1,9 @@
 import Toast from 'react-native-root-toast';
 
 //取得會員資料
-export const GetMemberData = (account) => {
+export const GetMemberData = (account,token) => {
     return (dispatch, getState, { api }) => {
-        api.fetch_memberdata(account)
+        api.fetch_memberdata(account,token)
             .then(data => {
                 console.log(data)
                 if (data[0].Account != null && data[0].Account != "") {
@@ -21,7 +21,7 @@ export const GetMemberData = (account) => {
 };
 
 //儲存會員資料
-export const SaveMemberData = (account, name, address, birthdate, gender) => {
+export const SaveMemberData = (account, name, address, birthdate, gender,token) => {
     const callback = (message) => {
         // 通过调用 Toast.show(message, options); 可以在屏幕上显示一个toast，并返回一个toast实例
         let toast = Toast.show(message, {
@@ -35,7 +35,7 @@ export const SaveMemberData = (account, name, address, birthdate, gender) => {
         });
     }
     return (dispatch, getState, { api }) => {
-        api.fetch_savememberdata(account, name, address, birthdate, gender)
+        api.fetch_savememberdata(account, name, address, birthdate, gender,token)
             .then(data => {
                 console.log(data)
                 if (data === "success") {
@@ -53,18 +53,18 @@ export const SaveMemberData = (account, name, address, birthdate, gender) => {
 };
 
 // //儲存會員大頭
-// export const SaveMemberImage = (account, image) => {
-//     return (dispatch, getState, { api }) => {
-//         api.fetch_savememberimage(account, image)
-//             .then(data => {
-//                 console.log(data)
+export const SaveMemberImage = (account, image,token) => {
+    return (dispatch, getState, { api }) => {
+        api.fetch_savememberimage(account, image,token)
+            .then(data => {
+                console.log(data)
 
-//                 dispatch({
-//                     type: 'SAVE_MEMBERIMAGE_SUCCESS',
-//                     member_imageurl: data.result
-//                 })
+                dispatch({
+                    type: 'SAVE_MEMBERIMAGE_SUCCESS',
+                    member_imageurl: data.result
+                })
 
-//             })
-//             .catch(err => console.log(err));
-//     };
-// };
+            })
+            .catch(err => console.log(err));
+    };
+};

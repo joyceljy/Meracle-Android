@@ -19,12 +19,15 @@ class Memory extends Component {
     }
 
     render() {
+
         return (
             //backgroundimage
             <Image source={require('../images/Bg.png')} style={styles.backgroundImage} resizeMode="cover" >
+
                 <View style={styles.logoView}>
                     <Image source={require('../images/Logo.png')} style={styles.logoImage} />
                 </View>
+
                 <View style={styles.mainView}>
                     {/*Account*/}
                     <View style={[styles.Inputtextview, { marginTop: 73 }]}>
@@ -137,11 +140,12 @@ const styles = StyleSheet.create({
     logoView: {
         width: 120,
         height: 120,
-        zIndex: 2,
+        zIndex: 3,
         borderRadius: 100,
-        backgroundColor: 'rgba(255,255,255,0.9)',
+        backgroundColor: 'rgb(255,255,255)',
         marginTop: 110,
         marginLeft: 132,
+        elevation: 6,
     },
     logoImage: {
         width: 88,
@@ -150,6 +154,8 @@ const styles = StyleSheet.create({
         marginTop: 16,
     },
     Inputtextview: {
+        borderColor: 'rgba(204,204,204,10)',
+        borderWidth: 0.5,
         flexDirection: 'row',
         backgroundColor: 'rgba(180,218,229,0.30)',
         borderRadius: 100,
@@ -174,7 +180,7 @@ const styles = StyleSheet.create({
     InputtextIcon: {
         marginTop: 12,
         marginLeft: 24,
-        opacity:0.5,
+        opacity: 0.5,
 
     },
     Buttonstyle: {
@@ -186,7 +192,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         marginLeft: 16,
         marginTop: 16,
-
+        elevation: 2,
     },
     ButtonText: {
         marginLeft: 116,
@@ -217,7 +223,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: 'Roboto-Medium',
         color: '#FFFFFF',
-        textDecorationLine:'underline'
+        textDecorationLine: 'underline'
     },
 
 

@@ -200,19 +200,19 @@ const styles = StyleSheet.create({
         height: 72,
         borderWidth: 5,
         borderColor: '#9ACBD9',
-        borderRadius: 37,
+        borderRadius: 100,
         //backgroundColor: 'transparent',
-        overflow: 'hidden',
+        //overflow: 'hidden',
+        opacity:0.1,
         zIndex: 1,
         backgroundColor: '#FFFFFF',
         marginTop: 15,
         marginLeft: 48,
     },
     avatar: {
-        width: 37.5 * 2,
-        height: 37.5 * 2,
-        borderColor: 'rgba(255, 255, 255, 0.61)',
-        borderRadius: 37.5
+        width: 45.8,
+        height: 45.8,
+        borderRadius: 100
     },
     helloText: {
 

@@ -97,10 +97,11 @@ class Memory extends Component {
 
     //裝置連線
     _deviceconnect() {
+        console.log(this.state.devices);
         // console.log("Try To Connect To Device " + this.state.devices[0].id + "_" + this.state.devices[0].name)
-        // mwm.connect(this.state.devices[0].id)
+        mwm.connect(this.state.devices[0].id)
         console.log("device connect");
-        mwm.connect("A0:E6:F8:F7:B7:3B");
+        // mwm.connect("A0:E6:F8:F7:B7:3B");
     }
 
     //切斷裝置
@@ -120,11 +121,12 @@ class Memory extends Component {
     }
     componentDidMount() {
         //每隔一秒掃描一次周圍裝置
-        this.timerScan = setInterval(
-            () => {
-                mwm.scan()
-                console.log('scan');
-            }, 1000)
+        // this.timerScan = setInterval(
+        //     () => {
+        //         mwm.scan()
+        //         console.log('scan');
+        //     }, 1000)
+        mwm.scan()
         mwm.onFoundDevice(device => {
             console.log('onFoundDevice');
             console.log(device)
@@ -187,7 +189,7 @@ class Memory extends Component {
             console.log(data);
             this.props.onESense(data)
         })
-        this._deviceconnect();
+        // this._deviceconnect();
     }
     componentWillReceiveProps(nextProps) {
         //耳機訊號傳回時間（為了讓以上三個function稍微同步）
@@ -196,6 +198,7 @@ class Memory extends Component {
 
         //檢查訊號值正常（poorsignal為0）
         const { poorSignal } = nextProps;
+        console.log('poorSignal', poorSignal);
         if (poorSignal == 0 && !this.state.poorSignalChecked && mindwaveTimer != previous_mindwaveTimer && this.state.mindwaveConnected) {
             //counter累加
             counter++

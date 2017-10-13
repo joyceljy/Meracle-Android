@@ -94,10 +94,10 @@ class Memory extends Component {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
-                let source = { uri: response.uri };
+                //let source = { uri: response.uri };
 
                 // You can also display the image using data:
-                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                let source = { uri: 'data:image/jpeg;base64,' + response.data };
                 console.log(source);
                 this.setState({
                     avatarSource: source,
@@ -189,7 +189,7 @@ class Memory extends Component {
                                 placeholderTextColor='rgba(255,255,255,0.5)'
                                 autoCorrect={false}
                                 underlineColorAndroid='transparent'
-                                onEndEditing={this.props.checkChildButton(this.props.login_account,this.state.Name,this.props.login_token)}
+                                onEndEditing={this.props.checkChildButton(this.props.login_account, this.state.Name, this.props.login_token)}
                             />
                         </View>
                         {/*Birthday*/}
@@ -418,12 +418,12 @@ class Memory extends Component {
                             && this.state.Q2selectedItem != ''
                             && this.state.Q3showText != '') {
                             //儲存問卷
-                            this.props.saveQButton(this.props.login_account,this.state.Name, this.state.Q1selectedItem.label, this.state.Q2selectedItem.label, this.state.fruit, this.state.veg,
-                             this.state.cereal, this.state.meat, this.state.milk,this.props.login_token)
+                            this.props.saveQButton(this.props.login_account, this.state.Name, this.state.Q1selectedItem.label, this.state.Q2selectedItem.label, this.state.fruit, this.state.veg,
+                                this.state.cereal, this.state.meat, this.state.milk, this.props.login_token)
                             //儲存小孩基本資料
-                            this.props.ChildRegisterButton(this.props.login_account, this.state.Name, this.state.birthdate, this.state.gender,this.props.login_token)
+                            this.props.ChildRegisterButton(this.props.login_account, this.state.Name, this.state.birthdate, this.state.gender, this.props.login_token)
                             //儲存小孩照片
-                            //this.props.saveChildpicButton(this.props.login_account, this.state.Name, this.state.imagedata_base64,this.props.login_token);
+                            this.props.saveChildpicButton(this.props.login_account, this.state.Name, this.state.imagedata_base64, this.props.login_token);
                             //跳至第四步驟
                             this.props.changeRegisterStep('4');
                         } else {

@@ -8,23 +8,24 @@ const mapStateToProps = (state) => ({
     child_data: state.member_data,
     savechildrendata_status: state.savememberdata_status,
     member_imageurl: state.member_imageurl,
-    child_account: state.child_account
+    child_account: state.child_account,
+    login_token: state.login_token,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     BackButton: () => {
         Actions.Member();
     },
-    GetChildrenData: (login_account, childname) => {
-        dispatch(GetChildrenData(login_account, childname));
+    GetChildrenData: (login_account, childname,token) => {
+        dispatch(GetChildrenData(login_account, childname,token));
     }
     ,
-    SaveButtonClick: (login_account, childname, birthdate, gender) => {
+    SaveButtonClick: (login_account, childname, birthdate, gender,token) => {
 
-        dispatch(SaveChildrenData(login_account, childname, address, birthdate, gender));
+        dispatch(SaveChildrenData(login_account, childname, birthdate, gender,token));
     },
-    SaveImage: (login_account, childname, image) => {
-        dispatch(SaveChildrenImage(login_account, childname, image));
+    SaveImage: (login_account, childname, image,token) => {
+        dispatch(SaveChildrenImage(login_account, childname, image,token));
     },
 });
 

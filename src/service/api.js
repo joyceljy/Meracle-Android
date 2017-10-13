@@ -96,13 +96,14 @@ export function fetch_forgetpass(account) {
 }
 
 //取得會員資料（POST）
-export function fetch_memberdata(account) {
+export function fetch_memberdata(account,token) {
     const api_url = `${get_base_url()}/Member/PersonalPage`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
         method: 'POST',
         headers: {
             //'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': token,
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
@@ -116,13 +117,14 @@ export function fetch_memberdata(account) {
 }
 
 //儲存會員資料（POST）
-export function fetch_savememberdata(account, name, address, birthdate, gender) {
+export function fetch_savememberdata(account, name, address, birthdate, gender,token) {
     const api_url = `${get_base_url()}/Member/EdlitPersonalPage`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
         method: 'POST',
         headers: {
             //'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': token,
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
@@ -140,13 +142,14 @@ export function fetch_savememberdata(account, name, address, birthdate, gender) 
 }
 
 //儲存會員大頭（POST）
-export function fetch_savememberimage(account, image) {
-    const api_url = `${get_base_url()}/Member/PostFile`;
+export function fetch_savememberimage(account, image,token) {
+    const api_url = `${get_base_url()}/Member/ReactPostImage`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
         method: 'POST',
         headers: {
             //'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': token,
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },

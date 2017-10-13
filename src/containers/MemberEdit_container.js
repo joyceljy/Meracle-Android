@@ -8,6 +8,7 @@ const mapStateToProps = (state) => ({
     member_data: state.member_data,
     savememberdata_status: state.savememberdata_status,
     member_imageurl: state.member_imageurl,
+    login_token: state.login_token,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -15,16 +16,16 @@ const mapDispatchToProps = (dispatch) => ({
     BackButton: () => {
         Actions.Member();
     },
-    GetMemberData: (login_account) => {
-        dispatch(GetMemberData(login_account));
-    }
-    ,
-    SaveButtonClick: (account, name, address, birthdate, gender) => {
+    // GetMemberData: (login_account, token) => {
+    //     dispatch(GetMemberData(login_account, token));
+    // }
+    // ,
+    SaveButtonClick: (account, name, address, birthdate, gender, token) => {
 
-        dispatch(SaveMemberData(account, name, address, birthdate, gender));
+        dispatch(SaveMemberData(account, name, address, birthdate, gender, token));
     },
-    SaveImage: (account, image) => {
-        dispatch(SaveMemberImage(account, image));
+    SaveImage: (account, image, token) => {
+        dispatch(SaveMemberImage(account, image, token));
     },
 });
 
@@ -53,29 +54,28 @@ class MemberEditContainer extends MemberEditComponent {
     }
 
     componentDidMount() {
-        this.props.GetMemberData(this.props.login_account);
-        if (this.state.gender == '男') {
-            this.setState({ init: 0 })
+        //this.props.GetMemberData(this.props.login_account,this.props.login_token);
+        this.setState({
+            birthdate: this.props.member_data.member_data.Birthday,
+            Address: this.props.member_data.member_data.Address,
+            Name: this.props.member_data.member_data.Name,
+            gender: this.props.member_data.member_data.Gender,
+            imageurl: this.props.member_data.member_data.Imageurl
+        });
+
+        if (this.props.member_data.member_data.Gender == '男') {
+            this.setState({ genderSelected: 0 })
         } else {
-            this.setState({ init: 1 })
+            this.setState({ genderSelected: 1 })
         }
+
     };
 
     componentWillReceiveProps(nextProps) {
 
         //取得會員資料
-        const { member_data: previous_memberData } = this.props;
+
         const { member_data } = nextProps;
-        const { member_imageurl } = nextProps;
-        if (previous_memberData != member_data) {
-            this.setState({
-                birthdate: member_data.member_data.Birthday,
-                Address: member_data.member_data.Address,
-                Name: member_data.member_data.Name,
-                gender: member_data.member_data.Gender,
-                imageurl: member_data.member_data.Imageurl
-            });
-        }
 
         //會員資料儲存提示
         const { savememberdata_status } = nextProps;

@@ -45,8 +45,6 @@ const scenes = Actions.create(
         <Scene key="AvgSleepingBarChart" component={AvgSleepingBarChart} hideNavBar={true} />
         <Scene key="ParentsTroublePieChart" component={ParentsTroublePieChart} hideNavBar={true} />
         <Scene key="AllHighMemoryTime" component={AllHighMemoryTime} hideNavBar={true} />
-
-
         <Scene key="GamePoint" component={GamePoint} hideNavBar={true} />
         <Scene key="GamePointTimeSeriesLineChart" component={GamePointTimeSeriesLineChart} hideNavBar={true} />
     </Scene>

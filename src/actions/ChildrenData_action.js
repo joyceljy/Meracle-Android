@@ -1,9 +1,9 @@
 import Toast from 'react-native-root-toast';
 
 //取得小孩資料
-export const GetChildrenData = (account,childname) => {
+export const GetChildrenData = (account,childname,token) => {
     return (dispatch, getState, { api }) => {
-        api.fetch_childrendata(account,childname)
+        api.fetch_childrendata(account,childname,token)
             .then(data => {
                 console.log(data)
                 if (data[0].Account != null && data[0].Account != "") {
@@ -21,7 +21,7 @@ export const GetChildrenData = (account,childname) => {
 };
 
 //儲存小孩資料
-export const SaveChildrenData = (account, childname, birthdate, gender) => {
+export const SaveChildrenData = (account, childname, birthdate, gender,token) => {
     const callback = (message) => {
         // 通过调用 Toast.show(message, options); 可以在屏幕上显示一个toast，并返回一个toast实例
         let toast = Toast.show(message, {
@@ -35,7 +35,7 @@ export const SaveChildrenData = (account, childname, birthdate, gender) => {
         });
     }
     return (dispatch, getState, { api }) => {
-        api.fetch_savechildrendata(account, childname, address, birthdate, gender)
+        api.fetch_savechildrendata(account, childname, address, birthdate, gender,token)
             .then(data => {
                 console.log(data)
                 if (data === "success") {
@@ -53,26 +53,16 @@ export const SaveChildrenData = (account, childname, birthdate, gender) => {
 };
 
 //儲存小孩大頭
-export const SaveChildrenImage = (account, childname,image) => {
+export const SaveChildrenImage = (account,name,pic64,login_token) => {
     return (dispatch, getState, { api }) => {
-        api.fetch_savememberimage(account, childname,image)
-            .then(data => {
-                console.log(data)
-
-                dispatch({
-                    type: 'SAVE_CHILDIMAGE_SUCCESS',
-                    children_imageurl: data.result
-                })
-
-            })
-            .catch(err => console.log(err));
+        api.fetch_childrenimage(account,name,pic64,login_token)
     };
 };
 
 //小孩列表
-export const ListChildren = (account) => {
+export const ListChildren = (account,token) => {
     return (dispatch, getState, { api }) => {
-        api.fetch_getCdList(account)
+        api.fetch_getCdList(account,token)
             .then(data => {
                 console.log(data)
 

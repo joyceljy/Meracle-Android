@@ -73,10 +73,10 @@ class Memory extends Component {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
-                let source = { uri: response.uri };
+                //let source = { uri: response.uri };
 
                 // You can also display the image using data:
-                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                 let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
                 this.setState({
                     avatarSource: source,
@@ -95,7 +95,7 @@ class Memory extends Component {
 
             <View style={styles.Viewstyle}>
                 <View style={styles.topbarView}>
-                    <TouchableOpacity onPress={this.props.BackButton()}>
+                    <TouchableOpacity onPress={() => { this.props.BackButton();}}>
                         <Image source={require('../images/back.png')} style={styles.topbarIcon} />
                     </TouchableOpacity>
                     <Text style={styles.topbarText}>編輯會員資料</Text>
@@ -200,7 +200,7 @@ class Memory extends Component {
                     </TouchableHighlight>
                 </View>
                 <TouchableOpacity style={styles.editButton} onPress={() => {
-                    //判斷小孩名稱是否重複
+                   
 
                     if (this.state.Name == '' || this.state.birthdate == '') {
 
@@ -213,8 +213,8 @@ class Memory extends Component {
                             err1: false
                         }), 5000); // hide toast after 5s
                     } else {
-                        this.props.SaveButtonClick(this.props.login_account, this.state.Name, this.state.Address, this.state.birthdate, this.state.gender)
-                        this.props.SaveImage(this.props.login_account, this.state.imagedata_base64)
+                        this.props.SaveButtonClick(this.props.login_account, this.state.Name, this.state.Address, this.state.birthdate, this.state.gender,this.props.login_token)
+                        this.props.SaveImage(this.props.login_account, this.state.imagedata_base64,this.props.login_token)
                     }
                 }}>
                     <Text style={styles.editButtonText}>確定更新</Text>
@@ -279,16 +279,22 @@ const styles = StyleSheet.create({
         height: 40,
     },
     imageView: {
-        backgroundColor: 'rgba(255,25,255,0.2)',
+        backgroundColor: 'rgb(255,255,255)',
         width: 128,
         height: 128,
         marginTop: 16,
         borderRadius: 100,
         marginBottom: 16,
+        shadowColor:'rgba(255,255,255,0.2)',
+        shadowRadius:8,
+        
     },
     avatar: {
         marginTop: 24,
         marginLeft: 19,
+        width:80,
+        height:80,
+        borderRadius:100,
     },
     Inputtextview: {
         flexDirection: 'row',
