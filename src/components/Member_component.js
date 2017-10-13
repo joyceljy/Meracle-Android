@@ -16,7 +16,9 @@ import SideBarContent from '../containers/SideBarContent';
 class Memory extends Component {
     constructor(props) {
         super(props);
-
+        this.state = {
+            kidlistpre: [],
+        }
     }
     closeControlPanel = () => {
         this._drawer.close()
@@ -24,11 +26,125 @@ class Memory extends Component {
     openControlPanel = () => {
         this._drawer.open()
     };
-
+    kidlist = function (options) {
+        if (options === 0) {
+            return {
+                width: 40,
+                height: 40,
+                borderRadius: 50,
+                top: -11,
+                left: -10,
+                backgroundColor: '#9ACBD9'
+            }
+        }
+        else if (options === 1) {
+            return {
+                width: 40,
+                height: 40,
+                borderRadius: 50,
+                top: -11,
+                left: -10,
+                backgroundColor: '#F5808B'
+            }
+        }
+        else if (options === 2) {
+            return {
+                width: 40,
+                height: 40,
+                borderRadius: 50,
+                top: -11,
+                left: -10,
+                backgroundColor: '#F2992E'
+            }
+        }
+        else if (options === 3) {
+            return {
+                width: 40,
+                height: 40,
+                borderRadius: 50,
+                top: -11,
+                left: -10,
+                backgroundColor: '#2F9A9E'
+            }
+        }
+        else if (options === 4) {
+            return {
+                width: 40,
+                height: 40,
+                borderRadius: 50,
+                top: -11,
+                left: -10,
+                backgroundColor: '#A77DC2'
+            }
+        }
+    }
+    underbarstyle() {
+        arr = this.props.childList;
+        for (let key in arr) {
+            return {
+                width: 384,
+                backgroundColor: '#F2F2F2'
+            }
+        }
+    }
     render() {
         const drawerStyles = {
             drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
             main: { paddingLeft: 0 }
+        }
+        kidlistpre = this.props.childList;
+        let kidlistaft = [];
+        for (let key in kidlistpre) {
+            for (let i = 0; i < kidlistpre[key].length; i++) {
+                console.log(key);
+                console.log(kidlistpre[key][i].CdName);
+                console.log(kidlistpre[key][i].Gender);
+                let imgurl = "http://meracal.azurewebsites.net/Filefolder/" + kidlistpre[key][i].Imageurl;
+                if (kidlistpre[key][i].Gender === "男" || kidlistpre[key][i].Gender === "女" && kidlistpre[key][i].Imageurl === "DefaultImg.png") {
+                    kidlistaft.push(
+                        <View style={styles.cardsize}>
+                            <Card style={{
+                                elevation: 0.8,
+                                borderRadius: 4,
+                            }}>
+                                <CardItem button onPress={() => this.props.testClick()}>
+                                    <Body style={{ flexDirection: 'row', }}>
+                                        <View style={this.kidlist(i)}>
+                                            <Image source={require('../images/avatar_boy.png')} style={{ left: 1.9, top: 3.5 }}></Image>
+                                        </View>
+                                        <Text style={styles.kidcardname}>
+                                            {kidlistpre[key][i].CdName}
+                                        </Text>
+                                        <Image source={require('../images/arrow_right copy 4.png')} style={{ left: 205, top: -4 }}></Image>
+                                    </Body>
+                                </CardItem>
+                            </Card>
+                        </View>
+                    )
+                }
+                else if (kidlistpre[key][i].Gender === "男" || kidlistpre[key][i].Gender === "女" && kidlistpre[key][i].Imageurl != "DefaultImg.png") {
+                    kidlistaft.push(
+                        <View style={styles.cardsize}>
+                            <Card style={{
+                                elevation: 0.8,
+                                borderRadius: 4,
+                            }}>
+                                <CardItem button >
+                                    <Body style={{ flexDirection: 'row', }}>
+                                        <View style={this.kidlist(i)}>
+                                            <Image source={{ url: imgurl }} style={{ left: 1.9, top: 3.5, width: 40, height: 40, borderRadius: 50 }}></Image>
+                                        </View>
+                                        <Text style={styles.kidcardname}>
+                                            {kidlistpre[key][i].CdName}
+                                        </Text>
+                                        <Image source={require('../images/arrow_right copy 4.png')} style={{ left: 205, top: -4 }}></Image>
+                                    </Body>
+                                </CardItem>
+                            </Card>
+                        </View>
+                    )
+                }
+            };
         }
         return (
             <Drawer
@@ -80,47 +196,10 @@ class Memory extends Component {
                     <View style={styles.childView}>
                         <Text style={styles.subTitle}>管理您的小孩</Text>
                         <ScrollView>
-                            <Container>
-
-                                <Content>
-                                    <Card style={{ marginTop: 8 }}>
-                                        <CardItem>
-                                            <Body>
-                                                <Text>
-                                                //Your text here
-                                                </Text>
-                                            </Body>
-                                        </CardItem>
-                                    </Card>
-                                    <Card style={{ elevation: 0.8 }}>
-                                        <CardItem>
-                                            <Body>
-                                                <Text>
-                                                //Your text here
-                                                </Text>
-                                            </Body>
-                                        </CardItem>
-                                    </Card>
-                                    <Card style={styles.card}>
-                                        <CardItem>
-                                            <Body>
-                                                <Text>
-                                                //Your text here
-                                                </Text>
-                                            </Body>
-                                        </CardItem>
-                                    </Card>
-                                    <Card style={styles.card}>
-                                        <CardItem>
-                                            <Body>
-                                                <Text>
-                                                //Your text here
-                                                </Text>
-                                            </Body>
-                                        </CardItem>
-                                    </Card>
-                                </Content>
-                            </Container>
+                            {
+                                kidlistaft
+                            }
+                            <View style={{ marginBottom: 12 }}></View>
                         </ScrollView>
                     </View>
                     <ActionButton
@@ -203,7 +282,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         //backgroundColor: 'transparent',
         //overflow: 'hidden',
-        opacity:0.1,
+        opacity: 0.1,
         zIndex: 1,
         backgroundColor: '#FFFFFF',
         marginTop: 15,
@@ -233,7 +312,52 @@ const styles = StyleSheet.create({
         marginLeft: 152,
         marginTop: 4,
 
-    }
+    },
+    kidname: {
+        justifyContent: 'center',
+        left: 54,
+        top: -12,
+        fontFamily: 'Roboto-Regular',
+        fontSize: 16,
+        color: '#FFFFFF',
+        letterSpacing: 0.5,
+        lineHeight: 24,
+        // width: 50,
+        height: 24,
+        // backgroundColor:'red'
+    },
+    underbar: {
+        // top: 262,
+        width: 384,
+        // height: 300,
+        // marginBottom:10,
+        backgroundColor: '#F2F2F2'
+    },
+    underbartext: {
+        fontSize: 10,
+        letterSpacing: 0.5,
+        lineHeight: 16,
+        color: '#636566',
+        fontFamily: 'PingFangTC-Light',
+        top: 8,
+        left: 133
+    },
+    cardsize: {
+        top: 8,
+        left: 8,
+        // bottom: 20,
+        width: 368,
+        height: 54,
+    },
+    kidcardname: {
+        left: 20,
+        color: '#144669',
+        fontSize: 16,
+        letterSpacing: 1,
+        lineHeight: 24,
+        top: -4,
+        fontFamily: 'Roboto-Regular',
+    },
 
 
 });

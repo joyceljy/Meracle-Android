@@ -40,7 +40,7 @@ export const SaveChildrenData = (account, childname, birthdate, gender,token) =>
                 console.log(data)
                 if (data === "success") {
                     dispatch({
-                        type: 'SAVE_CHILDDATA_SUCCESS',Callback:callback
+                        type: 'SAVE_CHILDDATA_SUCCESS', Callback: callback
                     })
                 } else {
                     dispatch({
@@ -60,17 +60,36 @@ export const SaveChildrenImage = (account,name,pic64,login_token) => {
 };
 
 //小孩列表
-export const ListChildren = (account,token) => {
+// export const ListChildren = (account) => {
+//     return (dispatch, getState, { api }) => {
+//         api.fetch_getCdList(account)
+//             .then(data => {
+//                 console.log(data)
+
+//                 dispatch({
+//                     type: 'CHILD_CHANGE_SUCCESS',
+//                     children_list: data.CdName
+//                 })
+
+//             })
+//             .catch(err => console.log(err));
+//     };
+// };
+export const ChildrenListAction = (account, login_token) => {
     return (dispatch, getState, { api }) => {
-        api.fetch_getCdList(account,token)
+        api.fetch_getCdList(account, login_token)
             .then(data => {
-                console.log(data)
+                if (account != null && account != "") {
+                    dispatch({
+                        type: 'ChildrenList_SUCCESS', childList: data
 
-                dispatch({
-                    type: 'CHILD_CHANGE_SUCCESS',
-                    children_list: data.CdName
-                })
-
+                    })
+                }
+                else {
+                    dispatch({
+                        type: 'ChildrenList_FAIL'
+                    })
+                }
             })
             .catch(err => console.log(err));
     };

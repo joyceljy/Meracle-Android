@@ -39,7 +39,7 @@ MemberClick: () => {
         Actions.FoodRadarChart();
     },
     GamePointClick: () => {
-        Actions.GamePointTimeSeriesLineChart();
+        Actions.GamePoint();
     },
     GamePointcclick: () => {
         Actions.GamePointTimeSeriesLineChart();

@@ -3,13 +3,14 @@ import MemberComponent from '../components/Member_component';
 import { Actions } from 'react-native-router-flux';
 //import { GetChildrenData, SaveChildrenData, SaveChildrenImage } from '../actions/ChildrenData_action';
 import { GetMemberData } from '../actions/MemberData_action';
+import { ChildrenListAction } from '../actions/ChildrenData_action';
 
 const mapStateToProps = (state) => ({
     login_account: state.login_account,
     child_data: state.member_data,
     login_token: state.login_token,
     member_data: state.member_data,
-
+    childList: state.childList,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -22,8 +23,10 @@ const mapDispatchToProps = (dispatch) => ({
     },
     goAddChild: () => {
         Actions.ChildrenRegister();
-    }
-
+    },
+    ChildListActionClick: (account, login_token) => {
+        dispatch(ChildrenListAction(account, login_token));
+    },
 });
 
 class MemberContainer extends MemberComponent {
@@ -40,6 +43,7 @@ class MemberContainer extends MemberComponent {
         //取得會員資料
         this.props.GetMemberData(this.props.login_account, this.props.login_token);
 
+        this.props.ChildListActionClick(this.props.login_account, this.props.login_token);
     };
 
     componentWillReceiveProps(nextProps) {

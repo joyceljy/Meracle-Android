@@ -277,8 +277,8 @@ export function fetch_childrenimage(account, name, pic64, login_token) {
 }
 
 //小孩列表（POST）
-export function fetch_getCdList(account) {
-    const api_url = `${get_base_url()}/Member/GetAccountCdName`;
+export function fetch_getCdList(account,login_token) {
+    const api_url = `${get_base_url()}/Member/GetAccountAndGenderCdName`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
         method: 'POST',
@@ -286,10 +286,10 @@ export function fetch_getCdList(account) {
             //'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Authorization': login_token,
         },
         body: JSON.stringify({
             Account: account,
-
         })
     }).then(response => {
         return response.json()

@@ -19,7 +19,7 @@ import eegpowerlowbeta_reducer from './eegpowerlowbeta_reducer';
 import esense_reducer from './esense_reducer';
 import CheckMemAccount_reducer from './CheckMemAccount_reducer';
 import CheckChildName_reducer from './CheckChildName_reducer';
-
+import ChildList_reducer from './ChildList_reducer';
 const root_reducers = combineReducers({
 
     //login
@@ -65,6 +65,9 @@ const root_reducers = combineReducers({
     eeg_power_delta: eegpowerdelta_reducer,
     eeg_power_low_beta: eegpowerlowbeta_reducer,
     esense: esense_reducer,
+
+    //小孩列表
+    childList:ChildList_reducer
 });
 
 export default root_reducers;
