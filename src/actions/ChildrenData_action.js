@@ -1,9 +1,9 @@
 import Toast from 'react-native-root-toast';
 
 //取得小孩資料
-export const GetChildrenData = (account,childname) => {
+export const GetChildrenData = (account, childname) => {
     return (dispatch, getState, { api }) => {
-        api.fetch_childrendata(account,childname)
+        api.fetch_childrendata(account, childname)
             .then(data => {
                 console.log(data)
                 if (data[0].Account != null && data[0].Account != "") {
@@ -40,7 +40,7 @@ export const SaveChildrenData = (account, childname, birthdate, gender) => {
                 console.log(data)
                 if (data === "success") {
                     dispatch({
-                        type: 'SAVE_CHILDDATA_SUCCESS',Callback:callback
+                        type: 'SAVE_CHILDDATA_SUCCESS', Callback: callback
                     })
                 } else {
                     dispatch({
@@ -53,9 +53,9 @@ export const SaveChildrenData = (account, childname, birthdate, gender) => {
 };
 
 //儲存小孩大頭
-export const SaveChildrenImage = (account, childname,image) => {
+export const SaveChildrenImage = (account, childname, image) => {
     return (dispatch, getState, { api }) => {
-        api.fetch_savememberimage(account, childname,image)
+        api.fetch_savememberimage(account, childname, image)
             .then(data => {
                 console.log(data)
 
@@ -70,17 +70,36 @@ export const SaveChildrenImage = (account, childname,image) => {
 };
 
 //小孩列表
-export const ListChildren = (account) => {
+// export const ListChildren = (account) => {
+//     return (dispatch, getState, { api }) => {
+//         api.fetch_getCdList(account)
+//             .then(data => {
+//                 console.log(data)
+
+//                 dispatch({
+//                     type: 'CHILD_CHANGE_SUCCESS',
+//                     children_list: data.CdName
+//                 })
+
+//             })
+//             .catch(err => console.log(err));
+//     };
+// };
+export const ChildrenListAction = (account, login_token) => {
     return (dispatch, getState, { api }) => {
-        api.fetch_getCdList(account)
+        api.fetch_getCdList(account, login_token)
             .then(data => {
-                console.log(data)
+                if (account != null && account != "") {
+                    dispatch({
+                        type: 'ChildrenList_SUCCESS', childList: data
 
-                dispatch({
-                    type: 'CHILD_CHANGE_SUCCESS',
-                    children_list: data.CdName
-                })
-
+                    })
+                }
+                else {
+                    dispatch({
+                        type: 'ChildrenList_FAIL'
+                    })
+                }
             })
             .catch(err => console.log(err));
     };
