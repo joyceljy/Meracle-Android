@@ -5,10 +5,10 @@ import { GetChildrenData, SaveChildrenData, SaveChildrenImage } from '../actions
 
 const mapStateToProps = (state) => ({
     login_account: state.login_account,
-    child_data: state.member_data,
+    child_data: state.child_data,
     savechildrendata_status: state.savememberdata_status,
     member_imageurl: state.member_imageurl,
-    child_account: state.child_account,
+    //child_name: state.child_name,
     login_token: state.login_token,
 });
 
@@ -16,16 +16,16 @@ const mapDispatchToProps = (dispatch) => ({
     BackButton: () => {
         Actions.Member();
     },
-    GetChildrenData: (login_account, childname,token) => {
-        dispatch(GetChildrenData(login_account, childname,token));
-    }
-    ,
-    SaveButtonClick: (login_account, childname, birthdate, gender,token) => {
+    // GetChildrenData: (login_account, childname, token) => {
+    //     dispatch(GetChildrenData(login_account, childname, token));
+    // }
+    // ,
+    SaveButtonClick: (login_account, childname, birthdate, gender, token) => {
 
-        dispatch(SaveChildrenData(login_account, childname, birthdate, gender,token));
+        dispatch(SaveChildrenData(login_account, childname, birthdate, gender, token));
     },
-    SaveImage: (login_account, childname, image,token) => {
-        dispatch(SaveChildrenImage(login_account, childname, image,token));
+    SaveImage: (login_account, childname, image, token) => {
+        dispatch(SaveChildrenImage(login_account, childname, image, token));
     },
 });
 
@@ -36,7 +36,7 @@ class ChildrenEditContainer extends ChildrenEditComponent {
             birthdate: '',
             isDateTimePickerVisible: false,
             gender: '',
-            Account: '',
+            Name: '',
             err2: false,
             err1: false,
             imageurl: '',
@@ -50,28 +50,26 @@ class ChildrenEditContainer extends ChildrenEditComponent {
     }
 
     componentDidMount() {
-        this.props.GetChildrenData(this.props.login_account, this.props.child_account);
-        if (this.state.gender == '男') {
+
+        this.setState({
+            birthdate: this.props.child_data.child_data.Birthday,
+            Name: this.props.child_data.child_data.Name,
+            gender: this.props.child_data.child_data.Gender,
+            imageurl: this.props.child_data.child_data.Imageurl
+        });
+        if (this.props.child_data.child_data.Gender == '男') {
             this.setState({ genderSelected: 0 })
         } else {
             this.setState({ genderSelected: 1 })
         }
+
     };
 
     componentWillReceiveProps(nextProps) {
 
         //取得會員資料
-        const { child_data: previous_childData } = this.props;
         const { child_data } = nextProps;
-        const { member_imageurl } = nextProps;
-        if (previous_childData != child_data) {
-            this.setState({
-                birthdate: child_data.child_data.Birthday,
-                Name: child_data.child_data.Name,
-                gender: child_data.child_data.Gender,
-                imageurl: child_data.child_data.Imageurl
-            });
-        }
+        const { child_name } = nextProps;
 
         //會員資料儲存提示
         const { savechildrendata_status } = nextProps;

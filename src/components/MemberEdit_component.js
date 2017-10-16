@@ -346,6 +346,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     editButton: {
+        elevation: 2,
         backgroundColor: '#009688',
         width: 272,
         height: 56,

@@ -2,8 +2,8 @@ export default (state = null, action) => {
     switch (action.type) {
         
         case 'CHILD_CHANGE_SUCCESS':
-            return "";
-            //小孩姓名登入時一開始為空字串
+            return action.child_name;
+            
         case 'Logout_SUCCESS':
             return "";
         default:

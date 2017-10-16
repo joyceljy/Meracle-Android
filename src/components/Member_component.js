@@ -29,51 +29,46 @@ class Memory extends Component {
     kidlist = function (options) {
         if (options === 0) {
             return {
+                marginTop: -7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
-                top: -11,
-                left: -10,
                 backgroundColor: '#9ACBD9'
             }
         }
         else if (options === 1) {
             return {
+                marginTop: -7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
-                top: -11,
-                left: -10,
                 backgroundColor: '#F5808B'
             }
         }
         else if (options === 2) {
             return {
+                marginTop: - 7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
-                top: -11,
-                left: -10,
                 backgroundColor: '#F2992E'
             }
         }
         else if (options === 3) {
             return {
+                marginTop: - 7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
-                top: -11,
-                left: -10,
                 backgroundColor: '#2F9A9E'
             }
         }
         else if (options === 4) {
             return {
+                marginTop: - 7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
-                top: -11,
-                left: -10,
                 backgroundColor: '#A77DC2'
             }
         }
@@ -96,119 +91,165 @@ class Memory extends Component {
         let kidlistaft = [];
         for (let key in kidlistpre) {
             for (let i = 0; i < kidlistpre[key].length; i++) {
-                console.log(key);
-                console.log(kidlistpre[key][i].CdName);
-                console.log(kidlistpre[key][i].Gender);
                 let imgurl = "http://meracal.azurewebsites.net/Filefolder/" + kidlistpre[key][i].Imageurl;
-                if (kidlistpre[key][i].Gender === "男" || kidlistpre[key][i].Gender === "女" && kidlistpre[key][i].Imageurl === "DefaultImg.png") {
+                if (kidlistpre[key][i].Gender === "男" && kidlistpre[key][i].Imageurl === "DefaultImg.png") {
                     kidlistaft.push(
                         <View style={styles.cardsize}>
                             <Card style={{
                                 elevation: 0.8,
                                 borderRadius: 4,
                             }}>
-                                <CardItem button onPress={() => this.props.testClick()}>
+                                <CardItem button onPress={() => this.props.ChildEdit(this.props.login_account,kidlistpre[key][i].CdName,this.props.login_token)}>
                                     <Body style={{ flexDirection: 'row', }}>
                                         <View style={this.kidlist(i)}>
-                                            <Image source={require('../images/avatar_boy.png')} style={{ left: 1.9, top: 3.5 }}></Image>
+                                            <Image source={require('../images/avatar_boy.png')} style={{ marginTop: 4, marginLeft: 2, }}></Image>
                                         </View>
                                         <Text style={styles.kidcardname}>
                                             {kidlistpre[key][i].CdName}
                                         </Text>
-                                        <Image source={require('../images/arrow_right copy 4.png')} style={{ left: 205, top: -4 }}></Image>
+
                                     </Body>
+                                    <Image source={require('../images/edit.png')} style={{ marginBottom: 25, marginRight: -5 }}></Image>
                                 </CardItem>
                             </Card>
                         </View>
                     )
                 }
-                else if (kidlistpre[key][i].Gender === "男" || kidlistpre[key][i].Gender === "女" && kidlistpre[key][i].Imageurl != "DefaultImg.png") {
+                else if (kidlistpre[key][i].Gender === "女" && kidlistpre[key][i].Imageurl === "DefaultImg.png") {
                     kidlistaft.push(
                         <View style={styles.cardsize}>
                             <Card style={{
                                 elevation: 0.8,
                                 borderRadius: 4,
                             }}>
-                                <CardItem button >
+                                <CardItem button onPress={() => this.props.ChildEdit(this.props.login_account,kidlistpre[key][i].CdName,this.props.login_token)}>
                                     <Body style={{ flexDirection: 'row', }}>
                                         <View style={this.kidlist(i)}>
-                                            <Image source={{ url: imgurl }} style={{ left: 1.9, top: 3.5, width: 40, height: 40, borderRadius: 50 }}></Image>
+                                            <Image source={require('../images/avatar_boy.png')} style={{ marginTop: 4, marginLeft: 2, }}></Image>
                                         </View>
                                         <Text style={styles.kidcardname}>
                                             {kidlistpre[key][i].CdName}
                                         </Text>
-                                        <Image source={require('../images/arrow_right copy 4.png')} style={{ left: 205, top: -4 }}></Image>
+
                                     </Body>
+                                    <Image source={require('../images/edit.png')} style={{ marginBottom: 25, marginRight: -5 }}></Image>
+                                </CardItem>
+                            </Card>
+                        </View>
+                    )
+                }
+                else if (kidlistpre[key][i].Gender === "男"  && kidlistpre[key][i].Imageurl != "DefaultImg.png") {
+                    kidlistaft.push(
+                        <View style={styles.cardsize}>
+                            <Card style={{
+                                elevation: 0.8,
+                                borderRadius: 4,
+                            }}>
+                                <CardItem button onPress={() => this.props.ChildEdit(kidlistpre[key][i].CdName)}>
+                                    <Body style={{ flexDirection: 'row', }}>
+                                        <View style={this.kidlist(i)}>
+                                            <Image source={{ url: imgurl }} style={{ marginTop: 4, marginLeft: 2 }}></Image>
+                                        </View>
+                                        <Text style={styles.kidcardname}>
+                                            {kidlistpre[key][i].CdName}
+                                        </Text>
+
+                                    </Body>
+                                    <Image source={require('../images/edit.png')} style={{ marginBottom: 25, marginRight: -5 }}></Image>
+                                </CardItem>
+                            </Card>
+                        </View>
+                    )
+                }
+
+                else if ( kidlistpre[key][i].Gender === "女" && kidlistpre[key][i].Imageurl != "DefaultImg.png") {
+                    kidlistaft.push(
+                        <View style={styles.cardsize}>
+                            <Card style={{
+                                elevation: 0.8,
+                                borderRadius: 4,
+                            }}>
+                                <CardItem button onPress={() => this.props.ChildEdit(kidlistpre[key][i].CdName)}>
+                                    <Body style={{ flexDirection: 'row', }}>
+                                        <View style={this.kidlist(i)}>
+                                            <Image source={{ url: imgurl }} style={{ marginTop: 4, marginLeft: 2 }}></Image>
+                                        </View>
+                                        <Text style={styles.kidcardname}>
+                                            {kidlistpre[key][i].CdName}
+                                        </Text>
+
+                                    </Body>
+                                    <Image source={require('../images/edit.png')} style={{ marginBottom: 25, marginRight: -5 }}></Image>
                                 </CardItem>
                             </Card>
                         </View>
                     )
                 }
             };
-        }
-        return (
+    }
+    return(
             <Drawer
-                type="displace"
-                ref={(ref) => this._drawer = ref}
-                content={<SideBarContent />}
-                openDrawerOffset={100}
-                panOpenMask={0.80}
-                captureGestures="open"
-                styles={drawerStyles}
-                tweenHandler={ratio => ({
-                    main: {
-                        opacity: 1,
-                    },
-                    mainOverlay: {
-                        opacity: ratio / 2,
-                        backgroundColor: 'black',
-                    },
-                })}
-            >
-                <View style={styles.Viewstyle}>
+    type="displace"
+    ref={(ref) => this._drawer = ref}
+    content={<SideBarContent />}
+    openDrawerOffset={100}
+    panOpenMask={0.80}
+    captureGestures="open"
+    styles={drawerStyles}
+    tweenHandler={ratio => ({
+        main: {
+            opacity: 1,
+        },
+        mainOverlay: {
+            opacity: ratio / 2,
+            backgroundColor: 'black',
+        },
+    })}
+>
+    <View style={styles.Viewstyle}>
 
-                    <View style={styles.parentView}>
+        <View style={styles.parentView}>
 
-                        <View style={{ flexDirection: 'row' }}>
-                            <TouchableOpacity onPress={this.openControlPanel} style={styles.menuIcon}>
-                                <Image source={require('../images/menu.png')} ></Image>
-                            </TouchableOpacity>
-                            <Text style={styles.title}>會員專區</Text>
-                            <Image source={require('../images/setting.png')} style={styles.settingIcon} />
-                        </View>
+            <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity onPress={this.openControlPanel} style={styles.menuIcon}>
+                    <Image source={require('../images/menu.png')} ></Image>
+                </TouchableOpacity>
+                <Text style={styles.title}>會員專區</Text>
+                <Image source={require('../images/setting.png')} style={styles.settingIcon} />
+            </View>
 
-                        <View style={styles.parentInfoView}>
-                            <TouchableOpacity onPress={this.props.goMemberEdit}>
+            <View style={styles.parentInfoView}>
+                <TouchableOpacity onPress={this.props.goMemberEdit}>
 
-                                <View style={styles.avatarView}>
-                                    {(this.state.avatarSource === null) ? (
-                                        <Image style={styles.avatar} source={{ uri: 'http://163.17.135.185/7thWebApi/Filefolder/' + this.props.login_account + '-Member.png' }} />
-                                    ) : (
-                                            <Image style={styles.avatar} source={this.state.avatarSource} />
-                                        )}
-                                </View>
-                                <Text style={styles.helloText}>Hello, {this.props.login_account}</Text>
-                                <Text style={styles.editText}>查看或編輯個人資料</Text>
-                            </TouchableOpacity>
-                        </View>
+                    <View style={styles.avatarView}>
+                        {(this.state.avatarSource === null) ? (
+                            <Image style={styles.avatar} source={{ uri: 'http://163.17.135.185/7thWebApi/Filefolder/' + this.props.login_account + '-Member.png' }} />
+                        ) : (
+                                <Image style={styles.avatar} source={this.state.avatarSource} />
+                            )}
                     </View>
+                    <Text style={styles.helloText}>Hello, {this.props.login_account}</Text>
+                    <Text style={styles.editText}>查看或編輯個人資料</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
 
-                    <View style={styles.childView}>
-                        <Text style={styles.subTitle}>管理您的小孩</Text>
-                        <ScrollView>
-                            {
-                                kidlistaft
-                            }
-                            <View style={{ marginBottom: 12 }}></View>
-                        </ScrollView>
-                    </View>
-                    <ActionButton
-                        buttonColor="#009688"
-                        onPress={() => { this.props.goAddChild() }}>
-                    </ActionButton>
+        <View style={styles.childView}>
+            <Text style={styles.subTitle}>管理您的小孩</Text>
+            <ScrollView>
+                {
+                    kidlistaft
+                }
+                <View style={{ marginBottom: 12 }}></View>
+            </ScrollView>
+        </View>
+        <ActionButton
+            buttonColor="#009688"
+            onPress={() => { this.props.goAddChild() }}>
+        </ActionButton>
 
-                </View>
-            </Drawer>
+    </View>
+</Drawer>
         );
     }
 }
@@ -257,15 +298,7 @@ const styles = StyleSheet.create({
         height: 374,
         backgroundColor: '#F2F2F2',
     },
-    card: {
-        width: 328,
-        height: 60,
-        borderRadius: 7,
-        marginTop: 16,
-        elevation: 0.8,
-        //borderRadius: 4,
 
-    },
     subTitle: {
         fontSize: 10,
         lineHeight: 16,
@@ -273,6 +306,7 @@ const styles = StyleSheet.create({
         marginTop: 8,
         marginLeft: 149,
         color: '#636566',
+        marginBottom: -8,
     },
     avatarView: {
         width: 72,
@@ -343,19 +377,19 @@ const styles = StyleSheet.create({
         left: 133
     },
     cardsize: {
-        top: 8,
-        left: 8,
-        // bottom: 20,
-        width: 368,
-        height: 54,
+        marginLeft: 16,
+        marginRight: 16,
+        // width: '100%',
+        height: 60,
+        marginTop: 8,
+        borderRadius: 7
     },
     kidcardname: {
-        left: 20,
+        marginLeft: 20,
         color: '#144669',
         fontSize: 16,
         letterSpacing: 1,
         lineHeight: 24,
-        top: -4,
         fontFamily: 'Roboto-Regular',
     },
 

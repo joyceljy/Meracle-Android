@@ -67,7 +67,7 @@ export const RegisterSurveyAction = (account,name,problem,sleep,fruit,veg,cereal
 };
 
 //新增小孩大頭
-export const ChildImageActionn = (account,name,pic64,login_token) => {
+export const ChildImageAction = (account,name,pic64,login_token) => {
 
     return (dispatch, getState, { api }) => {
         api.fetch_childrenimage(account,name,pic64,login_token)

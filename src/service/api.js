@@ -96,7 +96,7 @@ export function fetch_forgetpass(account) {
 }
 
 //取得會員資料（POST）
-export function fetch_memberdata(account,token) {
+export function fetch_memberdata(account, token) {
     const api_url = `${get_base_url()}/Member/PersonalPage`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
@@ -117,7 +117,7 @@ export function fetch_memberdata(account,token) {
 }
 
 //儲存會員資料（POST）
-export function fetch_savememberdata(account, name, address, birthdate, gender,token) {
+export function fetch_savememberdata(account, name, address, birthdate, gender, token) {
     const api_url = `${get_base_url()}/Member/EdlitPersonalPage`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
@@ -142,7 +142,7 @@ export function fetch_savememberdata(account, name, address, birthdate, gender,t
 }
 
 //儲存會員大頭（POST）
-export function fetch_savememberimage(account, image,token) {
+export function fetch_savememberimage(account, image, token) {
     const api_url = `${get_base_url()}/Member/ReactPostImage`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
@@ -277,7 +277,7 @@ export function fetch_childrenimage(account, name, pic64, login_token) {
 }
 
 //小孩列表（POST）
-export function fetch_getCdList(account,login_token) {
+export function fetch_getCdList(account, login_token) {
     const api_url = `${get_base_url()}/Member/GetAccountAndGenderCdName`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
@@ -290,6 +290,28 @@ export function fetch_getCdList(account,login_token) {
         },
         body: JSON.stringify({
             Account: account,
+        })
+    }).then(response => {
+        return response.json()
+    });
+}
+
+//小孩編輯（POST）
+export function fetch_childrendata(login_account, childname, token) {
+    const api_url = `${get_base_url()}/Member/CdPersonalPage`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            "Account": login_account,
+            "CdName": childname,
+
         })
     }).then(response => {
         return response.json()

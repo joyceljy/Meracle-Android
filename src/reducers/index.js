@@ -47,7 +47,7 @@ const root_reducers = combineReducers({
     survey_status: RegisterSurvey_reducer,
 
     //changechild
-    child_account: ChildChange_reducer,
+    child_name: ChildChange_reducer,
 
     //child register
     child_reg_status: ChildrenRegister_reducer,
@@ -55,11 +55,8 @@ const root_reducers = combineReducers({
     checkChildName_status:CheckChildName_reducer,
 
     //childdata
-    children_data: ChildrenData_reducer,
+    child_data: ChildrenData_reducer,
     savechildrenddata_status: SaveChildrenData_reducer,
-
-    //childlist
-    children_list: ChildChange_reducer,
 
     //腦波
     eeg_power_delta: eegpowerdelta_reducer,

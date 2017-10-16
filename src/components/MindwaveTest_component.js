@@ -8,6 +8,7 @@ import {
     Button,
     Image,
     ActivityIndicator,
+    TouchableOpacity
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import MindWaveMobile from 'react-native-mindwave-mobile';
@@ -24,11 +25,11 @@ class Memory extends Component {
             //確認裝置連接
             animating: true,
             deviceFound: false,
-            mindwaveConnected: false,
+            mindwaveConnected: true,
             devices: [],
             mindwaveTimer: 0,
             //確認訊號值歸零
-            poorSignalChecked: false,
+            poorSignalChecked: true,
             poorSingalTimer: poorSingalTimerTimeMax,
 
             //開始測驗（signalr）
@@ -36,7 +37,7 @@ class Memory extends Component {
             //結束測驗(signalr)
             endTest: false,
             //結束畫面顯示
-            endTestView:false,
+            endTestView: true,
 
             //腦波數據
             delta: this.props.delta ? this.props.delta : null, delta_max: 0.00, delta_min: 0.00, delta_avg: 0.00, delta_sd: 0.00, deltaArray: [],
@@ -101,7 +102,7 @@ class Memory extends Component {
         // console.log("Try To Connect To Device " + this.state.devices[0].id + "_" + this.state.devices[0].name)
         mwm.connect(this.state.devices[0].id)
         console.log("device connect");
-        // mwm.connect("A0:E6:F8:F7:B7:3B");
+        // mwm.connect("F9:52:15:36:8A:38");
     }
 
     //切斷裝置
@@ -126,22 +127,33 @@ class Memory extends Component {
         //         mwm.scan()
         //         console.log('scan');
         //     }, 1000)
+        console.log('start scan');
         mwm.scan()
         mwm.onFoundDevice(device => {
             console.log('onFoundDevice');
             console.log(device)
             this.state.devices.push(device)
-            this.setState({
-                deviceFound: true
-            });
-            clearTimeout(this.timerScan)
-            this._deviceconnect()
+            // this.setState({
+            //     deviceFound: true
+            // });
+            // clearTimeout(this.timerScan)
+            // this._deviceconnect()
+            console.log('connect ', device.mfgId);
+            mwm.connect(this.state.devices[0].mfgId);
         })
         mwm.onConnect(state => {
             console.log('mwm.onConnect');
             console.log(state);
+            if (!state.success) {
+                console.log('connect fail');
+                setTimeout(() => {
+                    console.log('reconnect ' + this.state.devices[0].mfgId);
+                    mwm.connect(this.state.devices[0].mfgId);
+                }, 500);
+                return;
+            }
             if (!this.state.mindwaveConnected && this.state.deviceFound) {
-                console.log(state.success = true ? "Connect Success" : "Connect Failed")
+                console.log(state.success === true ? "Connect Success" : "Connect Failed")
                 //讓畫面至少停留在腦波連線中3秒
                 var checkMindWaveConnectionDelayTimer = 0
                 this.timer = setInterval(
@@ -189,7 +201,6 @@ class Memory extends Component {
             console.log(data);
             this.props.onESense(data)
         })
-        // this._deviceconnect();
     }
     componentWillReceiveProps(nextProps) {
         //耳機訊號傳回時間（為了讓以上三個function稍微同步）
@@ -233,9 +244,9 @@ class Memory extends Component {
 
         //取得signalr傳回訊息開始遊戲
         // if(){
-            // this.setState({
-            //     startTest: true
-            // })
+        // this.setState({
+        //     startTest: true
+        // })
         // }
 
         //結果回傳並跳頁
@@ -247,7 +258,7 @@ class Memory extends Component {
         //     }
         // }
 
-        
+
         //腦波運算與收集
         //const { quizPointArray } = nextProps;
         if (previous_mindwaveTimer != mindwaveTimer && this.state.startTest) {
@@ -361,8 +372,8 @@ class Memory extends Component {
                     this._devicedisconnect()
                     this._removeAllListeners()
                     //顯示結束畫面
-                    this.setState({startTest:false})
-                    this.setState({endTestView:true})
+                    this.setState({ startTest: false })
+                    this.setState({ endTestView: true })
                 }
 
             }
@@ -373,23 +384,24 @@ class Memory extends Component {
             //腦波耳機連線中畫面
             if (!this.state.mindwaveConnected) {
                 return (
-                    <View style={styles.bigView}>
-                     
+                    <View style={styles.Viewstyle}>
+                        <View style={styles.topbarView}>
+                            <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
+                                <Image source={require('../images/menu.png')} style={styles.topbarIcon} />
+                            </TouchableOpacity>
+                            <Text style={styles.topbarText}>測量腦波</Text>
+
+                        </View>
+
                         <View style={styles.contentView}>
-                            <View>
-                                <ActivityIndicator
-                                    animating={this.state.animating}
-                                    style={[styles.centering, { height: 30 }]}
-                                    size="large" />
+                            <Text style={styles.mindwaveTitle}>腦波耳機連線中...</Text>
+                            <View style={styles.mindwavePicView}>
+                                <Image source={require('../images/Img_headset.png')} style={styles.mindwavePic} />
                             </View>
-                            <View style={styles.checkMindWaveTextView}>
-                                <Text style={styles.checkMindWaveText}>
-                                    腦波耳機連線中
+                            <Text style={styles.mindwaveSubtitle}>還沒開始？</Text>
+                            <Text style={styles.mindwaveText}>請開啟手機藍牙與腦波耳機連線
+                          {'\n             '}並戴妥腦波耳機
                             </Text>
-                                <Text style={styles.checkMindWaveText}>
-                                    請稍候
-                            </Text>
-                            </View>
                         </View>
                     </View>
                 );
@@ -397,37 +409,23 @@ class Memory extends Component {
             //等待poorsignal歸0畫面
             else if (!this.state.poorSignalChecked) {
                 return (
-                    <View style={styles.bigView}>
-                       
+                    <View style={styles.Viewstyle}>
+                        <View style={styles.topbarView}>
+                            <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
+                                <Image source={require('../images/menu.png')} style={styles.topbarIcon} />
+                            </TouchableOpacity>
+                            <Text style={styles.topbarText}>測量腦波</Text>
+
+                        </View>
+
                         <View style={styles.contentView}>
-                            <View>
-                                <Text style={styles.poorSignalText}>{this.props.poorSignal}</Text>
-                            </View>
-                            <View>
-                                <ActivityIndicator
-                                    animating={this.state.animating}
-                                    style={[styles.centering, { height: 80 }]}
-                                    size="large"
-                                />
-                            </View>
-                            <View style={styles.poorSignalTextView}>
-                                <Text style={styles.checkPoorSignalText}>
-                                    請調整腦波耳機位置
-                            </Text>
-                                <Text style={styles.checkPoorSignalText}>
-                                    直到訊號值歸零
-                            </Text>
-                            
-                                <View>
-                                    {
-                                        this.props.poorSignal == 0 ? <Text style={styles.checkPoorSignalTimerMessage}>倒數{this.state.poorSingalTimer}秒</Text> : null
-                                    }
-                                </View>
-                                <View>
-                                {
-                                    this.state.poorSingalTimer == 0 ? <Text>請點擊遊戲畫面中的開始遊戲</Text> : null
-                                }
-                            </View>
+                            <Text style={styles.poorsignalTitle}>腦波偵測中...</Text>
+                            <Text style={styles.poorsignalText}>請調整腦波耳機位置  直到訊號值歸零</Text>
+                            <Text style={styles.poorsignal}>{this.props.poorSignal}</Text>
+                            <View style={styles.poorsignalImageView}>
+                                <Image source={require('../images/Shape.png')} style={styles.poorsignalImage1} />
+                                <View style={styles.poorsignalBorder}></View>
+                                <Image source={require('../images/Shape.png')} style={styles.poorsignalImage2} />
                             </View>
                         </View>
                     </View>
@@ -437,27 +435,48 @@ class Memory extends Component {
             //測驗進行中畫面
             else if (this.state.startTest) {
                 return (
-                    <View style={styles.bigView}>
-                        
-                        <View style={styles.contentView}>
-                            <View style={styles.startQuizTextView}>
-                                <Text style={styles.startQuizTextMessage}>
-                                    測驗進行中...
-                                    請盡量避免頭部晃動
-                            </Text>
-                            </View>
+                    <View style={styles.Viewstyle}>
+                        <View style={styles.topbarView}>
+                            <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
+                                <Image source={require('../images/menu.png')} style={styles.topbarIcon} />
+                            </TouchableOpacity>
+                            <Text style={styles.topbarText}>測量腦波</Text>
+
                         </View>
 
+                        <View style={styles.contentView}>
+                            <Text style={styles.poorsignalTitle}>遊戲進行中...</Text>
+                            <Text style={styles.poorsignalText}>請盡量避免頭部晃動  並保持訊號值歸零</Text>
+                            <Text style={styles.poorsignal}>{this.props.poorSignal}</Text>
+                            <View style={styles.poorsignalImageView}>
+                                <Image source={require('../images/Shape.png')} style={styles.poorsignalImage1} />
+                                <View style={styles.poorsignalBorder}></View>
+                                <Image source={require('../images/Shape.png')} style={styles.poorsignalImage2} />
+                            </View>
+                        </View>
                     </View>
                 );
             }
 
             //結束畫面
-            else if(this.state.endTestView) {
+            else if (this.state.endTestView) {
                 return (
-                    <View style={styles.quizBigView}>
-                       <Text>測驗結束</Text>
-                       <Text>本次記憶力指數為</Text>
+                    <View style={styles.Viewstyle}>
+                        <View style={styles.topbarView}>
+                            <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
+                                <Image source={require('../images/menu.png')} style={styles.topbarIcon} />
+                            </TouchableOpacity>
+                            <Text style={styles.topbarText}>測量腦波</Text>
+                        </View>
+                        <View style={styles.contentView2}>
+                            <Text style={styles.endTitle}>選擇測量孩童</Text>
+                            <View style={styles.chooseChildView}></View>
+                            <Text style={styles.endTitle2}>選擇孩童狀態</Text>
+                            <View style={{ flexDirection: 'row', marginLeft: width / 11.25 / 2 ,marginTop:16}}>
+                                <View style={styles.statusView}>
+                                </View>
+                            </View>
+                        </View>
                     </View>
                 );
             }
@@ -465,175 +484,158 @@ class Memory extends Component {
     }
 }
 const styles = StyleSheet.create({
-    bigView: {
+    Viewstyle: {
         flex: 1,
-        justifyContent: 'center',
         width: width,
+        backgroundColor: '#144669',
     },
-    quizBigView: {
-        flex: 1,
-        alignItems: 'center',
+    topbarView: {
+        flexDirection: 'row',
         width: width,
-        backgroundColor: 'rgba(52,52,52,0.7)'
+        backgroundColor: '#144669',
+        height: 56,
     },
-    topView: {
-        alignItems: 'center',
-        width: width,
+    topbarIcon: {
+        marginLeft: 16,
+        marginTop: 16,
+    },
+    topbarText: {
+        marginTop: 14,
+        marginLeft: 32,
+        fontSize: 16,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Regular',
+        letterSpacing: 16,
+        color: '#FFFFFF',
     },
     contentView: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
         width: width,
-    },
-    //檢查腦波裝置連接
-    checkMindWaveTextView: {
-        width: width,
-        justifyContent: 'center',
         alignItems: 'center',
     },
-    checkMindWaveText: {
-        fontSize: 25,
-        backgroundColor: 'rgba(52, 52, 52, 0)',
-        fontFamily: 'Euphemia UCAS',
+    mindwaveTitle: {
+        marginTop: 80,
+        fontSize: 20,
+        lineHeight: 28,
+        fontFamily: 'Roboto-Regular',
+        letterSpacing: 16,
+        color: '#FFFFFF',
     },
-    //檢查訊號值是否正常
-    poorSignalText: {
-        fontSize: 80,
-        backgroundColor: 'rgba(52, 52, 52, 0)',
-        fontFamily: 'Euphemia UCAS',
-    },
-    poorSignalTextView: {
-        width: width,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    checkPoorSignalText: {
-        fontSize: 25,
-        backgroundColor: 'rgba(52, 52, 52, 0)',
-        fontFamily: 'Euphemia UCAS',
-    },
-    checkPoorSignalTimerMessage: {
-        fontSize: 30,
-        backgroundColor: 'rgba(52, 52, 52, 0)',
-        fontFamily: 'Euphemia UCAS',
-    },
-    //開始測驗頁面
-    startQuizButton: {
-        width: width * 0.5,
-        height: width * 0.5,
-        justifyContent: 'center',
-        marginBottom: height * 0.05,
-        alignItems: 'center',
+    mindwavePicView: {
+        marginTop: 32,
+        width: 168,
+        height: 168,
         borderRadius: 100,
-        backgroundColor: 'rgba(52, 52, 52, 0.8)',
     },
-    startQuizButtonText: {
-        fontSize: 30,
-        backgroundColor: 'rgba(52, 52, 52, 0)',
-        color: 'white',
-        fontFamily: 'Euphemia UCAS',
+    mindwavePic: {
+        //marginTop: 2,
     },
-    startQuizTextView: {
+    mindwaveSubtitle: {
+        marginTop: 60,
+        fontSize: 14,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Light',
+        letterSpacing: 0.3,
+        color: '#FFFFFF',
+    },
+    mindwaveText: {
+        opacity: 0.8,
+        marginTop: 8,
+        fontSize: 12,
+        lineHeight: 16,
+        fontFamily: 'Roboto-Light',
+        letterSpacing: 0.5,
+        color: '#FFFFFF',
+    },
+    poorsignalTitle: {
+        marginTop: 80,
+        fontSize: 20,
+        lineHeight: 28,
+        fontFamily: 'Roboto-Regular',
+        letterSpacing: 1,
+        color: '#FFFFFF',
+    },
+    poorsignalText: {
+        marginTop: 15,
+        fontSize: 12,
+        lineHeight: 16,
+        fontFamily: 'Roboto-Light',
+        letterSpacing: 0.6,
+        color: '#FFFFFF',
+        opacity: 0.8,
+    },
+    poorsignal: {
+        marginTop: 51,
+        fontSize: 48,
+        lineHeight: 56,
+        fontFamily: 'Roboto-Regular',
+        letterSpacing: 3,
+        color: '#FFFFFF',
+    },
+    poorsignalImageView: {
         width: width,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    startQuizMessage: {
-        fontSize: 25,
-        backgroundColor: 'rgba(52, 52, 52, 0)',
-        color: 'rgba(250, 0, 0, 1)',
-        fontFamily: 'Euphemia UCAS',
-    },
-    //
-    titleView: {
-        width: width,
-        alignItems: 'center',
-        marginTop: height * 0.05,
+        flexDirection: 'row',
+        marginTop: 4,
+        height: 40,
         flex: 1,
     },
-    headerView: {
+    poorsignalImage1: {
+        marginLeft: width / 11.25,
+        width: 48,
+        height: 48,
+        resizeMode: 'contain'
+    },
+    poorsignalImage2: {
+        marginLeft: 18.4,
+        width: 48,
+        height: 48,
+        resizeMode: 'contain'
+    },
+    poorsignalBorder: {
+        width: width / 2,
+        height: 2,
+        borderStyle: 'dotted',
+        borderColor: '#FFFFFF',
+        borderWidth: 2,
+        marginLeft: 18,
+        marginTop: 19,
+    },
+    contentView2: {
+        flex: 1,
         width: width,
-        height: height * 0.06,
-        marginTop: height * 0.04,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        flex: 0,
     },
-    headerLeftView: {
-        width: width * 0.65,
-        height: height * 0.06,
-        marginRight: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'rgba(255,255,255,0.3)',
+    endTitle: {
+        marginTop: 40,
+        marginLeft: width / 11.25,
+        fontSize: 16,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Regular',
+        letterSpacing: 0.7,
+        color: '#FFFFFF',
     },
-    headerLeftViewHide: {
-        width: width * 0.65,
-        height: height * 0.06,
-        marginRight: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'rgba(255,255,255,0.3)',
-        opacity: 0
+    chooseChildView: {
+        width:296,
+        height:48,
+        marginTop: 16,
+        marginLeft: width / 11.25,
+        borderRadius: 100,
+        backgroundColor: 'rgba(255,255,255,0.25)'
     },
-    headerRightView: {
-        width: width * 0.225,
-        height: height * 0.06,
-        marginRight: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'rgba(255,255,255,0.3)',
+    endTitle2: {
+        marginTop: 32,
+        marginLeft: width / 11.25,
+        fontSize: 16,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Regular',
+        letterSpacing: 0.7,
+        color: '#FFFFFF',
     },
-    imageView: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 20,
-        width: width * 0.9,
-        height: height * 0.65,
-        flex: 0,
-        // borderColor: 'rgba(255,255,255,0.5)',
-        // borderWidth: 5,
-    },
-    image: {
-        resizeMode: Image.resizeMode.contain,
-        // width: width * 0.87,
-        // height: height * 0.65,
-        width: width * 0.95,
-        height: height * 0.65,
-    },
-    footerView: {
-        marginTop: 20,
-        marginBottom: 20,
-        width: width * 0.9,
-        height: height * 0.07,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 0,
-    },
-    imageNumberView: {
-        backgroundColor: 'rgba(52, 52, 52, 0.5)',
-        width: width * 0.14,
-        height: height * 0.07,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 0,
-    },
-    titleText: {
-        fontSize: 25,
-        color: 'white'
-    },
-    headerLeftText: {
-        fontSize: 18,
-        color: 'white'
-    },
-    headerRightText: {
-        fontSize: 25,
-        color: 'white'
-    },
-    imageNumberText: {
-        fontSize: 25,
-        color: 'white'
+    statusView: {
+        marginLeft: width / 11.25 / 2,
+        width:88,
+        height:88,
+        borderRadius:4,
+        elevation:3,
     }
 });
 

@@ -336,6 +336,7 @@ const styles = StyleSheet.create({
         marginTop: 93,
         marginLeft: 132,
         shadowOffset: { width: 0, height: 1, },
+        elevation: 6,
     },
     logoImage: {
         width: 88,
@@ -350,6 +351,8 @@ const styles = StyleSheet.create({
         width: 272,
         height: 48,
         marginLeft: 16,
+        borderColor: 'rgba(204,204,204,10)',
+        borderWidth: 0.5,
     },
     InputtextText: {
         width: 250,
@@ -380,6 +383,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         marginLeft: 16,
         marginTop: 16,
+        elevation: 2,
 
     },
     ButtonText: {

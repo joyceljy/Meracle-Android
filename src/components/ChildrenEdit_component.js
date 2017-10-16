@@ -6,7 +6,8 @@ import {
     Button,
     StyleSheet,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    TouchableHighlight
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -94,7 +95,7 @@ class Memory extends Component {
                     <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
                         <Image source={require('../images/back.png')} style={styles.topbarIcon} />
                     </TouchableOpacity>
-                    <Text style={styles.topbarText}>編輯孩童資料</Text>
+                    <Text style={styles.topbarText}>編輯孩童資料 </Text>
 
                 </View>
                 <View style={[styles.imageView, { marginLeft: 128 }]}>
@@ -336,6 +337,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0,
         marginLeft: 56,
         marginTop: 40,
+        elevation: 2,
     },
     editButtonText: {
         marginTop: 16,

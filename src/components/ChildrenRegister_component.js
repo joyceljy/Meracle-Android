@@ -559,6 +559,7 @@ const styles = StyleSheet.create({
         shadowColor: 'rgba(0,0,0,0.20)',
         shadowOpacity: 0,
         marginLeft: 56,
+        elevation: 2,
     },
     nextButtonText: {
         marginTop: 16,
