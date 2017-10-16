@@ -53,7 +53,7 @@ class ChildrenEditContainer extends ChildrenEditComponent {
 
         this.setState({
             birthdate: this.props.child_data.child_data.Birthday,
-            Name: this.props.child_data.child_data.Name,
+            Name: this.props.child_data.child_data.CdName,
             gender: this.props.child_data.child_data.Gender,
             imageurl: this.props.child_data.child_data.Imageurl
         });

@@ -12,6 +12,9 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import MindWaveMobile from 'react-native-mindwave-mobile';
+import { SinglePickerMaterialDialog} from 'react-native-material-dialog';
+import Drawer from 'react-native-drawer';
+import SideBarContent from '../containers/SideBarContent';
 
 const mwm = new MindWaveMobile()
 var { height, width } = Dimensions.get('window');
@@ -25,11 +28,11 @@ class Memory extends Component {
             //確認裝置連接
             animating: true,
             deviceFound: false,
-            mindwaveConnected: true,
+            mindwaveConnected: false,
             devices: [],
             mindwaveTimer: 0,
             //確認訊號值歸零
-            poorSignalChecked: true,
+            poorSignalChecked: false,
             poorSingalTimer: poorSingalTimerTimeMax,
 
             //開始測驗（signalr）
@@ -37,7 +40,7 @@ class Memory extends Component {
             //結束測驗(signalr)
             endTest: false,
             //結束畫面顯示
-            endTestView: true,
+            endTestView: false,
 
             //腦波數據
             delta: this.props.delta ? this.props.delta : null, delta_max: 0.00, delta_min: 0.00, delta_avg: 0.00, delta_sd: 0.00, deltaArray: [],
@@ -51,9 +54,21 @@ class Memory extends Component {
             poorSignal: this.props.poorSignal ? this.props.poorSignal : 0,
             meditation: 0,
             attention: 0,
+
+            //狀態選擇
+            statusSelected: 1,
+            status:'運動前'
         };
         console.log(this.state.imageArray)
     }
+    //抽屜
+    closeControlPanel = () => {
+        this._drawer.close()
+    };
+    openControlPanel = () => {
+        this._drawer.open()
+    };
+
     //----腦波運算function----
     //取得最大值（傳入四個值,回傳最大值）
     _getMax(data1, data2, data3, data4) {
@@ -380,13 +395,35 @@ class Memory extends Component {
         }
     }
     render() {
+        const drawerStyles = {
+            drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
+            main: { paddingLeft: 0 }
+        }
         {
             //腦波耳機連線中畫面
             if (!this.state.mindwaveConnected) {
                 return (
+                    <Drawer
+                    type="displace"
+                    ref={(ref) => this._drawer = ref}
+                    content={<SideBarContent />}
+                    openDrawerOffset={100}
+                    panOpenMask={0.80}
+                    captureGestures="open"
+                    styles={drawerStyles}
+                    tweenHandler={ratio => ({
+                        main: {
+                            opacity: 1,
+                        },
+                        mainOverlay: {
+                            opacity: ratio / 2,
+                            backgroundColor: 'black',
+                        },
+                    })}
+                >
                     <View style={styles.Viewstyle}>
                         <View style={styles.topbarView}>
-                            <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
+                            <TouchableOpacity onPress={this.openControlPanel}>
                                 <Image source={require('../images/menu.png')} style={styles.topbarIcon} />
                             </TouchableOpacity>
                             <Text style={styles.topbarText}>測量腦波</Text>
@@ -404,14 +441,33 @@ class Memory extends Component {
                             </Text>
                         </View>
                     </View>
+                    </Drawer>
                 );
             }
             //等待poorsignal歸0畫面
             else if (!this.state.poorSignalChecked) {
                 return (
+                    <Drawer
+                    type="displace"
+                    ref={(ref) => this._drawer = ref}
+                    content={<SideBarContent />}
+                    openDrawerOffset={100}
+                    panOpenMask={0.80}
+                    captureGestures="open"
+                    styles={drawerStyles}
+                    tweenHandler={ratio => ({
+                        main: {
+                            opacity: 1,
+                        },
+                        mainOverlay: {
+                            opacity: ratio / 2,
+                            backgroundColor: 'black',
+                        },
+                    })}
+                >
                     <View style={styles.Viewstyle}>
                         <View style={styles.topbarView}>
-                            <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
+                            <TouchableOpacity onPress={this.openControlPanel}>
                                 <Image source={require('../images/menu.png')} style={styles.topbarIcon} />
                             </TouchableOpacity>
                             <Text style={styles.topbarText}>測量腦波</Text>
@@ -429,15 +485,34 @@ class Memory extends Component {
                             </View>
                         </View>
                     </View>
+                    </Drawer>
                 );
             }
 
             //測驗進行中畫面
             else if (this.state.startTest) {
                 return (
+                    <Drawer
+                    type="displace"
+                    ref={(ref) => this._drawer = ref}
+                    content={<SideBarContent />}
+                    openDrawerOffset={100}
+                    panOpenMask={0.80}
+                    captureGestures="open"
+                    styles={drawerStyles}
+                    tweenHandler={ratio => ({
+                        main: {
+                            opacity: 1,
+                        },
+                        mainOverlay: {
+                            opacity: ratio / 2,
+                            backgroundColor: 'black',
+                        },
+                    })}
+                >
                     <View style={styles.Viewstyle}>
                         <View style={styles.topbarView}>
-                            <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
+                            <TouchableOpacity onPress={this.openControlPanel}>
                                 <Image source={require('../images/menu.png')} style={styles.topbarIcon} />
                             </TouchableOpacity>
                             <Text style={styles.topbarText}>測量腦波</Text>
@@ -455,15 +530,34 @@ class Memory extends Component {
                             </View>
                         </View>
                     </View>
+                    </Drawer>
                 );
             }
 
             //結束畫面
             else if (this.state.endTestView) {
                 return (
+                    <Drawer
+                    type="displace"
+                    ref={(ref) => this._drawer = ref}
+                    content={<SideBarContent />}
+                    openDrawerOffset={100}
+                    panOpenMask={0.80}
+                    captureGestures="open"
+                    styles={drawerStyles}
+                    tweenHandler={ratio => ({
+                        main: {
+                            opacity: 1,
+                        },
+                        mainOverlay: {
+                            opacity: ratio / 2,
+                            backgroundColor: 'black',
+                        },
+                    })}
+                >
                     <View style={styles.Viewstyle}>
                         <View style={styles.topbarView}>
-                            <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
+                            <TouchableOpacity onPress={this.openControlPanel}>
                                 <Image source={require('../images/menu.png')} style={styles.topbarIcon} />
                             </TouchableOpacity>
                             <Text style={styles.topbarText}>測量腦波</Text>
@@ -472,12 +566,107 @@ class Memory extends Component {
                             <Text style={styles.endTitle}>選擇測量孩童</Text>
                             <View style={styles.chooseChildView}></View>
                             <Text style={styles.endTitle2}>選擇孩童狀態</Text>
-                            <View style={{ flexDirection: 'row', marginLeft: width / 11.25 / 2 ,marginTop:16}}>
-                                <View style={styles.statusView}>
-                                </View>
+                            <View style={{ flexDirection: 'row', marginLeft: width / 11.25 / 2, marginTop: 16 }}>
+
+                                <TouchableHighlight style={[styles.statusView, this.state.statusSelected === 1 ? { backgroundColor: 'rgba(255,255,255,0.25)' } : { backgroundColor: 'rgba(255,255,255,0)' }]}
+
+                                    onPress={() => {
+                                        this.setState({
+                                            statusSelected: 1,
+                                            status:'運動前'
+                                        })
+                                    }} >
+                                    <View>
+                                        <Image source={require('../images/status1.png')} style={styles.statusImg} />
+                                        <Text style={styles.statusText}>運動前</Text>
+                                    </View>
+                                </TouchableHighlight>
+
+                                <TouchableHighlight style={[styles.statusView, this.state.statusSelected === 2 ? { backgroundColor: 'rgba(255,255,255,0.25)' } : { backgroundColor: 'rgba(255,255,255,0)' }]}
+
+                                    onPress={() => {
+                                        this.setState({
+                                            statusSelected: 2,
+                                            status:'運動後'
+                                        })
+                                    }} >
+                                    <View>
+                                        <Image source={require('../images/status2.png')} style={styles.statusImg} />
+                                        <Text style={styles.statusText}>運動後</Text>
+                                    </View>
+                                </TouchableHighlight>
+
+                                <TouchableHighlight style={[styles.statusView, this.state.statusSelected === 3 ? { backgroundColor: 'rgba(255,255,255,0.25)' } : { backgroundColor: 'rgba(255,255,255,0)' }]}
+
+                                    onPress={() => {
+                                        this.setState({
+                                            statusSelected: 3,
+                                            status:'吃飯前'
+                                        })
+                                    }} >
+                                    <View>
+                                        <Image source={require('../images/status3.png')} style={styles.statusImg} />
+                                        <Text style={styles.statusText}>吃飯前</Text>
+                                    </View>
+                                </TouchableHighlight>
+
                             </View>
+
+                            <View style={{ flexDirection: 'row', marginLeft: width / 11.25 / 2, marginTop: 16 }}>
+
+                                <TouchableHighlight style={[styles.statusView, this.state.statusSelected === 4 ? { backgroundColor: 'rgba(255,255,255,0.25)' } : { backgroundColor: 'rgba(255,255,255,0)' }]}
+
+                                    onPress={() => {
+                                        this.setState({
+                                            statusSelected: 4,
+                                            status:'吃飯後'
+                                        })
+                                    }} >
+                                    <View>
+                                        <Image source={require('../images/status4.png')} style={styles.statusImg} />
+                                        <Text style={styles.statusText}>吃飯後</Text>
+                                    </View>
+                                </TouchableHighlight>
+
+                                <TouchableHighlight style={[styles.statusView, this.state.statusSelected === 5 ? { backgroundColor: 'rgba(255,255,255,0.25)' } : { backgroundColor: 'rgba(255,255,255,0)' }]}
+
+                                    onPress={() => {
+                                        this.setState({
+                                            statusSelected: 5,
+                                            status:'睡覺前'
+                                        })
+                                    }} >
+                                    <View>
+                                        <Image source={require('../images/status5.png')} style={styles.statusImg} />
+                                        <Text style={styles.statusText}>睡覺前</Text>
+                                    </View>
+                                </TouchableHighlight>
+
+                                <TouchableHighlight style={[styles.statusView, this.state.statusSelected === 6 ? { backgroundColor: 'rgba(255,255,255,0.25)' } : { backgroundColor: 'rgba(255,255,255,0)' }]}
+
+                                    onPress={() => {
+                                        this.setState({
+                                            statusSelected: 6,
+                                            status:'剛睡醒'
+                                        })
+                                    }} >
+                                    <View>
+                                        <Image source={require('../images/status6.png')} style={styles.statusImg} />
+                                        <Text style={styles.statusText}>剛睡醒</Text>
+                                    </View>
+                                </TouchableHighlight>
+
+                            </View>
+
+                            <TouchableOpacity style={styles.finishButton} onPress={() => {
+
+                                this.props.SaveStatus(this.props.login_account, this.state.Name, this.state.status, this.props.login_token)
+                            }}>
+                                <Text style={styles.finishButtonText}>完成</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
+                    </Drawer>
                 );
             }
         }
@@ -614,8 +803,8 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     chooseChildView: {
-        width:296,
-        height:48,
+        width: 296,
+        height: 48,
         marginTop: 16,
         marginLeft: width / 11.25,
         borderRadius: 100,
@@ -632,10 +821,44 @@ const styles = StyleSheet.create({
     },
     statusView: {
         marginLeft: width / 11.25 / 2,
-        width:88,
-        height:88,
-        borderRadius:4,
-        elevation:3,
+        width: 88,
+        height: 88,
+        borderRadius: 4,
+        elevation: 2,
+    },
+    statusImg: {
+        marginLeft: 24,
+        marginTop: 13,
+        resizeMode: 'contain',
+        width: 40,
+        height: 40,
+    },
+    statusText: {
+        marginTop: 8,
+        fontSize: 12,
+        fontFamily: 'Roboto-Medium',
+        letterSpacing: 1,
+        color: '#FFFFFF',
+        marginLeft: 24,
+    },
+    finishButton: {
+        marginLeft: width / 6,
+        width: 240,
+        height: 56,
+        backgroundColor: '#009688',
+        borderRadius: 100,
+        elevation: 8,
+        marginTop: 32,
+    },
+    finishButtonText:{
+        alignItems:'center',
+        marginTop: 16,
+        fontSize: 18,
+        fontFamily: 'Roboto-Medium',
+        letterSpacing: 1.5,
+        color: '#FFFFFF',
+        lineHeight:24,
+        alignSelf: 'center',
     }
 });
 

@@ -223,7 +223,7 @@ class Memory extends Component {
 
                     <View style={styles.avatarView}>
                         {(this.state.avatarSource === null) ? (
-                            <Image style={styles.avatar} source={{ uri: 'http://163.17.135.185/7thWebApi/Filefolder/' + this.props.login_account + '-Member.png' }} />
+                            <Image style={styles.avatar} source={{ uri: 'http://163.17.135.185/7thWebApi/Filefolder/'+ 'Defaultimage-Member.png' }} />
                         ) : (
                                 <Image style={styles.avatar} source={this.state.avatarSource} />
                             )}

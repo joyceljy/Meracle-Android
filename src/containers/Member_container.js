@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
     ChildEdit: (login_account, childname, login_token) => {
         dispatch(GetChildrenData(login_account, childname, login_token));
-        Actions.ChildrenEdit();
+        //Actions.ChildrenEdit();
     },
     ChildListActionClick: (account, login_token) => {
         dispatch(ChildrenListAction(account, login_token));
@@ -54,6 +54,12 @@ class MemberContainer extends MemberComponent {
         //取得會員資料
         const { member_data } = nextProps;
         const { child_data } = nextProps;
+        const { child_data: previous_child_data } = this.props;
+
+        if (previous_child_data != child_data) {
+            Actions.ChildrenEdit();
+        }
+      
         this.setState({
             imageurl: member_data.member_data.Imageurl
         });

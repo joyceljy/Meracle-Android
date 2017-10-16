@@ -37,6 +37,9 @@ const mapDispatchToProps = (dispatch) => ({
     getMemoryPoint: (mindwaveData, login_account,child_account) => {
         dispatch(get_memory_point(mindwaveData,login_account,child_account));
     },
+    SaveStatus:(login_account,Name,status,login_token)=>{
+
+    }
 }
 );
 
