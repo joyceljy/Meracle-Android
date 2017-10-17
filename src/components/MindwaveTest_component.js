@@ -12,9 +12,8 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import MindWaveMobile from 'react-native-mindwave-mobile';
-import { SinglePickerMaterialDialog} from 'react-native-material-dialog';
-import Drawer from 'react-native-drawer';
-import SideBarContent from '../containers/SideBarContent';
+import { SinglePickerMaterialDialog } from 'react-native-material-dialog';
+
 
 const mwm = new MindWaveMobile()
 var { height, width } = Dimensions.get('window');
@@ -57,17 +56,11 @@ class Memory extends Component {
 
             //狀態選擇
             statusSelected: 1,
-            status:'運動前'
+            status: '運動前'
         };
         console.log(this.state.imageArray)
     }
-    //抽屜
-    closeControlPanel = () => {
-        this._drawer.close()
-    };
-    openControlPanel = () => {
-        this._drawer.open()
-    };
+
 
     //----腦波運算function----
     //取得最大值（傳入四個值,回傳最大值）
@@ -395,175 +388,54 @@ class Memory extends Component {
         }
     }
     render() {
-        const drawerStyles = {
-            drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
-            main: { paddingLeft: 0 }
-        }
         {
             //腦波耳機連線中畫面
             if (!this.state.mindwaveConnected) {
                 return (
-                    <Drawer
-                    type="displace"
-                    ref={(ref) => this._drawer = ref}
-                    content={<SideBarContent />}
-                    openDrawerOffset={100}
-                    panOpenMask={0.80}
-                    captureGestures="open"
-                    styles={drawerStyles}
-                    tweenHandler={ratio => ({
-                        main: {
-                            opacity: 1,
-                        },
-                        mainOverlay: {
-                            opacity: ratio / 2,
-                            backgroundColor: 'black',
-                        },
-                    })}
-                >
+
                     <View style={styles.Viewstyle}>
                         <View style={styles.topbarView}>
-                            <TouchableOpacity onPress={this.openControlPanel}>
-                                <Image source={require('../images/menu.png')} style={styles.topbarIcon} />
+                            <TouchableOpacity onPress={() => this.props.goBack()}>
+                                <Text style={styles.topbarText}>結束</Text>
                             </TouchableOpacity>
-                            <Text style={styles.topbarText}>測量腦波</Text>
-
                         </View>
 
                         <View style={styles.contentView}>
-                            <Text style={styles.mindwaveTitle}>腦波耳機連線中...</Text>
+                            <Text style={styles.mindwaveTitle}>即將為您偵測腦波</Text>
                             <View style={styles.mindwavePicView}>
                                 <Image source={require('../images/Img_headset.png')} style={styles.mindwavePic} />
                             </View>
-                            <Text style={styles.mindwaveSubtitle}>還沒開始？</Text>
-                            <Text style={styles.mindwaveText}>請開啟手機藍牙與腦波耳機連線
-                          {'\n             '}並戴妥腦波耳機
+                            <Text style={styles.mindwaveText}>請開啟手機藍芽 與腦波耳機連線
+                          {'\n             '}並請孩童帶妥耳機
                             </Text>
                         </View>
                     </View>
-                    </Drawer>
+
                 );
             }
             //等待poorsignal歸0畫面
-            else if (!this.state.poorSignalChecked) {
-                return (
-                    <Drawer
-                    type="displace"
-                    ref={(ref) => this._drawer = ref}
-                    content={<SideBarContent />}
-                    openDrawerOffset={100}
-                    panOpenMask={0.80}
-                    captureGestures="open"
-                    styles={drawerStyles}
-                    tweenHandler={ratio => ({
-                        main: {
-                            opacity: 1,
-                        },
-                        mainOverlay: {
-                            opacity: ratio / 2,
-                            backgroundColor: 'black',
-                        },
-                    })}
-                >
-                    <View style={styles.Viewstyle}>
-                        <View style={styles.topbarView}>
-                            <TouchableOpacity onPress={this.openControlPanel}>
-                                <Image source={require('../images/menu.png')} style={styles.topbarIcon} />
-                            </TouchableOpacity>
-                            <Text style={styles.topbarText}>測量腦波</Text>
 
-                        </View>
 
-                        <View style={styles.contentView}>
-                            <Text style={styles.poorsignalTitle}>腦波偵測中...</Text>
-                            <Text style={styles.poorsignalText}>請調整腦波耳機位置  直到訊號值歸零</Text>
-                            <Text style={styles.poorsignal}>{this.props.poorSignal}</Text>
-                            <View style={styles.poorsignalImageView}>
-                                <Image source={require('../images/Shape.png')} style={styles.poorsignalImage1} />
-                                <View style={styles.poorsignalBorder}></View>
-                                <Image source={require('../images/Shape.png')} style={styles.poorsignalImage2} />
-                            </View>
-                        </View>
-                    </View>
-                    </Drawer>
-                );
-            }
 
-            //測驗進行中畫面
-            else if (this.state.startTest) {
-                return (
-                    <Drawer
-                    type="displace"
-                    ref={(ref) => this._drawer = ref}
-                    content={<SideBarContent />}
-                    openDrawerOffset={100}
-                    panOpenMask={0.80}
-                    captureGestures="open"
-                    styles={drawerStyles}
-                    tweenHandler={ratio => ({
-                        main: {
-                            opacity: 1,
-                        },
-                        mainOverlay: {
-                            opacity: ratio / 2,
-                            backgroundColor: 'black',
-                        },
-                    })}
-                >
-                    <View style={styles.Viewstyle}>
-                        <View style={styles.topbarView}>
-                            <TouchableOpacity onPress={this.openControlPanel}>
-                                <Image source={require('../images/menu.png')} style={styles.topbarIcon} />
-                            </TouchableOpacity>
-                            <Text style={styles.topbarText}>測量腦波</Text>
-
-                        </View>
-
-                        <View style={styles.contentView}>
-                            <Text style={styles.poorsignalTitle}>遊戲進行中...</Text>
-                            <Text style={styles.poorsignalText}>請盡量避免頭部晃動  並保持訊號值歸零</Text>
-                            <Text style={styles.poorsignal}>{this.props.poorSignal}</Text>
-                            <View style={styles.poorsignalImageView}>
-                                <Image source={require('../images/Shape.png')} style={styles.poorsignalImage1} />
-                                <View style={styles.poorsignalBorder}></View>
-                                <Image source={require('../images/Shape.png')} style={styles.poorsignalImage2} />
-                            </View>
-                        </View>
-                    </View>
-                    </Drawer>
-                );
-            }
 
             //結束畫面
             else if (this.state.endTestView) {
+                let date = new Date().getFullYear() + '/' + new Date().getMonth() + '/' + new Date().getDay() + '  ' + new Date().getHours() + ':' + new Date().getMinutes()
+                let date2 = new Date().toLocaleString('ko-KR')
                 return (
-                    <Drawer
-                    type="displace"
-                    ref={(ref) => this._drawer = ref}
-                    content={<SideBarContent />}
-                    openDrawerOffset={100}
-                    panOpenMask={0.80}
-                    captureGestures="open"
-                    styles={drawerStyles}
-                    tweenHandler={ratio => ({
-                        main: {
-                            opacity: 1,
-                        },
-                        mainOverlay: {
-                            opacity: ratio / 2,
-                            backgroundColor: 'black',
-                        },
-                    })}
-                >
+
                     <View style={styles.Viewstyle}>
                         <View style={styles.topbarView}>
-                            <TouchableOpacity onPress={this.openControlPanel}>
-                                <Image source={require('../images/menu.png')} style={styles.topbarIcon} />
+                            <TouchableOpacity onPress={() => this.props.goBack()}>
+                                <Text style={styles.topbarText}>結束</Text>
                             </TouchableOpacity>
-                            <Text style={styles.topbarText}>測量腦波</Text>
                         </View>
                         <View style={styles.contentView2}>
-                            <Text style={styles.endTitle}>選擇測量孩童</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={styles.endDate}>{date}</Text>
+                                <Text style={styles.endScore}>{'     '}測量結果為 {this.state.score} 分</Text>
+                            </View>
+                            <Text style={[styles.endTitle,{marginTop:32}]}>選擇測量孩童</Text>
                             <View style={styles.chooseChildView}></View>
                             <Text style={styles.endTitle2}>選擇孩童狀態</Text>
                             <View style={{ flexDirection: 'row', marginLeft: width / 11.25 / 2, marginTop: 16 }}>
@@ -573,7 +445,7 @@ class Memory extends Component {
                                     onPress={() => {
                                         this.setState({
                                             statusSelected: 1,
-                                            status:'運動前'
+                                            status: '運動前'
                                         })
                                     }} >
                                     <View>
@@ -587,7 +459,7 @@ class Memory extends Component {
                                     onPress={() => {
                                         this.setState({
                                             statusSelected: 2,
-                                            status:'運動後'
+                                            status: '運動後'
                                         })
                                     }} >
                                     <View>
@@ -601,7 +473,7 @@ class Memory extends Component {
                                     onPress={() => {
                                         this.setState({
                                             statusSelected: 3,
-                                            status:'吃飯前'
+                                            status: '吃飯前'
                                         })
                                     }} >
                                     <View>
@@ -619,7 +491,7 @@ class Memory extends Component {
                                     onPress={() => {
                                         this.setState({
                                             statusSelected: 4,
-                                            status:'吃飯後'
+                                            status: '吃飯後'
                                         })
                                     }} >
                                     <View>
@@ -633,7 +505,7 @@ class Memory extends Component {
                                     onPress={() => {
                                         this.setState({
                                             statusSelected: 5,
-                                            status:'睡覺前'
+                                            status: '睡覺前'
                                         })
                                     }} >
                                     <View>
@@ -647,7 +519,7 @@ class Memory extends Component {
                                     onPress={() => {
                                         this.setState({
                                             statusSelected: 6,
-                                            status:'剛睡醒'
+                                            status: '剛睡醒'
                                         })
                                     }} >
                                     <View>
@@ -666,7 +538,61 @@ class Memory extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    </Drawer>
+
+                );
+            }
+            //測驗進行中畫面
+            else if (this.state.startTest) {
+                return (
+
+                    <View style={styles.Viewstyle}>
+                        <View style={styles.topbarView}>
+                            <TouchableOpacity onPress={() => this.props.goBack()}>
+                                <Text style={styles.topbarText}>結束</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={styles.contentView}>
+                            <Text style={styles.poorsignalTitle}>正在測量孩童腦波</Text>
+                            <View style={styles.View1}>
+                                <View style={styles.View2}>
+                                    <View style={styles.View3}>
+                                        <Image source={require('../images/img_measuring.png')} style={styles.earphonePic} />
+                                    </View>
+                                </View>
+                            </View>
+
+                            <Text style={[styles.poorsignalText, { marginTop: 24 }]}>請盡量避免頭部晃動  並保持訊號值歸零</Text>
+
+                        </View>
+                    </View>
+
+                );
+            }
+            else if (!this.state.poorSignalChecked || !this.state.startTest) {
+                return (
+
+                    <View style={styles.Viewstyle}>
+                        <View style={styles.topbarView}>
+                            <TouchableOpacity onPress={() => this.props.goBack()}>
+                                <Text style={styles.topbarText}>結束</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={styles.contentView}>
+                            <Text style={styles.poorsignalTitle}>正在連接耳機...</Text>
+
+                            <Text style={styles.poorsignal}>{this.props.poorSignal}</Text>
+                            <View style={styles.poorsignalImageView}>
+                                <Image source={require('../images/headset.png')} style={styles.poorsignalImage1} />
+                                <View style={styles.poorsignalBorder}></View>
+                                <Image source={require('../images/Shape.png')} style={styles.poorsignalImage2} />
+                            </View>
+                            <Text style={styles.poorsignalText}>{'              '}請調整腦波耳機位置{'\n'}
+                                直到訊號值歸零 即可請孩童開始遊戲</Text>
+                        </View>
+                    </View>
+
                 );
             }
         }
@@ -689,10 +615,11 @@ const styles = StyleSheet.create({
         marginTop: 16,
     },
     topbarText: {
-        marginTop: 14,
-        marginLeft: 32,
+        marginTop: 16,
+        marginLeft: width - 48,
         fontSize: 16,
         lineHeight: 24,
+        letterSpacing: 0.5,
         fontFamily: 'Roboto-Regular',
         letterSpacing: 16,
         color: '#FFFFFF',
@@ -718,6 +645,7 @@ const styles = StyleSheet.create({
     },
     mindwavePic: {
         //marginTop: 2,
+
     },
     mindwaveSubtitle: {
         marginTop: 60,
@@ -729,7 +657,7 @@ const styles = StyleSheet.create({
     },
     mindwaveText: {
         opacity: 0.8,
-        marginTop: 8,
+        marginTop: 32,
         fontSize: 12,
         lineHeight: 16,
         fontFamily: 'Roboto-Light',
@@ -745,16 +673,17 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     poorsignalText: {
-        marginTop: 15,
-        fontSize: 12,
-        lineHeight: 16,
+        marginTop: 56,
+        fontSize: 14,
+        lineHeight: 18,
         fontFamily: 'Roboto-Light',
-        letterSpacing: 0.6,
+        letterSpacing: 0.8,
         color: '#FFFFFF',
         opacity: 0.8,
+        alignSelf: 'center',
     },
     poorsignal: {
-        marginTop: 51,
+        marginTop: 56,
         fontSize: 48,
         lineHeight: 56,
         fontFamily: 'Roboto-Regular',
@@ -766,7 +695,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 4,
         height: 40,
-        flex: 1,
+
     },
     poorsignalImage1: {
         marginLeft: width / 11.25,
@@ -850,15 +779,72 @@ const styles = StyleSheet.create({
         elevation: 8,
         marginTop: 32,
     },
-    finishButtonText:{
-        alignItems:'center',
+    finishButtonText: {
+        alignItems: 'center',
         marginTop: 16,
         fontSize: 18,
         fontFamily: 'Roboto-Medium',
         letterSpacing: 1.5,
         color: '#FFFFFF',
-        lineHeight:24,
+        lineHeight: 24,
         alignSelf: 'center',
+    },
+    View1: {
+        marginTop: 16,
+        alignItems: 'center',
+        //opacity: 0.05,
+        backgroundColor: 'rgba(255,255,255,0.05)',
+        zIndex: 1,
+        width: 216,
+        height: 216,
+        borderRadius: 100,
+    },
+    View2: {
+        marginTop: 30,
+        alignItems: 'center',
+
+        backgroundColor: 'rgba(255,255,255,0.1)',
+        zIndex: 2,
+        width: 163.3,
+        height: 163.3,
+        borderRadius: 100,
+    },
+    View3: {
+        marginTop: 25,
+        alignItems: 'center',
+        //opacity: 1,
+        backgroundColor: 'rgba(255,255,255,0.15)',
+        zIndex: 555,
+        width: 112,
+        height: 112,
+        borderRadius: 100,
+    },
+    earphonePic: {
+        //marginTop: 16,
+        opacity: 1,
+        alignItems: 'center',
+        zIndex: 4,
+    },
+    endDate: {
+        alignItems: 'center',
+        marginTop: 8,
+        fontSize: 14,
+        fontFamily: 'Roboto-Light',
+        letterSpacing: 0.3,
+        color: '#FFFFFF',
+        lineHeight: 20,
+        marginLeft: width / 6,
+        opacity: 0.5,
+    },
+    endScore:{
+        alignItems: 'center',
+        marginTop: 8,
+        fontSize: 14,
+        fontFamily: 'Roboto-Light',
+        letterSpacing: 0.3,
+        color: '#FFFFFF',
+        lineHeight: 20,
+        opacity: 0.9,
     }
 });
 
