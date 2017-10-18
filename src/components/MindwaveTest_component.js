@@ -13,7 +13,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import MindWaveMobile from 'react-native-mindwave-mobile';
 import { SinglePickerMaterialDialog } from 'react-native-material-dialog';
-
+import signalr from 'react-native-signalr';
 
 const mwm = new MindWaveMobile()
 var { height, width } = Dimensions.get('window');
@@ -209,7 +209,52 @@ class Memory extends Component {
             console.log(data);
             this.props.onESense(data)
         })
+
+
+        //signalr
+        const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net/signalr');
+        connection.logging = true;
+    
+        const proxy = connection.createHubProxy('chatHub');
+        //receives broadcast messages from a hub function, called "helloApp"
+        proxy.on('addNewMessageToPage', (argOne, argTwo, argThree, argFour) => {
+          console.log('message-from-server', argOne, argTwo, argThree, argFour);
+          //Here I could response by calling something else on the server...
+        });
+
+        // atempt connection, and handle errors
+    connection.start().done(() => {
+        console.log('Now connected, connection ID=' + connection.id);
+  
+        // proxy.invoke('send', "joyce","StartMindWavePage")
+        //   .done((directResponse) => {
+        //     console.log('direct-response-from-server', directResponse);
+        //   }).fail(() => {
+        //     console.warn('Something went wrong when calling server, it might not be up and running?')
+        //   });
+  
+      }).fail(() => {
+        console.log('Failed');
+      });
+  
+      //connection-handling
+      connection.connectionSlow(() => {
+        console.log('We are currently experiencing difficulties with the connection.')
+      });
+  
+      connection.error((error) => {
+        const errorMessage = error.message;
+        let detailedError = '';
+        if (error.source && error.source._response) {
+          detailedError = error.source._response;
+        }
+        if (detailedError === 'An SSL error has occurred and a secure connection to the server cannot be made.') {
+          console.log('When using react-native-signalr on ios with http remember to enable http in App Transport Security https://github.com/olofd/react-native-signalr/issues/14')
+        }
+        console.debug('SignalR error: ' + errorMessage, detailedError)
+      });
     }
+    
     componentWillReceiveProps(nextProps) {
         //耳機訊號傳回時間（為了讓以上三個function稍微同步）
         const { mindwaveTimer: previous_mindwaveTimer } = this.props;

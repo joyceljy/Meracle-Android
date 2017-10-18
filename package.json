@@ -26,6 +26,7 @@
 		"react-native-root-toast": "^1.1.2",
 		"react-native-router-flux": "3.38.0",
 		"react-native-shadow": "^1.2.1",
+		"react-native-signalr": "^1.0.4",
 		"react-native-simple-radio-button": "^2.5.0-alpha.1",
 		"react-native-svg": "^4.5.0",
 		"react-native-textinput-effects": "^0.4.0",
