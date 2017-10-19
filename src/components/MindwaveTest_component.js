@@ -11,14 +11,18 @@ import {
     TouchableOpacity,
     BackAndroid,
     ToastAndroid,
+    ScrollView,
+    Platform,
 
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import MindWaveMobile from 'react-native-mindwave-mobile';
 import { SinglePickerMaterialDialog } from 'react-native-material-dialog';
 import signalr from 'react-native-signalr';
+import _ from 'lodash';
 
 const mwm = new MindWaveMobile()
+const isMock = false;
 var { height, width } = Dimensions.get('window');
 var counter = 0
 const poorSingalTimerTimeMax = 5
@@ -28,7 +32,6 @@ class Memory extends Component {
         this.state = {
 
             //確認裝置連接
-            animating: true,
             deviceFound: false,
             mindwaveConnected: false,
             devices: [],
@@ -37,10 +40,12 @@ class Memory extends Component {
             poorSignalChecked: false,
             poorSingalTimer: poorSingalTimerTimeMax,
 
+            isScanning: false,
+            willConnect: null,
+
             //開始測驗（signalr）
             startTest: false,
-            //結束測驗(signalr)
-            endTest: false,
+
             //結束畫面顯示
             endTestView: false,
 
@@ -103,140 +108,252 @@ class Memory extends Component {
     //----腦波操作function----
 
     //掃描裝置
-    _devicescan() {
-        mwm.scan()
+    handlePressScan = () => {
+        if (!this.state.isScanning) {
+            if (isMock) {
+                setTimeout(() => {
+                    this.handleFoundDevice({
+                        id: 'test1234',
+                    });
+                }, 1000);
+            } else {
+                this.mwm.scan();
+            }
+            this.setState({
+                isScanning: true,
+            });
+        }
     }
 
-    //裝置連線
-    _deviceconnect() {
-        console.log(this.state.devices);
-        // console.log("Try To Connect To Device " + this.state.devices[0].id + "_" + this.state.devices[0].name)
-        mwm.connect(this.state.devices[0].id)
-        console.log("device connect");
-        // mwm.connect("F9:52:15:36:8A:38");
+    handlePressConnectDevice = (device) => {
+        if (!device.id) {
+            console.error('can not connect no id device');
+            return;
+        }
+        this.setState({
+            willConnect: device.id,
+        });
+        if (isMock) {
+            setTimeout(() => {
+                this.handleConnect({ success: true });
+            }, 2000);
+        } else {
+            this.mwm.connect(device.id);
+        }
     }
 
-    //切斷裝置
-    _devicedisconnect() {
-        console.log("Stop Connect To Device ")
-        mwm.disconnect()
+    handlePressDisconnectDevice = () => {
+        if (!this.state.mindwaveConnected) {
+            console.log('no connecting device');
+            return;
+        }
+        if (isMock) {
+            this.handleDisconnect({ success: true });
+        } else {
+            this.mwm.disconnect();
+        }
     }
 
-    //保持連線狀態但不接受腦波
-    _removeAllListeners() {
-        console.log("Remove All Listener")
-        mwm.removeAllListeners()
+    handleConnect = ({ success }) => {
+        alert(`連結 ${success ? '成功' : '失敗'}`);
+        if (success === true && this.state.willConnect) {
+            this.changeConnectedState(this.state.willConnect, true);
+        } else {
+            console.log('will connect device is null');
+        }
     }
+
+    handleDisconnect = ({ success }) => {
+        alert(`移除連結 ${success ? '成功' : '失敗'}`);
+        if (success === true && !this.state.mindwaveConnected) {
+            console.log('no connecting device');
+            return;
+        }
+        this.changeConnectedState(this.state.mindwaveConnected, false)
+    }
+
+    handleFoundDevice = (device) => {
+        console.log('on found deviceId ', device.id);
+        console.log(device);
+
+        this.pushDevice(device);
+    }
+
+    handleEEGPowerLowBeta = (data) => {
+        console.log('onEEGPowerLowBeta', data);
+        this.props.onEEGPowerLowBeta(data);
+    }
+
+    handleEEGPowerDelta = (data) => {
+        console.log('onEEGPowerDelta', data);
+        this.setState({
+            mindwaveTimer: this.state.mindwaveTimer + 1
+        })
+        this.props.onEEGPowerDelta(data, this.state.mindwaveTimer)
+    }
+
+    handleESense = (data) => {
+        console.log('onESense', data);
+        this.props.onESense(data);
+    }
+
+    handleEEGBlink = (data) => {
+        console.log('onEEGBlink', data);
+    }
+
+    handleMWMBaudRate = (data) => {
+        console.log('onMWMBaudRate', data);
+    }
+
+    pushDevice = (device) => {
+        if (!device.id) {
+            console.log('device id is undefined or null');
+            return;
+        }
+        if (_.find(this.state.devices, ['id', device.id])) {
+            console.log(`device (${device.id}) is in list`);
+            return;
+        }
+        this.state.devices.push(device);
+
+        this.setState({
+            devices: this.state.devices,
+        });
+    }
+
+    changeConnectedState = (id, mindwaveConnected) => {
+        if (!id) {
+            console.log('device id is undefined or null');
+            return;
+        }
+        if (_.findIndex(this.state.devices, ['id', id]) < 0) {
+            console.log(`device (${id}) is not in list`);
+            return;
+        }
+
+        let _state = { mindwaveConnected: id };
+        if (mindwaveConnected && this.state.willConnect) {
+            _state.willConnect = null;
+        } else {
+            _state.mindwaveConnected = null;
+        }
+
+        this.setState(_state);
+    }
+
 
     componentWillUnmount() {
-        clearTimeout(this.timerScan)
+        //clearTimeout(this.timerScan)
+        this.mwm.removeAllListeners();
     }
     componentDidMount() {
-        //每隔一秒掃描一次周圍裝置
-        // this.timerScan = setInterval(
-        //     () => {
-        //         mwm.scan()
-        //         console.log('scan');
-        //     }, 1000)
+
+        //返回控制
         BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
 
-        console.log('start scan');
-        mwm.scan()
-        mwm.onFoundDevice(device => {
-            console.log('onFoundDevice');
-            console.log(device)
-            this.state.devices.push(device)
-            // this.setState({
-            //     deviceFound: true
-            // });
-            // clearTimeout(this.timerScan)
-            // this._deviceconnect()
-            console.log('connect ', device.mfgId);
-            mwm.connect(this.state.devices[0].mfgId);
-        })
-        mwm.onConnect(state => {
-            console.log('mwm.onConnect');
-            console.log(state);
-            if (!state.success) {
-                console.log('connect fail');
-                setTimeout(() => {
-                    console.log('reconnect ' + this.state.devices[0].mfgId);
-                    mwm.connect(this.state.devices[0].mfgId);
-                }, 500);
-                return;
-            }
-            if (!this.state.mindwaveConnected && this.state.deviceFound) {
-                console.log(state.success === true ? "Connect Success" : "Connect Failed")
-                //讓畫面至少停留在腦波連線中3秒
-                var checkMindWaveConnectionDelayTimer = 0
-                this.timer = setInterval(
-                    () => {
-                        checkMindWaveConnectionDelayTimer++
-                        console.log('CheckConnectionDelay : ' + checkMindWaveConnectionDelayTimer)
-                        //3秒後設定腦波連線狀態為已連線（畫面跳至poorsignal畫面）
-                        if (checkMindWaveConnectionDelayTimer == 3) {
-                            clearTimeout(this.timer)
-                            this.setState({
-                                mindwaveConnected: true,
-                            });
-                        }
-                    }, 1000)
-                //var quizFunction = this.props.quizFunction
-            }
-        })
-        mwm.onDisconnect(state => {
-            console.log('onDisconnect');
-            console.log(state);
-            if (!this.state.mindwaveConnected) {
-                this.setState({
-                    mindwaveConnected: false
-                });
-            }
-            console.log(state.success = true ? "Disconnect Success" : "Disconnect Faild")
-        })
+        // mwm.onFoundDevice(device => {
+        //     console.log('onFoundDevice');
+        //     console.log(device)
+        //     this.state.devices.push(device)
+        //     // this.setState({
+        //     //     deviceFound: true
+        //     // });
+        //     // clearTimeout(this.timerScan)
+        //     // this._deviceconnect()
+        //     console.log('connect ', device.mfgId);
+        //     mwm.connect(this.state.devices[0].mfgId);
+        // })
+        // mwm.onConnect(state => {
+        //     console.log('mwm.onConnect');
+        //     console.log(state);
+        //     if (!state.success) {
+        //         console.log('connect fail');
+        //         setTimeout(() => {
+        //             console.log('reconnect ' + this.state.devices[0].mfgId);
+        //             mwm.connect(this.state.devices[0].mfgId);
+        //         }, 500);
+        //         return;
+        //     }
+        //     if (!this.state.mindwaveConnected && this.state.deviceFound) {
+        //         console.log(state.success === true ? "Connect Success" : "Connect Failed")
+        //         //讓畫面至少停留在腦波連線中3秒
+        //         var checkMindWaveConnectionDelayTimer = 0
+        //         this.timer = setInterval(
+        //             () => {
+        //                 checkMindWaveConnectionDelayTimer++
+        //                 console.log('CheckConnectionDelay : ' + checkMindWaveConnectionDelayTimer)
+        //                 //3秒後設定腦波連線狀態為已連線（畫面跳至poorsignal畫面）
+        //                 if (checkMindWaveConnectionDelayTimer == 3) {
+        //                     clearTimeout(this.timer)
+        //                     this.setState({
+        //                         mindwaveConnected: true,
+        //                     });
+        //                 }
+        //             }, 1000)
+        //         //var quizFunction = this.props.quizFunction
+        //     }
+        // })
+        // mwm.onDisconnect(state => {
+        //     console.log('onDisconnect');
+        //     console.log(state);
+        //     if (!this.state.mindwaveConnected) {
+        //         this.setState({
+        //             mindwaveConnected: false
+        //         });
+        //     }
+        //     console.log(state.success = true ? "Disconnect Success" : "Disconnect Faild")
+        // })
 
         //以下三個為接收腦波的function
-        mwm.onEEGPowerDelta(data => {
-            console.log('onEEGPowerDelta');
-            console.log(data);
-            this.setState({
-                mindwaveTimer: this.state.mindwaveTimer + 1
-            })
-            this.props.onEEGPowerDelta(data, this.state.mindwaveTimer)
-        })
-        mwm.onEEGPowerLowBeta(data => {
-            console.log('onEEGPowerLowBeta');
-            console.log(data);
-            this.props.onEEGPowerLowBeta(data)
-        })
-        mwm.onESense(data => {
-            console.log('onESense');
-            console.log(data);
-            this.props.onESense(data)
-        })
+        // mwm.onEEGPowerDelta(data => {
+        //     console.log('onEEGPowerDelta');
+        //     console.log(data);
+        //     this.setState({
+        //         mindwaveTimer: this.state.mindwaveTimer + 1
+        //     })
+        //     this.props.onEEGPowerDelta(data, this.state.mindwaveTimer)
+        // })
+        // mwm.onEEGPowerLowBeta(data => {
+        //     console.log('onEEGPowerLowBeta');
+        //     console.log(data);
+        //     this.props.onEEGPowerLowBeta(data)
+        // })
+        // mwm.onESense(data => {
+        //     console.log('onESense');
+        //     console.log(data);
+        //     this.props.onESense(data)
+        // })
 
+
+        this.mwm = new MindWaveMobile();
+        this.mwm.onConnect(this.handleConnect);
+        this.mwm.onDisconnect(this.handleDisconnect);
+        this.mwm.onFoundDevice(this.handleFoundDevice);
+        this.mwm.onEEGPowerLowBeta(this.handleEEGPowerLowBeta);
+        this.mwm.onEEGPowerDelta(this.handleEEGPowerLowBeta);
+        this.mwm.onESense(this.handleESense);
+        if (Platform.OS === 'ios') {
+            this.mwm.onEEGBlink(this.handleEEGBlink);
+            this.mwm.onMWMBaudRate(this.handleMWMBaudRate);
+        }
 
         //signalr
-        // const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
-        // connection.logging = true;
-    
-        // const proxy = connection.createHubProxy('chatHub');
+        const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
+        connection.logging = true;
+        const proxy = connection.createHubProxy('chatHub');
+       proxy.on('addNewMessageToPage', (message1, message2) => {
+            console.log('message-from-server', message1, message2);
+            if (message1 == "startGame" || message2 == "startGame") {
+               this.setState({startTest: true})
+               setTimeout(function(){
+                   //結束收集腦波  
+                   this.setState({endTestView: true}) 
+                }, 240000);
+            }
+        });
 
-        // proxy.on('addNewMessageToPage', (argOne, argTwo,) => {
-        //   console.log('message-from-server', argOne, argTwo);
-        //   if(argOne=='openMindwavePage'){
-          
-        //     proxy.invoke('send', 'haveOpened','');
-           
-        //   }
-        // });
-    
-        // // atempt connection, and handle errors
-        // connection.start().done(() => {
-        //     console.log('Now connected, connection ID=' + connection.id);
-        //   }).fail(() => {
-        //     console.log('Failed');
-        //   });
+
+
     }
     handleBackButton() {
         ToastAndroid.show('請點選上方結束按鈕取消此次測驗', ToastAndroid.SHORT);
@@ -268,6 +385,18 @@ class Memory extends Component {
                     })
                     poorSingalTimer = 0
                     timeCounterMinus = 0
+
+
+                    //訊號穩定 可以開始遊戲
+                    connection.start().done(() => {
+                        console.log('Now connected, connection ID=' + connection.id);
+                        proxy.invoke('send','canStart','').done((directResponse) => {
+                            console.log('direct-response-from-server', directResponse);
+                        })
+                    }).fail(() => {
+                        console.log('Failed');
+                    });
+
                 })
             }
             console.log('Counter ' + counter)
@@ -282,21 +411,7 @@ class Memory extends Component {
             })
         }
 
-        //取得signalr傳回訊息開始遊戲
-        // if(){
-        // this.setState({
-        //     startTest: true
-        // })
-        // }
-
-        //結果回傳並跳頁
-        // const { quizResultData: previous_quizResultData } = this.props;
-        // const { quizResultData } = nextProps;
-        // if (previous_quizResultData != quizResultData) {
-        //     if (quizResultData) {
-        //         Actions.quizresult({ quizResultData, type: 'replace' })
-        //     }
-        // }
+        
 
 
         //腦波運算與收集
@@ -406,15 +521,7 @@ class Memory extends Component {
                     lowGammaArray: [],
                 })
 
-                //遊戲結束
-                if (this.state.endTest) {
-                    //移除腦波耳機連線
-                    this._devicedisconnect()
-                    this._removeAllListeners()
-                    //顯示結束畫面
-                    this.setState({ startTest: false })
-                    this.setState({ endTestView: true })
-                }
+            
 
             }
         }
@@ -430,6 +537,25 @@ class Memory extends Component {
                             <TouchableOpacity onPress={() => this.props.goBack()}>
                                 <Text style={styles.topbarText}>結束</Text>
                             </TouchableOpacity>
+                        </View>
+                        <View style={styles.container}>
+                            <View style={styles.block} >
+                                <Button onPress={this.handlePressScan} title="掃描" ></Button>
+                            </View>
+                            <View style={styles.block} >
+                                <Text style={styles.title} >裝置列表</Text>
+                                <ScrollView style={styles.deviceList} >
+                                    {
+                                        this.state.devices.map((device, index) => {
+                                            const handlePress = () => this.state.mindwaveConnected ? this.handlePressDisconnectDevice() : this.handlePressConnectDevice(device);
+                                            const message = `裝置 ${device.name || device.id} ${this.state.willConnect === device.id ? '[正在連結]' : this.state.mindwaveConnected === device.id ? '[已連結]' : ''}`
+                                            return <TouchableOpacity key={index} style={styles.deviceItem} onPress={handlePress} >
+                                                <Text style={styles.deviceItemTitle} >{message}</Text>
+                                            </TouchableOpacity>
+                                        })
+                                    }
+                                </ScrollView>
+                            </View>
                         </View>
 
                         <View style={styles.contentView}>
@@ -877,7 +1003,33 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         lineHeight: 20,
         opacity: 0.9,
-    }
+    },
+
+
+    container: {
+        flex: 1,
+        backgroundColor: '#F5FCFF',
+    },
+    block: {
+        flex: 1,
+        padding: 10,
+    },
+    title: {
+        fontSize: 20,
+    },
+    deviceList: {
+        flex: 1,
+        // paddingTop: 10,
+        // paddingRight: 5,
+        // paddingLeft: 5,
+    },
+    deviceItem: {
+        borderWidth: 1,
+        borderColor: 'black',
+    },
+    deviceItemTitle: {
+        padding: 10,
+    },
 });
 
 export default Memory;

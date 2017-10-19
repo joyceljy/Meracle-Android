@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import EditPasswordComponent from '../components/EditPassword_component';
 import { Actions } from 'react-native-router-flux';
 import { EditPasswordAction } from '../actions/EditPassword_action';
+import signalr from 'react-native-signalr';
 
 const mapStateToProps = (state) => ({
 editpwd_status: state.Editpwd_status,
@@ -13,7 +14,9 @@ const mapDispatchToProps = (dispatch) => ({
     EditPasswordClick: (account,password) => {
         dispatch(EditPasswordAction(account,password));
     },
-    
+    MindWave: () => {
+        Actions.MindwaveTest();
+    },
 }
 );
 
@@ -29,6 +32,29 @@ class EditPasswordContainer  extends EditPasswordComponent  {
     }
 
     componentDidMount() {
+        
+            //signalr
+            const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
+            connection.logging = true;
+    
+            const proxy = connection.createHubProxy('chatHub');
+    
+            proxy.on('addNewMessageToPage', (argOne, argTwo, ) => {
+                console.log('message-from-server', argOne, argTwo);
+                if (argOne == 'openMindwavePage') {
+    
+                    proxy.invoke('send', 'haveOpened', '');
+                    this.props.MindWave();
+                    connection.stop();
+                }
+            });
+    
+            // atempt connection, and handle errors
+            connection.start().done(() => {
+                console.log('Now connected, connection ID=' + connection.id);
+            }).fail(() => {
+                console.log('Failed');
+            });
         
 
     };

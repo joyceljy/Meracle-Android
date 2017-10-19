@@ -3,6 +3,7 @@ import SideBarComponent from '../components/SideBarContent';
 import { Actions } from 'react-native-router-flux';
 import { LogoutAction } from '../actions/Logout_action';
 import { ListChildren } from '../actions/ChildrenData_action';
+import signalr from 'react-native-signalr';
 
 const mapStateToProps = (state) => ({
     login_account: state.login_account,
@@ -55,7 +56,10 @@ MemberClick: () => {
     },
     ChildChangeClick: (account) => {
         dispatch(ListChildren(account));
-    }
+    },
+    MindWave: () => {
+        Actions.MindwaveTest();
+    },
 });
 
 class SideBarContainer extends SideBarComponent {
@@ -74,6 +78,30 @@ class SideBarContainer extends SideBarComponent {
         if (logout_account == null || logout_account == '') {
             Actions.MemberLogin();
         }
+    }
+    componentDidMount() {
+        //signalr
+        const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
+        connection.logging = true;
+
+        const proxy = connection.createHubProxy('chatHub');
+
+        proxy.on('addNewMessageToPage', (argOne, argTwo, ) => {
+            console.log('message-from-server', argOne, argTwo);
+            if (argOne == 'openMindwavePage') {
+
+                proxy.invoke('send', 'haveOpened', '');
+                this.props.MindWave();
+                connection.stop();
+            }
+        });
+
+        // atempt connection, and handle errors
+        connection.start().done(() => {
+            console.log('Now connected, connection ID=' + connection.id);
+        }).fail(() => {
+            console.log('Failed');
+        });
     }
 }
 

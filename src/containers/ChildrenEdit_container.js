@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import ChildrenEditComponent from '../components/ChildrenEdit_component';
 import { Actions } from 'react-native-router-flux';
 import { GetChildrenData, SaveChildrenData, SaveChildrenImage } from '../actions/ChildrenData_action';
+import signalr from 'react-native-signalr';
 
 const mapStateToProps = (state) => ({
     login_account: state.login_account,
@@ -26,6 +27,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     SaveImage: (login_account, childname, image, token) => {
         dispatch(SaveChildrenImage(login_account, childname, image, token));
+    },
+    MindWave: () => {
+        Actions.MindwaveTest();
     },
 });
 
@@ -81,6 +85,30 @@ class ChildrenEditContainer extends ChildrenEditComponent {
 
 
 
+    }
+    componentDidMount() {
+        //signalr
+        const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
+        connection.logging = true;
+
+        const proxy = connection.createHubProxy('chatHub');
+
+        proxy.on('addNewMessageToPage', (argOne, argTwo, ) => {
+            console.log('message-from-server', argOne, argTwo);
+            if (argOne == 'openMindwavePage') {
+
+                proxy.invoke('send', 'haveOpened', '');
+                this.props.MindWave();
+                connection.stop();
+            }
+        });
+
+        // atempt connection, and handle errors
+        connection.start().done(() => {
+            console.log('Now connected, connection ID=' + connection.id);
+        }).fail(() => {
+            console.log('Failed');
+        });
     }
 }
 

@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import MemberEditComponent from '../components/MemberEdit_component';
 import { Actions } from 'react-native-router-flux';
 import { GetMemberData, SaveMemberData, SaveMemberImage } from '../actions/MemberData_action';
+import signalr from 'react-native-signalr';
 
 const mapStateToProps = (state) => ({
     login_account: state.login_account,
@@ -26,6 +27,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     SaveImage: (account, image, token) => {
         dispatch(SaveMemberImage(account, image, token));
+    },
+    MindWave: () => {
+        Actions.MindwaveTest();
     },
 });
 
@@ -68,7 +72,30 @@ class MemberEditContainer extends MemberEditComponent {
         } else {
             this.setState({ genderSelected: 1 })
         }
-
+       
+            //signalr
+            const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
+            connection.logging = true;
+    
+            const proxy = connection.createHubProxy('chatHub');
+    
+            proxy.on('addNewMessageToPage', (argOne, argTwo, ) => {
+                console.log('message-from-server', argOne, argTwo);
+                if (argOne == 'openMindwavePage') {
+    
+                    proxy.invoke('send', 'haveOpened', '');
+                    this.props.MindWave();
+                    connection.stop();
+                }
+            });
+    
+            // atempt connection, and handle errors
+            connection.start().done(() => {
+                console.log('Now connected, connection ID=' + connection.id);
+            }).fail(() => {
+                console.log('Failed');
+            });
+        
     };
 
     componentWillReceiveProps(nextProps) {

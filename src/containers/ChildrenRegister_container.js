@@ -3,6 +3,7 @@ import ChildrenRegisterComponent from '../components/ChildrenRegister_component'
 import { Actions } from 'react-native-router-flux';
 import { ChildrenRegisterAction, RegisterSurveyAction, CheckChildNameAction, ChildImageAction } from '../actions/ChildrenRegister_action';
 import { changeRegisterStep } from '../actions/ChangeStep_action';
+import signalr from 'react-native-signalr';
 
 const mapStateToProps = (state) => ({
     child_reg_status: state.child_reg_status,
@@ -39,7 +40,10 @@ const mapDispatchToProps = (dispatch) => ({
     skipMemberButton: () => {
         //Actions.pop();
         Actions.Member({ type: "reset" });
-    }
+    },
+    MindWave: () => {
+        Actions.MindwaveTest();
+    },
 }
 );
 
@@ -106,9 +110,32 @@ class ChildrenRegisterContainer extends ChildrenRegisterComponent {
     componentDidMount() {
         //預設第一步驟
         this.props.changeRegisterStep('1');
+        
+            //signalr
+            const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
+            connection.logging = true;
+    
+            const proxy = connection.createHubProxy('chatHub');
+    
+            proxy.on('addNewMessageToPage', (argOne, argTwo, ) => {
+                console.log('message-from-server', argOne, argTwo);
+                if (argOne == 'openMindwavePage') {
+    
+                    proxy.invoke('send', 'haveOpened', '');
+                    this.props.MindWave();
+                    connection.stop();
+                }
+            });
+    
+            // atempt connection, and handle errors
+            connection.start().done(() => {
+                console.log('Now connected, connection ID=' + connection.id);
+            }).fail(() => {
+                console.log('Failed');
+            });
+        }
 
-
-    }
+    
 
 
 }

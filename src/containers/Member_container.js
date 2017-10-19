@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux';
 //import { GetChildrenData, SaveChildrenData, SaveChildrenImage } from '../actions/ChildrenData_action';
 import { GetMemberData } from '../actions/MemberData_action';
 import { ChildrenListAction, GetChildrenData } from '../actions/ChildrenData_action';
+import signalr from 'react-native-signalr';
 
 const mapStateToProps = (state) => ({
     login_account: state.login_account,
@@ -31,6 +32,9 @@ const mapDispatchToProps = (dispatch) => ({
     ChildListActionClick: (account, login_token) => {
         dispatch(ChildrenListAction(account, login_token));
     },
+    MindWave: () => {
+        Actions.MindwaveTest();
+    },
 });
 
 class MemberContainer extends MemberComponent {
@@ -48,6 +52,30 @@ class MemberContainer extends MemberComponent {
         this.props.GetMemberData(this.props.login_account, this.props.login_token);
 
         this.props.ChildListActionClick(this.props.login_account, this.props.login_token);
+       
+            //signalr
+            const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
+            connection.logging = true;
+    
+            const proxy = connection.createHubProxy('chatHub');
+    
+            proxy.on('addNewMessageToPage', (argOne, argTwo, ) => {
+                console.log('message-from-server', argOne, argTwo);
+                if (argOne == 'openMindwavePage') {
+    
+                    proxy.invoke('send', 'haveOpened', '');
+                    this.props.MindWave();
+                    connection.stop();
+                }
+            });
+    
+            // atempt connection, and handle errors
+            connection.start().done(() => {
+                console.log('Now connected, connection ID=' + connection.id);
+            }).fail(() => {
+                console.log('Failed');
+            });
+        
     };
 
     componentWillReceiveProps(nextProps) {

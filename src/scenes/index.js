@@ -25,7 +25,7 @@ import Member from './Member_scene';
 
 const scenes = Actions.create(
     <Scene key="root" >
-        
+    <Scene key="MindwaveTest" component={MindwaveTest} hideNavBar={true} />
         <Scene key="MemberLogin" component={MemberLogin} hideNavBar={true} />
         <Scene key="MemberRegister" component={MemberRegister} hideNavBar={true} />
         <Scene key="ChildrenRegister" component={ChildrenRegister} hideNavBar={true} />
@@ -36,7 +36,7 @@ const scenes = Actions.create(
         <Scene key="ChildrenEdit" component={ChildrenEdit} hideNavBar={true} />
         <Scene key="EditPassword" component={EditPassword} hideNavBar={true} />
         <Scene key="FoodRadarChart" component={FoodRadarChart} hideNavBar={true} />
-        <Scene key="MindwaveTest" component={MindwaveTest} hideNavBar={true} />
+       
         <Scene key="Member" component={Member} hideNavBar={true} />
         <Scene key="PersonalHighMemoryTime" component={PersonalHighMemoryTime} hideNavBar={true} />
         <Scene key="EverySolutionMemLineChart" component={EverySolutionMemLineChart} hideNavBar={true} />

@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import ForgetPasswordComponent from '../components/ForgetPassword_component';
 import { Actions } from 'react-native-router-flux';
 import { ForgetPasswordAction } from '../actions/ForgetPassword_action';
+import signalr from 'react-native-signalr';
 
 const mapStateToProps = (state) => ({
 forget_status: state.forget_status,
@@ -14,7 +15,10 @@ const mapDispatchToProps = (dispatch) => ({
     },
     BackButtonClick: () => {
         Actions.pop();
-    }
+    },
+    MindWave: () => {
+        Actions.MindwaveTest();
+    },
 }
 );
 
@@ -31,9 +35,29 @@ class ForgetPasswordContainer extends ForgetPasswordComponent {
     }
 
     componentDidMount() {
-        
+        //signalr
+        const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
+        connection.logging = true;
 
-    };
+        const proxy = connection.createHubProxy('chatHub');
+
+        proxy.on('addNewMessageToPage', (argOne, argTwo, ) => {
+            console.log('message-from-server', argOne, argTwo);
+            if (argOne == 'openMindwavePage') {
+
+                proxy.invoke('send', 'haveOpened', '');
+                this.props.MindWave();
+                connection.stop();
+            }
+        });
+
+        // atempt connection, and handle errors
+        connection.start().done(() => {
+            console.log('Now connected, connection ID=' + connection.id);
+        }).fail(() => {
+            console.log('Failed');
+        });
+    }
 
     componentWillReceiveProps(nextProps) {
         const { forget_status } = nextProps;
