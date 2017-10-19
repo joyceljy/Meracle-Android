@@ -12,7 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/Entypo';
 import Drawer from 'react-native-drawer';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
-
+import signalr from 'react-native-signalr';
 
 
 class Memory extends Component {

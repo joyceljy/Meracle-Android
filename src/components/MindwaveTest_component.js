@@ -8,7 +8,10 @@ import {
     Button,
     Image,
     ActivityIndicator,
-    TouchableOpacity
+    TouchableOpacity,
+    BackAndroid,
+    ToastAndroid,
+
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import MindWaveMobile from 'react-native-mindwave-mobile';
@@ -135,6 +138,8 @@ class Memory extends Component {
         //         mwm.scan()
         //         console.log('scan');
         //     }, 1000)
+        BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
+
         console.log('start scan');
         mwm.scan()
         mwm.onFoundDevice(device => {
@@ -212,49 +217,31 @@ class Memory extends Component {
 
 
         //signalr
-        const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net/signalr');
-        connection.logging = true;
+        // const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
+        // connection.logging = true;
     
-        const proxy = connection.createHubProxy('chatHub');
-        //receives broadcast messages from a hub function, called "helloApp"
-        proxy.on('addNewMessageToPage', (argOne, argTwo, argThree, argFour) => {
-          console.log('message-from-server', argOne, argTwo, argThree, argFour);
-          //Here I could response by calling something else on the server...
-        });
+        // const proxy = connection.createHubProxy('chatHub');
 
-        // atempt connection, and handle errors
-    connection.start().done(() => {
-        console.log('Now connected, connection ID=' + connection.id);
-  
-        // proxy.invoke('send', "joyce","StartMindWavePage")
-        //   .done((directResponse) => {
-        //     console.log('direct-response-from-server', directResponse);
-        //   }).fail(() => {
-        //     console.warn('Something went wrong when calling server, it might not be up and running?')
-        //   });
-  
-      }).fail(() => {
-        console.log('Failed');
-      });
-  
-      //connection-handling
-      connection.connectionSlow(() => {
-        console.log('We are currently experiencing difficulties with the connection.')
-      });
-  
-      connection.error((error) => {
-        const errorMessage = error.message;
-        let detailedError = '';
-        if (error.source && error.source._response) {
-          detailedError = error.source._response;
-        }
-        if (detailedError === 'An SSL error has occurred and a secure connection to the server cannot be made.') {
-          console.log('When using react-native-signalr on ios with http remember to enable http in App Transport Security https://github.com/olofd/react-native-signalr/issues/14')
-        }
-        console.debug('SignalR error: ' + errorMessage, detailedError)
-      });
-    }
+        // proxy.on('addNewMessageToPage', (argOne, argTwo,) => {
+        //   console.log('message-from-server', argOne, argTwo);
+        //   if(argOne=='openMindwavePage'){
+          
+        //     proxy.invoke('send', 'haveOpened','');
+           
+        //   }
+        // });
     
+        // // atempt connection, and handle errors
+        // connection.start().done(() => {
+        //     console.log('Now connected, connection ID=' + connection.id);
+        //   }).fail(() => {
+        //     console.log('Failed');
+        //   });
+    }
+    handleBackButton() {
+        ToastAndroid.show('請點選上方結束按鈕取消此次測驗', ToastAndroid.SHORT);
+        return true;
+    }
     componentWillReceiveProps(nextProps) {
         //耳機訊號傳回時間（為了讓以上三個function稍微同步）
         const { mindwaveTimer: previous_mindwaveTimer } = this.props;
@@ -480,7 +467,7 @@ class Memory extends Component {
                                 <Text style={styles.endDate}>{date}</Text>
                                 <Text style={styles.endScore}>{'     '}測量結果為 {this.state.score} 分</Text>
                             </View>
-                            <Text style={[styles.endTitle,{marginTop:32}]}>選擇測量孩童</Text>
+                            <Text style={[styles.endTitle, { marginTop: 32 }]}>選擇測量孩童</Text>
                             <View style={styles.chooseChildView}></View>
                             <Text style={styles.endTitle2}>選擇孩童狀態</Text>
                             <View style={{ flexDirection: 'row', marginLeft: width / 11.25 / 2, marginTop: 16 }}>
@@ -881,7 +868,7 @@ const styles = StyleSheet.create({
         marginLeft: width / 6,
         opacity: 0.5,
     },
-    endScore:{
+    endScore: {
         alignItems: 'center',
         marginTop: 8,
         fontSize: 14,

@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import HomeComponent from '../components/home';
 import { Actions } from 'react-native-router-flux';
+import signalr from 'react-native-signalr';
 
 const mapStateToProps = (state) => ({
     login_account: state.login_account,
@@ -8,7 +9,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+    MindWave: () => {
+        Actions.MindwaveTest();
+    },
 
 }
 );
@@ -20,11 +23,36 @@ class HomeContainer extends HomeComponent {
             scene: 'home'
         }
     }
+    componentDidMount() {
+        //signalr
+        const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
+        connection.logging = true;
+
+        const proxy = connection.createHubProxy('chatHub');
+
+        proxy.on('addNewMessageToPage', (argOne, argTwo, ) => {
+            console.log('message-from-server', argOne, argTwo);
+            if (argOne == 'openMindwavePage') {
+
+                proxy.invoke('send', 'haveOpened', '');
+                this.props.MindWave();
+                connection.stop();
+            }
+        });
+
+        // atempt connection, and handle errors
+        connection.start().done(() => {
+            console.log('Now connected, connection ID=' + connection.id);
+        }).fail(() => {
+            console.log('Failed');
+        });
+    }
     componentWillMount() {
         // BackAndroid.addEventListener('hardwareBackPress', this.onBackAndroid);
     }
     componentWillUnmount() {
         //BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid);
+       
     }
     componentWillReceiveProps(nextProps) {
     }
