@@ -15,51 +15,11 @@ const mapDispatchToProps = (dispatch) => ({
 MemberClick: () => {
     Actions.Member();
 },
-    MemberEditClick: () => {
-        Actions.MemberEdit();
-    },
-    ChildrenEditClick: () => {
-        Actions.ChildrenEdit();
-    },
+   
     LogoutClick: (account) => {
         dispatch(LogoutAction());
     },
-    EditpwdClick: () => {
-        Actions.EditPassword();
-    },
-    AllHighMemClick: () => {
-        Actions.AllHighMemoryTime();
-    },
-    AvgSleepingClick: () => {
-        Actions.AvgSleepingBarChart();
-    },
-    EverySolutionMemClick: () => {
-        Actions.EverySolutionMemLineChart();
-    },
-    FoodClick: () => {
-        Actions.FoodRadarChart();
-    },
-    GamePointClick: () => {
-        Actions.GamePoint();
-    },
-    GamePointcclick: () => {
-        Actions.GamePointTimeSeriesLineChart();
-    },
-    ParentsTroubleClick: () => {
-        Actions.ParentsTroublePieChart();
-    },
-    PersonalHighMemoryTimeClick: () => {
-        Actions.PersonalHighMemoryTime();
-    },
-    PersonalMemClick: () => {
-        Actions.PersonalMemBarChart();
-    },
-    ChildChangeClick: (account) => {
-        dispatch(ListChildren(account));
-    },
-    MindWave: () => {
-        Actions.MindwaveTest();
-    },
+    
 });
 
 class SideBarContainer extends SideBarComponent {

@@ -597,7 +597,11 @@ class Memory extends Component {
                                 <Text style={styles.endScore}>{'     '}測量結果為 {this.state.score} 分</Text>
                             </View>
                             <Text style={[styles.endTitle, { marginTop: 32 }]}>選擇測量孩童</Text>
-                            <View style={styles.chooseChildView}></View>
+                            <View style={styles.chooseChildView}>
+                                <TouchableOpacity onPress={() => this.props.goBack()}>
+
+                                </TouchableOpacity>
+                            </View>
                             <Text style={styles.endTitle2}>選擇孩童狀態</Text>
                             <View style={{ flexDirection: 'row', marginLeft: width / 11.25 / 2, marginTop: 16 }}>
 

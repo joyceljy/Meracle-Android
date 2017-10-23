@@ -39,6 +39,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     SaveStatus:(login_account,Name,status,login_token)=>{
 
+    },
+    goBack:()=>{
+        Actions.pop();
     }
 }
 );
