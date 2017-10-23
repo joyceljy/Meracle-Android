@@ -194,7 +194,10 @@ class Memory extends Component {
 
     handleESense = (data) => {
         console.log('onESense', data);
-        this.props.onESense(data);
+        if (data.poorSignal != -1) {
+            this.props.onESense(data);
+        }
+
     }
 
     handleEEGBlink = (data) => {
@@ -341,13 +344,13 @@ class Memory extends Component {
         const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
         connection.logging = true;
         const proxy = connection.createHubProxy('chatHub');
-       proxy.on('addNewMessageToPage', (message1, message2) => {
+        proxy.on('addNewMessageToPage', (message1, message2) => {
             console.log('message-from-server', message1, message2);
             if (message1 == "startGame" || message2 == "startGame") {
-               this.setState({startTest: true})
-               setTimeout(function(){
-                   //結束收集腦波  
-                   this.setState({endTestView: true}) 
+                this.setState({ startTest: true })
+                setTimeout(function () {
+                    //結束收集腦波  
+                    this.setState({ endTestView: true })
                 }, 240000);
             }
         });
@@ -390,7 +393,7 @@ class Memory extends Component {
                     //訊號穩定 可以開始遊戲
                     connection.start().done(() => {
                         console.log('Now connected, connection ID=' + connection.id);
-                        proxy.invoke('send','canStart','').done((directResponse) => {
+                        proxy.invoke('send', 'canStart', '').done((directResponse) => {
                             console.log('direct-response-from-server', directResponse);
                         })
                     }).fail(() => {
@@ -411,7 +414,7 @@ class Memory extends Component {
             })
         }
 
-        
+
 
 
         //腦波運算與收集
@@ -521,7 +524,7 @@ class Memory extends Component {
                     lowGammaArray: [],
                 })
 
-            
+
 
             }
         }
