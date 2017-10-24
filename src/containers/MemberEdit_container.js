@@ -73,28 +73,29 @@ class MemberEditContainer extends MemberEditComponent {
             this.setState({ genderSelected: 1 })
         }
        
-            //signalr
-            const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
-            connection.logging = true;
-    
-            const proxy = connection.createHubProxy('chatHub');
-    
-            proxy.on('addNewMessageToPage', (argOne, argTwo, ) => {
-                console.log('message-from-server', argOne, argTwo);
-                if (argOne == 'openMindwavePage') {
-    
-                    proxy.invoke('send', 'haveOpened', '');
-                    this.props.MindWave();
-                    connection.stop();
-                }
-            });
-    
-            // atempt connection, and handle errors
-            connection.start().done(() => {
-                console.log('Now connected, connection ID=' + connection.id);
-            }).fail(() => {
-                console.log('Failed');
-            });
+             //signalr
+        const connection = signalr.hubConnection('http://signalrpj.azurewebsites.net');
+        connection.logging = true;
+
+        const proxy = connection.createHubProxy('chatHub');
+
+        proxy.on('addMessage', (argOne ) => {
+            console.log('message-from-server', argOne);
+            if (argOne == 'openMindwavePage') {
+
+                proxy.invoke('send', this.props.login_account, 'haveOpened');
+                this.props.MindWave();
+                connection.stop();
+            }
+        });
+
+        // atempt connection, and handle errors
+        connection.start().done(() => {
+            proxy.invoke('group',this.props.login_account);
+            console.log('Now connected, connection ID=' + connection.id);
+        }).fail(() => {
+            console.log('Failed');
+        });
         
     };
 

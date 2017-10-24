@@ -15,7 +15,7 @@ import Member from './Member_scene';
 
 const scenes = Actions.create(
     <Scene key="root" >
-
+        
         <Scene key="MemberLogin" component={MemberLogin} hideNavBar={true} />
         <Scene key="MemberRegister" component={MemberRegister} hideNavBar={true} />
         <Scene key="ChildrenRegister" component={ChildrenRegister} hideNavBar={true} />
@@ -27,7 +27,7 @@ const scenes = Actions.create(
         <Scene key="MindwaveTest" component={MindwaveTest} hideNavBar={true} />
         <Scene key="Member" component={Member} hideNavBar={true} />
         <Scene key="SideBar" component={SideBar} hideNavBar={true} />
-     
+
     </Scene>
 )
 export default scenes;

@@ -91,7 +91,7 @@ class Memory extends Component {
         let kidlistaft = [];
         for (let key in kidlistpre) {
             for (let i = 0; i < kidlistpre[key].length; i++) {
-                let imgurl = "http://meracal.azurewebsites.net/Filefolder/" + kidlistpre[key][i].Imageurl;
+                let imgurl = "http://meracle.azurewebsites.net/Filefolder/" + kidlistpre[key][i].Imageurl;
                 if (kidlistpre[key][i].Gender === "男" && kidlistpre[key][i].Imageurl === "DefaultImg.png") {
                     kidlistaft.push(
                         <View style={styles.cardsize}>

@@ -102,7 +102,7 @@ class Memory extends Component {
                 </View>
                 <View style={[styles.imageView, { marginLeft: 128 }]}>
                     {(this.state.avatarSource === null) ? (
-                        <Image style={styles.avatar} source={{ uri: 'http://meracal.azurewebsites.net/Filefolder/' + this.state.imageurl }} />
+                        <Image style={styles.avatar} source={{ uri: 'http://meracle.azurewebsites.net/Filefolder/' + this.state.imageurl }} />
                     ) : (
                             <Image style={styles.avatar} source={this.state.avatarSource} />
                         )}

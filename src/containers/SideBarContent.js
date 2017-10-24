@@ -39,30 +39,31 @@ class SideBarContainer extends SideBarComponent {
             Actions.MemberLogin();
         }
     }
-    componentDidMount() {
-        //signalr
-        const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
-        connection.logging = true;
+    // componentDidMount() {
+    //     //signalr
+    //     const connection = signalr.hubConnection('http://signalrpj.azurewebsites.net');
+    //     connection.logging = true;
 
-        const proxy = connection.createHubProxy('chatHub');
+    //     const proxy = connection.createHubProxy('chatHub');
 
-        proxy.on('addNewMessageToPage', (argOne, argTwo, ) => {
-            console.log('message-from-server', argOne, argTwo);
-            if (argOne == 'openMindwavePage') {
+    //     proxy.on('addMessage', (argOne ) => {
+    //         console.log('message-from-server', argOne);
+    //         if (argOne == 'openMindwavePage') {
 
-                proxy.invoke('send', 'haveOpened', '');
-                this.props.MindWave();
-                connection.stop();
-            }
-        });
+    //             proxy.invoke('send', this.props.login_account, 'haveOpened');
+    //             this.props.MindWave();
+    //             connection.stop();
+    //         }
+    //     });
 
-        // atempt connection, and handle errors
-        connection.start().done(() => {
-            console.log('Now connected, connection ID=' + connection.id);
-        }).fail(() => {
-            console.log('Failed');
-        });
-    }
+    //     // atempt connection, and handle errors
+    //     connection.start().done(() => {
+    //         proxy.invoke('group',this.props.login_account);
+    //         console.log('Now connected, connection ID=' + connection.id);
+    //     }).fail(() => {
+    //         console.log('Failed');
+    //     });
+    // }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SideBarContainer);

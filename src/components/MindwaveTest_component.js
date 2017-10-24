@@ -109,7 +109,7 @@ class Memory extends Component {
 
     //掃描裝置
     handlePressScan = () => {
-        if (!this.state.isScanning) {
+        //if (!this.state.isScanning) {
             if (isMock) {
                 setTimeout(() => {
                     this.handleFoundDevice({
@@ -119,10 +119,11 @@ class Memory extends Component {
             } else {
                 this.mwm.scan();
             }
-            this.setState({
-                isScanning: true,
-            });
-        }
+            // this.setState({
+            //     isScanning: true,
+            // });
+        //}
+
     }
 
     handlePressConnectDevice = (device) => {
@@ -333,7 +334,7 @@ class Memory extends Component {
         this.mwm.onDisconnect(this.handleDisconnect);
         this.mwm.onFoundDevice(this.handleFoundDevice);
         this.mwm.onEEGPowerLowBeta(this.handleEEGPowerLowBeta);
-        this.mwm.onEEGPowerDelta(this.handleEEGPowerLowBeta);
+        this.mwm.onEEGPowerDelta(this.handleEEGPowerDelta);
         this.mwm.onESense(this.handleESense);
         if (Platform.OS === 'ios') {
             this.mwm.onEEGBlink(this.handleEEGBlink);
@@ -341,12 +342,16 @@ class Memory extends Component {
         }
 
         //signalr
-        const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
+        const connection = signalr.hubConnection('http://signalrpj.azurewebsites.net');
         connection.logging = true;
         const proxy = connection.createHubProxy('chatHub');
-        proxy.on('addNewMessageToPage', (message1, message2) => {
-            console.log('message-from-server', message1, message2);
-            if (message1 == "startGame" || message2 == "startGame") {
+        connection.start().done(() => {
+            console.log('Now connected, connection ID=' + connection.id);
+            proxy.invoke('group',this.props.login_account);
+        });
+        proxy.on('addMessage', (message1) => {
+            console.log('message-from-server', message1);
+            if (message1 == "startGame") {
                 this.setState({ startTest: true })
                 setTimeout(function () {
                     //結束收集腦波  
@@ -392,8 +397,10 @@ class Memory extends Component {
 
                     //訊號穩定 可以開始遊戲
                     connection.start().done(() => {
+                        
+                        proxy.invoke('group',this.props.login_account);
                         console.log('Now connected, connection ID=' + connection.id);
-                        proxy.invoke('send', 'canStart', '').done((directResponse) => {
+                        proxy.invoke('send', this.props.login_account, 'canStart').done((directResponse) => {
                             console.log('direct-response-from-server', directResponse);
                         })
                     }).fail(() => {

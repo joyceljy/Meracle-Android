@@ -6,7 +6,7 @@ const mapStateToProps = (state) => ({
 //     return 'http://163.17.135.185/7thWebApi/api';
 // };
 const get_base_url = () => {
-    return 'http://meracal.azurewebsites.net/api';
+    return 'http://meracle.azurewebsites.net/api';
 };
 // const token = () => {
 //     return login_token;
