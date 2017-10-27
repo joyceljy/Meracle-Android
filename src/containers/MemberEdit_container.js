@@ -15,7 +15,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 
     BackButton: () => {
-        Actions.Member();
+        Actions.Member({ type: "reset" });
     },
     // GetMemberData: (login_account, token) => {
     //     dispatch(GetMemberData(login_account, token));
@@ -67,36 +67,37 @@ class MemberEditContainer extends MemberEditComponent {
             imageurl: this.props.member_data.member_data.Imageurl
         });
 
-        if (this.props.member_data.member_data.Gender == '男') {
+        if (this.props.member_data.member_data.Gender.trim() == '男') {
             this.setState({ genderSelected: 0 })
         } else {
             this.setState({ genderSelected: 1 })
         }
-       
-             //signalr
+
+        //signalr
         const connection = signalr.hubConnection('http://signalrpj.azurewebsites.net');
         connection.logging = true;
 
-        const proxy = connection.createHubProxy('chatHub');
+        const proxy = connection.createHubProxy('groupHub');
 
-        proxy.on('addMessage', (argOne ) => {
-            console.log('message-from-server', argOne);
-            if (argOne == 'openMindwavePage') {
+        proxy.on('addtogroup', function (message) {
+            console.log(message);
+            if (message == 'openMindwavePage') {
 
-                proxy.invoke('send', this.props.login_account, 'haveOpened');
-                this.props.MindWave();
+                proxy.invoke('send', this.props.login_account,'haveOpened');
+                Actions.MindwaveTest();
                 connection.stop();
             }
         });
 
+
         // atempt connection, and handle errors
         connection.start().done(() => {
-            proxy.invoke('group',this.props.login_account);
+            proxy.invoke('group', this.props.login_account);
             console.log('Now connected, connection ID=' + connection.id);
         }).fail(() => {
             console.log('Failed');
         });
-        
+
     };
 
     componentWillReceiveProps(nextProps) {

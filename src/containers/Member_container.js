@@ -41,15 +41,18 @@ class MemberContainer extends MemberComponent {
     constructor(props) {
         super(props);
         this.state = {
-            //avatarSource: null,
-            imageurl: '',
+            avatarSource: null,
+            imagedata_base64: null,
         }
 
     }
 
     componentDidMount() {
         //取得會員資料
-        this.props.GetMemberData(this.props.login_account, this.props.login_token);
+        this.setState({
+            imageurl: this.props.member_data.member_data.Imageurl
+        });
+
 
         this.props.ChildListActionClick(this.props.login_account, this.props.login_token);
        
@@ -57,21 +60,22 @@ class MemberContainer extends MemberComponent {
         const connection = signalr.hubConnection('http://signalrpj.azurewebsites.net');
         connection.logging = true;
 
-        const proxy = connection.createHubProxy('chatHub');
+        const proxy = connection.createHubProxy('groupHub');
 
-        proxy.on('addMessage', (argOne ) => {
-            console.log('message-from-server', argOne);
-            if (argOne == 'openMindwavePage') {
+        proxy.on('addtogroup', function (message) {
+            console.log(message);
+            if (message == 'openMindwavePage') {
 
-                proxy.invoke('send', this.props.login_account, 'haveOpened');
-                this.props.MindWave();
+                 proxy.invoke('send',this.props.login_account,'haveOpened');
+                 Actions.MindwaveTest();
                 connection.stop();
             }
         });
 
+
         // atempt connection, and handle errors
         connection.start().done(() => {
-            proxy.invoke('group',this.props.login_account);
+            proxy.invoke('group', this.props.login_account);
             console.log('Now connected, connection ID=' + connection.id);
         }).fail(() => {
             console.log('Failed');
@@ -89,9 +93,6 @@ class MemberContainer extends MemberComponent {
             Actions.ChildrenEdit();
         }
       
-        this.setState({
-            imageurl: member_data.member_data.Imageurl
-        });
 
     }
 }

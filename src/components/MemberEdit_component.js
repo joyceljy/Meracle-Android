@@ -76,7 +76,7 @@ class Memory extends Component {
                 //let source = { uri: response.uri };
 
                 // You can also display the image using data:
-                 let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
                 this.setState({
                     avatarSource: source,
@@ -95,18 +95,10 @@ class Memory extends Component {
 
             <View style={styles.Viewstyle}>
                 <View style={styles.topbarView}>
-                    <TouchableOpacity onPress={() => { this.props.BackButton();}}>
+                    <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
                         <Image source={require('../images/back.png')} style={styles.topbarIcon} />
                     </TouchableOpacity>
                     <Text style={styles.topbarText}>編輯會員資料</Text>
-                </View>
-                <View style={[styles.imageView, { marginLeft: 128 }]}>
-                    {(this.state.avatarSource === null) ? (
-                        <Image style={styles.avatar} source={{ uri: 'http://meracle.azurewebsites.net/Filefolder/' + this.state.imageurl }} />
-                    ) : (
-                            <Image style={styles.avatar} source={this.state.avatarSource} />
-                        )}
-
                 </View>
                 <TouchableOpacity style={styles.uploadImageView} onPress={this.ImageSelect}>
                     <Image
@@ -114,6 +106,15 @@ class Memory extends Component {
                         source={require('../images/upload.png')}
                     />
                 </TouchableOpacity>
+                <View style={[styles.imageView, { marginLeft: 128 }]}>
+                    {(this.state.avatarSource === null) ? (
+                        <Image style={styles.avatar} source={{ uri: 'https://www.meracle.me/home/Filefolder/' + this.state.imageurl }} />
+                    ) : (
+                            <Image style={styles.avatar} source={this.state.avatarSource} />
+                        )}
+
+                </View>
+
                 <View style={styles.Inputtextview}>
                     <Image source={require('../images/person.png')} style={styles.InputtextIcon} />
                     <TextInput
@@ -200,7 +201,7 @@ class Memory extends Component {
                     </TouchableHighlight>
                 </View>
                 <TouchableOpacity style={styles.editButton} onPress={() => {
-                   
+
 
                     if (this.state.Name == '' || this.state.birthdate == '') {
 
@@ -213,8 +214,8 @@ class Memory extends Component {
                             err1: false
                         }), 5000); // hide toast after 5s
                     } else {
-                        this.props.SaveButtonClick(this.props.login_account, this.state.Name, this.state.Address, this.state.birthdate, this.state.gender,this.props.login_token)
-                        this.props.SaveImage(this.props.login_account, this.state.imagedata_base64,this.props.login_token)
+                        this.props.SaveButtonClick(this.props.login_account, this.state.Name, this.state.Address, this.state.birthdate, this.state.gender, this.props.login_token)
+                        this.props.SaveImage(this.props.login_account, this.state.imagedata_base64, this.props.login_token)
                     }
                 }}>
                     <Text style={styles.editButtonText}>確定更新</Text>
@@ -285,16 +286,20 @@ const styles = StyleSheet.create({
         marginTop: 16,
         borderRadius: 100,
         marginBottom: 16,
-        shadowColor:'rgba(255,255,255,0.2)',
-        shadowRadius:8,
-        
+        shadowColor: 'rgba(255,255,255,0.2)',
+        shadowRadius: 8,
+        elevation: 8,
+       zIndex: 1,
+
     },
     avatar: {
         marginTop: 24,
-        marginLeft: 19,
-        width:80,
-        height:80,
-        borderRadius:100,
+        marginLeft: 24,
+        width: 80,
+        height: 80,
+        borderRadius: 100,
+        // justifyContent: 'center',
+        // alignItems: 'center',
     },
     Inputtextview: {
         flexDirection: 'row',
@@ -373,13 +378,18 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         shadowColor: 'rgba(0,0,0,0.12)',
         shadowRadius: 6,
-        marginTop: -48,
+        //marginTop: -100,
+        position:'absolute',
+        top:165,
         marginLeft: 216,
-        zIndex: 2,
+        zIndex: 3,
+        elevation:6,
+       
     },
     uploadImage: {
         marginLeft: 12.4,
         marginTop: 12.4,
+        
     },
 });
 

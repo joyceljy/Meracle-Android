@@ -7,12 +7,15 @@ import {
     StyleSheet,
     Image,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    Dimensions
 } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Body } from 'native-base';
 import ActionButton from 'react-native-action-button';
 import Drawer from 'react-native-drawer';
 import SideBarContent from '../containers/SideBarContent';
+var { height, width } = Dimensions.get('window');
+
 class Memory extends Component {
     constructor(props) {
         super(props);
@@ -91,7 +94,7 @@ class Memory extends Component {
         let kidlistaft = [];
         for (let key in kidlistpre) {
             for (let i = 0; i < kidlistpre[key].length; i++) {
-                let imgurl = "http://meracle.azurewebsites.net/Filefolder/" + kidlistpre[key][i].Imageurl;
+                let imgurl = "https://www.meracle.me/home/Filefolder/" + kidlistpre[key][i].Imageurl;
                 if (kidlistpre[key][i].Gender === "男" && kidlistpre[key][i].Imageurl === "DefaultImg.png") {
                     kidlistaft.push(
                         <View style={styles.cardsize}>
@@ -223,7 +226,7 @@ class Memory extends Component {
 
                     <View style={styles.avatarView}>
                         {(this.state.avatarSource === null) ? (
-                            <Image style={styles.avatar} source={{ uri: 'http://163.17.135.185/7thWebApi/Filefolder/'+ 'Defaultimage-Member.png' }} />
+                            <Image style={styles.avatar} source={{ uri: 'https://www.meracle.me/home/Filefolder/'+ this.state.imageurl }} />
                         ) : (
                                 <Image style={styles.avatar} source={this.state.avatarSource} />
                             )}
@@ -259,12 +262,12 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     parentView: {
-        width: '100%',
+        width: width,
         height: 194,
         backgroundColor: '#144669',
     },
     parentInfoView: {
-        width: '100%',
+        width: width,
         height: 102,
         backgroundColor: '#144669',
         marginTop: 16,
@@ -290,11 +293,11 @@ const styles = StyleSheet.create({
     settingIcon: {
         width: 24,
         height: 24,
-        marginLeft: 182,
+        marginLeft: width-180,
         marginTop: 16,
     },
     childView: {
-        width: '100%',
+        width: width,
         height: 374,
         backgroundColor: '#F2F2F2',
     },
@@ -314,18 +317,20 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         borderColor: '#9ACBD9',
         borderRadius: 100,
-        //backgroundColor: 'transparent',
-        //overflow: 'hidden',
-        opacity: 0.1,
         zIndex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: 'rgba(255,255,255,0.9)',
         marginTop: 15,
         marginLeft: 48,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     avatar: {
         width: 45.8,
         height: 45.8,
-        borderRadius: 100
+        borderRadius: 100,
+        alignSelf:'center',
+        //marginTop:5,
+        
     },
     helloText: {
 
@@ -379,7 +384,7 @@ const styles = StyleSheet.create({
     cardsize: {
         marginLeft: 16,
         marginRight: 16,
-        // width: '100%',
+      
         height: 60,
         marginTop: 8,
         borderRadius: 7

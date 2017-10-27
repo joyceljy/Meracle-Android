@@ -7,13 +7,14 @@ import {
     StyleSheet,
     Image,
     TouchableOpacity,
-    TouchableHighlight
+    TouchableHighlight,
+    Dimensions
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import Toast from 'react-native-root-toast';
-
+var { height, width } = Dimensions.get('window');
 
 class Memory extends Component {
     constructor(props) {
@@ -135,7 +136,7 @@ class Memory extends Component {
                             } else {
                                 //確認帳號沒重複
                                 //this.props.checkAccountbtn(this.state.Account);
-                                if (this.state.accountCheck !="") {
+                                if (this.state.accountCheck != "") {
                                     this.setState({ step: 2 })
                                 }
                             }
@@ -149,7 +150,7 @@ class Memory extends Component {
                         <Text style={styles.alreadyText}>已經是會員？</Text>
                         <Text style={styles.loginText}
                             onPress={() => this.props.GoLogin()}>
-                            前往登入 
+                            前往登入
                         </Text>
                     </View>
                     {/*Toast*/}
@@ -273,7 +274,7 @@ class Memory extends Component {
                                 }), 5000); // hide toast after 5s
                             }
                             else {
-                               
+
                                 this.props.RegisterButtonClick(this.state.Account, this.state.Password, this.state.Name, this.state.Birthdate, this.state.Gender)
 
                             }
@@ -325,7 +326,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignSelf: 'stretch',
         zIndex: -1,
-
+        width: width,
+        height: height,
     },
     logoView: {
         width: 120,

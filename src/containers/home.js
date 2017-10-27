@@ -2,15 +2,17 @@ import { connect } from 'react-redux';
 import HomeComponent from '../components/home';
 import { Actions } from 'react-native-router-flux';
 import signalr from 'react-native-signalr';
+import { GetMemberData } from '../actions/MemberData_action';
 
 const mapStateToProps = (state) => ({
     login_account: state.login_account,
-    child_account: state.child_account
+    child_account: state.child_account,
+    login_token: state.login_token,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    MindWave: () => {
-        Actions.MindwaveTest();
+    GetMemberData: (login_account, token) => {
+        dispatch(GetMemberData(login_account, token));
     },
 
 }
@@ -24,47 +26,38 @@ class HomeContainer extends HomeComponent {
         }
     }
     componentDidMount() {
+
+
+         //取得會員資料
+         this.props.GetMemberData(this.props.login_account, this.props.login_token);
+
+
         //signalr
         const connection = signalr.hubConnection('http://signalrpj.azurewebsites.net');
         connection.logging = true;
 
-        const proxy = connection.createHubProxy('chatHub');
+        const proxy = connection.createHubProxy('groupHub');
 
-        proxy.on('addMessage', (argOne) => {
-            console.log('message-from-server', argOne);
-            if (argOne == 'openMindwavePage') {
+        proxy.on('addtogroup', function (message) {
+            console.log(message);
+            if (message == 'openMindwavePage') {
 
-                proxy.invoke('send', this.props.login_account, 'haveOpened');
-                this.props.MindWave();
+                 proxy.invoke('send',this.props.login_account,'haveOpened');
+                 Actions.MindwaveTest();
                 connection.stop();
             }
         });
 
+
         // atempt connection, and handle errors
         connection.start().done(() => {
-            proxy.invoke('group', '222@gmail.com');
+            proxy.invoke('group', this.props.login_account);
             console.log('Now connected, connection ID=' + connection.id);
         }).fail(() => {
             console.log('Failed');
         });
 
-        //connection-handling
-        connection.connectionSlow(() => {
-            console.log('We are currently experiencing difficulties with the connection.')
-        });
-
-        connection.error((error) => {
-            const errorMessage = error.message;
-            let detailedError = '';
-            if (error.source && error.source._response) {
-                detailedError = error.source._response;
-            }
-            if (detailedError === 'An SSL error has occurred and a secure connection to the server cannot be made.') {
-                console.log('When using react-native-signalr on ios with http remember to enable http in App Transport Security https://github.com/olofd/react-native-signalr/issues/14')
-            }
-            console.debug('SignalR error: ' + errorMessage, detailedError)
-        });
-
+      
 
     }
     componentWillMount() {
@@ -75,6 +68,8 @@ class HomeContainer extends HomeComponent {
 
     }
     componentWillReceiveProps(nextProps) {
+           //取得會員資料
+           const { member_data } = nextProps;
     }
 
 

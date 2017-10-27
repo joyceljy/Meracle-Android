@@ -344,19 +344,19 @@ class Memory extends Component {
         //signalr
         const connection = signalr.hubConnection('http://signalrpj.azurewebsites.net');
         connection.logging = true;
-        const proxy = connection.createHubProxy('chatHub');
+        const proxy = connection.createHubProxy('groupHub');
         connection.start().done(() => {
             console.log('Now connected, connection ID=' + connection.id);
             proxy.invoke('group',this.props.login_account);
         });
-        proxy.on('addMessage', (message1) => {
+        proxy.on('addtogroup', (message1) => {
             console.log('message-from-server', message1);
             if (message1 == "startGame") {
                 this.setState({ startTest: true })
                 setTimeout(function () {
                     //結束收集腦波  
                     this.setState({ endTestView: true })
-                }, 240000);
+                }, 210000);
             }
         });
 
@@ -400,8 +400,8 @@ class Memory extends Component {
                         
                         proxy.invoke('group',this.props.login_account);
                         console.log('Now connected, connection ID=' + connection.id);
-                        proxy.invoke('send', this.props.login_account, 'canStart').done((directResponse) => {
-                            console.log('direct-response-from-server', directResponse);
+                        proxy.invoke('send',this.props.login_account, 'canStart').done((directResponse) => {
+                           
                         })
                     }).fail(() => {
                         console.log('Failed');
