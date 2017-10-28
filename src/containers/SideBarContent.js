@@ -41,7 +41,7 @@ class SideBarContainer extends SideBarComponent {
     }
     // componentDidMount() {
     //     //signalr
-    //     const connection = signalr.hubConnection('http://signalrpj.azurewebsites.net');
+    //     const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
     //     connection.logging = true;
 
     //     const proxy = connection.createHubProxy('chatHub');

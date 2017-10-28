@@ -54,14 +54,14 @@ class ChildrenEditContainer extends ChildrenEditComponent {
     }
 
     componentDidMount() {
-
+        let account = this.props.login_account;
         this.setState({
             birthdate: this.props.child_data.child_data.Birthday,
             Name: this.props.child_data.child_data.CdName,
             gender: this.props.child_data.child_data.Gender,
             imageurl: this.props.child_data.child_data.Imageurl
         });
-        if (this.props.child_data.child_data.Gender == '男') {
+        if (this.props.child_data.child_data.Gender.trim() == '男') {
             this.setState({ genderSelected: 0 })
         } else {
             this.setState({ genderSelected: 1 })
@@ -69,7 +69,7 @@ class ChildrenEditContainer extends ChildrenEditComponent {
 
 
          //signalr
-         const connection = signalr.hubConnection('http://signalrpj.azurewebsites.net');
+         const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
          connection.logging = true;
  
          const proxy = connection.createHubProxy('groupHub');
@@ -78,7 +78,7 @@ class ChildrenEditContainer extends ChildrenEditComponent {
              console.log(message);
              if (message == 'openMindwavePage') {
  
-                  proxy.invoke('send',this.props.login_account,'haveOpened');
+                 proxy.invoke('send', account,'haveOpened');
                   Actions.MindwaveTest();
                  connection.stop();
              }

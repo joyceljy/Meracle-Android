@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
     ChildEdit: (login_account, childname, login_token) => {
         dispatch(GetChildrenData(login_account, childname, login_token));
-        //Actions.ChildrenEdit();
+       // Actions.ChildrenEdit();
     },
     ChildListActionClick: (account, login_token) => {
         dispatch(ChildrenListAction(account, login_token));
@@ -48,6 +48,9 @@ class MemberContainer extends MemberComponent {
     }
 
     componentDidMount() {
+        let account = this.props.login_account;
+        this.props.GetMemberData(this.props.login_account, this.props.login_token);
+        
         //取得會員資料
         this.setState({
             imageurl: this.props.member_data.member_data.Imageurl
@@ -57,7 +60,7 @@ class MemberContainer extends MemberComponent {
         this.props.ChildListActionClick(this.props.login_account, this.props.login_token);
        
             //signalr
-        const connection = signalr.hubConnection('http://signalrpj.azurewebsites.net');
+        const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
         connection.logging = true;
 
         const proxy = connection.createHubProxy('groupHub');
@@ -66,7 +69,7 @@ class MemberContainer extends MemberComponent {
             console.log(message);
             if (message == 'openMindwavePage') {
 
-                 proxy.invoke('send',this.props.login_account,'haveOpened');
+                proxy.invoke('send', account,'haveOpened');
                  Actions.MindwaveTest();
                 connection.stop();
             }
@@ -86,7 +89,11 @@ class MemberContainer extends MemberComponent {
     componentWillReceiveProps(nextProps) {
         //取得會員資料
         const { member_data } = nextProps;
+        this.setState({
+            imageurl: this.props.member_data.member_data.Imageurl
+        });
         const { child_data } = nextProps;
+        const { childList } = nextProps;
         const { child_data: previous_child_data } = this.props;
 
         if (previous_child_data != child_data) {

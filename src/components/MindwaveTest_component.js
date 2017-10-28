@@ -342,7 +342,7 @@ class Memory extends Component {
         }
 
         //signalr
-        const connection = signalr.hubConnection('http://signalrpj.azurewebsites.net');
+        const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
         connection.logging = true;
         const proxy = connection.createHubProxy('groupHub');
         connection.start().done(() => {
@@ -368,6 +368,7 @@ class Memory extends Component {
         return true;
     }
     componentWillReceiveProps(nextProps) {
+        let account = this.props.login_account;
         //耳機訊號傳回時間（為了讓以上三個function稍微同步）
         const { mindwaveTimer: previous_mindwaveTimer } = this.props;
         const { mindwaveTimer } = nextProps;
@@ -400,7 +401,7 @@ class Memory extends Component {
                         
                         proxy.invoke('group',this.props.login_account);
                         console.log('Now connected, connection ID=' + connection.id);
-                        proxy.invoke('send',this.props.login_account, 'canStart').done((directResponse) => {
+                       proxy.invoke('send', account, 'canStart').done((directResponse) => {
                            
                         })
                     }).fail(() => {

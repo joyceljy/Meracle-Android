@@ -26,14 +26,14 @@ class HomeContainer extends HomeComponent {
         }
     }
     componentDidMount() {
+        let account = this.props.login_account;
 
-
-         //取得會員資料
-         this.props.GetMemberData(this.props.login_account, this.props.login_token);
+        //取得會員資料
+        this.props.GetMemberData(this.props.login_account, this.props.login_token);
 
 
         //signalr
-        const connection = signalr.hubConnection('http://signalrpj.azurewebsites.net');
+        const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
         connection.logging = true;
 
         const proxy = connection.createHubProxy('groupHub');
@@ -42,8 +42,8 @@ class HomeContainer extends HomeComponent {
             console.log(message);
             if (message == 'openMindwavePage') {
 
-                 proxy.invoke('send',this.props.login_account,'haveOpened');
-                 Actions.MindwaveTest();
+                proxy.invoke('send', account, 'haveOpened');
+                Actions.MindwaveTest();
                 connection.stop();
             }
         });
@@ -52,12 +52,13 @@ class HomeContainer extends HomeComponent {
         // atempt connection, and handle errors
         connection.start().done(() => {
             proxy.invoke('group', this.props.login_account);
+
             console.log('Now connected, connection ID=' + connection.id);
         }).fail(() => {
             console.log('Failed');
         });
 
-      
+
 
     }
     componentWillMount() {
@@ -68,8 +69,8 @@ class HomeContainer extends HomeComponent {
 
     }
     componentWillReceiveProps(nextProps) {
-           //取得會員資料
-           const { member_data } = nextProps;
+        //取得會員資料
+        const { member_data } = nextProps;
     }
 
 

@@ -288,16 +288,18 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         shadowColor: 'rgba(255,255,255,0.2)',
         shadowRadius: 8,
-        elevation: 8,
+       // elevation: 8,
        zIndex: 1,
-
+       borderWidth: 7,
+       borderColor: '#9ACBD9',
     },
     avatar: {
-        marginTop: 24,
-        marginLeft: 24,
+        marginTop: 18,
+        marginLeft:18,
         width: 80,
         height: 80,
         borderRadius: 100,
+       
         // justifyContent: 'center',
         // alignItems: 'center',
     },

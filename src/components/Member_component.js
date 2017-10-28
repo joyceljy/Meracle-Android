@@ -329,7 +329,6 @@ const styles = StyleSheet.create({
         height: 45.8,
         borderRadius: 100,
         alignSelf:'center',
-        //marginTop:5,
         
     },
     helloText: {

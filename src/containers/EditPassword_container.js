@@ -32,9 +32,9 @@ class EditPasswordContainer  extends EditPasswordComponent  {
     }
 
     componentDidMount() {
-        
+        let account = this.props.login_account;
              //signalr
-        const connection = signalr.hubConnection('http://signalrpj.azurewebsites.net');
+        const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
         connection.logging = true;
 
         const proxy = connection.createHubProxy('groupHub');
@@ -43,7 +43,7 @@ class EditPasswordContainer  extends EditPasswordComponent  {
             console.log(message);
             if (message == 'openMindwavePage') {
 
-                 proxy.invoke('send',this.props.login_account,'haveOpened');
+                proxy.invoke('send', account,'haveOpened');
                  Actions.MindwaveTest();
                 connection.stop();
             }

@@ -59,6 +59,7 @@ class MemberEditContainer extends MemberEditComponent {
 
     componentDidMount() {
         //this.props.GetMemberData(this.props.login_account,this.props.login_token);
+        let account = this.props.login_account;
         this.setState({
             birthdate: this.props.member_data.member_data.Birthday,
             Address: this.props.member_data.member_data.Address,
@@ -74,7 +75,7 @@ class MemberEditContainer extends MemberEditComponent {
         }
 
         //signalr
-        const connection = signalr.hubConnection('http://signalrpj.azurewebsites.net');
+        const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
         connection.logging = true;
 
         const proxy = connection.createHubProxy('groupHub');
@@ -83,7 +84,7 @@ class MemberEditContainer extends MemberEditComponent {
             console.log(message);
             if (message == 'openMindwavePage') {
 
-                proxy.invoke('send', this.props.login_account,'haveOpened');
+                proxy.invoke('send',account,'haveOpened');
                 Actions.MindwaveTest();
                 connection.stop();
             }

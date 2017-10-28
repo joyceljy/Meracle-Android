@@ -100,7 +100,7 @@ class Memory extends Component {
                 </View>
                 <View style={[styles.imageView, { marginLeft: 128 }]}>
                     {(this.state.avatarSource === null) ? (
-                        <Image style={styles.avatar} source={{ uri: 'https://www.meracle.me/home/Filefolder/' + this.state.Imageurl }} />
+                        <Image style={styles.avatar} source={{ uri: 'https://www.meracle.me/home/Filefolder/' + this.state.imageurl }} />
                     ) : (
                             <Image style={styles.avatar} source={{ uri: this.state.avatarSource }} />
                         )}
@@ -272,10 +272,13 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         shadowColor:'rgba(255,255,255,0.2)',
         shadowRadius:8,
+        borderWidth: 7,
+        borderColor: '#9ACBD9',
     },
     avatar: {
         marginTop: 24,
         marginLeft: 19,
+        
     },
     Inputtextview: {
         flexDirection: 'row',
@@ -357,6 +360,7 @@ const styles = StyleSheet.create({
         marginTop: -48,
         marginLeft: 216,
         zIndex: 2,
+        elevation:6,
     },
     uploadImage: {
         marginLeft: 12.4,
