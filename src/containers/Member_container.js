@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
     ChildEdit: (login_account, childname, login_token) => {
         dispatch(GetChildrenData(login_account, childname, login_token));
-       // Actions.ChildrenEdit();
+
     },
     ChildListActionClick: (account, login_token) => {
         dispatch(ChildrenListAction(account, login_token));
@@ -50,7 +50,7 @@ class MemberContainer extends MemberComponent {
     componentDidMount() {
         let account = this.props.login_account;
         this.props.GetMemberData(this.props.login_account, this.props.login_token);
-        
+
         //取得會員資料
         this.setState({
             imageurl: this.props.member_data.member_data.Imageurl
@@ -58,32 +58,8 @@ class MemberContainer extends MemberComponent {
 
 
         this.props.ChildListActionClick(this.props.login_account, this.props.login_token);
-       
-            //signalr
-        const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
-        connection.logging = true;
-
-        const proxy = connection.createHubProxy('groupHub');
-
-        proxy.on('addtogroup', function (message) {
-            console.log(message);
-            if (message == 'openMindwavePage') {
-
-                proxy.invoke('send', account,'haveOpened');
-                 Actions.MindwaveTest();
-                connection.stop();
-            }
-        });
 
 
-        // atempt connection, and handle errors
-        connection.start().done(() => {
-            proxy.invoke('group', this.props.login_account);
-            console.log('Now connected, connection ID=' + connection.id);
-        }).fail(() => {
-            console.log('Failed');
-        });
-        
     };
 
     componentWillReceiveProps(nextProps) {
@@ -96,12 +72,15 @@ class MemberContainer extends MemberComponent {
         const { childList } = nextProps;
         const { child_data: previous_child_data } = this.props;
 
-        if (previous_child_data != child_data) {
-            Actions.ChildrenEdit();
+        if (previous_child_data!= child_data) {
+              Actions.ChildrenEdit();
         }
-      
+
+
 
     }
+
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MemberContainer);

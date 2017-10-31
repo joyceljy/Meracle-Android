@@ -58,6 +58,13 @@ class Memory extends Component {
                                     <Icon name="arrow-forward" style={{ fontSize: 12, color: "black" }} />
                                 </Right>
                             </Button>
+                            <Button transparent onPress={() => this.props.MindwaveClick()} style={{ width: 288, height: 37 }}>
+                            <Left><MaterialCommunityIcon name="logout" style={{ fontSize: 12 }} /></Left>
+                            <Text style={{ fontSize: 10, fontFamily: 'monospace', color: "black" }}>登出</Text>
+                            <Right>
+                                <Icon name="arrow-forward" style={{ fontSize: 12, color: "black" }} />
+                            </Right>
+                        </Button>
                             {/*<Content>rgba(0,0,0,0.8)
                                 <Card
                                     style={{

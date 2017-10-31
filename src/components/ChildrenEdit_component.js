@@ -123,6 +123,7 @@ class Memory extends Component {
                         placeholderTextColor='rgba(255,255,255,0.5)'
                         autoCorrect={false}
                         underlineColorAndroid='transparent'
+                        editable={false}
 
                     />
                 </View>

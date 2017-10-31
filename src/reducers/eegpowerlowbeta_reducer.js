@@ -12,6 +12,8 @@ export default (state = {
                 lowBeta: action.lowBeta, midGamma: action.midGamma,
                 highBeta: action.highBeta, lowGamma: action.lowGamma
             };
+            case 'Logout_SUCCESS':
+            return "";
         default:
             return state;
     }

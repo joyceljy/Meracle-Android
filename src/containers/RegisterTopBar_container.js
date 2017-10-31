@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch) => ({
      },
      goMember:()=>{
          Actions.pop();
-         Actions.Member();
+        //  Actions.Member();
      },
  }
  );

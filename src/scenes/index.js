@@ -15,7 +15,7 @@ import Member from './Member_scene';
 
 const scenes = Actions.create(
     <Scene key="root" >
-        
+    
         <Scene key="MemberLogin" component={MemberLogin} hideNavBar={true} />
         <Scene key="MemberRegister" component={MemberRegister} hideNavBar={true} />
         <Scene key="ChildrenRegister" component={ChildrenRegister} hideNavBar={true} />

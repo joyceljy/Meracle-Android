@@ -39,7 +39,7 @@ class Memory extends Component {
             //確認訊號值歸零
             poorSignalChecked: false,
             poorSingalTimer: poorSingalTimerTimeMax,
-
+            Connected: false,
             isScanning: false,
             willConnect: null,
 
@@ -64,7 +64,8 @@ class Memory extends Component {
 
             //狀態選擇
             statusSelected: 1,
-            status: '運動前'
+            status: '運動前',
+            score:'',
         };
         console.log(this.state.imageArray)
     }
@@ -110,18 +111,18 @@ class Memory extends Component {
     //掃描裝置
     handlePressScan = () => {
         //if (!this.state.isScanning) {
-            if (isMock) {
-                setTimeout(() => {
-                    this.handleFoundDevice({
-                        id: 'test1234',
-                    });
-                }, 1000);
-            } else {
-                this.mwm.scan();
-            }
-            // this.setState({
-            //     isScanning: true,
-            // });
+        if (isMock) {
+            setTimeout(() => {
+                this.handleFoundDevice({
+                    id: 'test1234',
+                });
+            }, 1000);
+        } else {
+            this.mwm.scan();
+        }
+        // this.setState({
+        //     isScanning: true,
+        // });
         //}
 
     }
@@ -133,6 +134,7 @@ class Memory extends Component {
         }
         this.setState({
             willConnect: device.id,
+
         });
         if (isMock) {
             setTimeout(() => {
@@ -156,17 +158,25 @@ class Memory extends Component {
     }
 
     handleConnect = ({ success }) => {
-        alert(`連結 ${success ? '成功' : '失敗'}`);
+        //alert(`連結 ${success ? '成功' : '失敗'}`);
+        ToastAndroid.show(`連結 ${success ? '成功' : '失敗'}`, ToastAndroid.SHORT);
         if (success === true && this.state.willConnect) {
             this.changeConnectedState(this.state.willConnect, true);
+            this.setState({
+                Connected: true,
+            });
         } else {
             console.log('will connect device is null');
         }
     }
 
     handleDisconnect = ({ success }) => {
-        alert(`移除連結 ${success ? '成功' : '失敗'}`);
+        //alert(`移除連結 ${success ? '成功' : '失敗'}`);
+        ToastAndroid.show(`移除連結 ${success ? '成功' : '失敗'}`, ToastAndroid.SHORT);
         if (success === true && !this.state.mindwaveConnected) {
+            this.setState({
+                Connected: false,
+            });
             console.log('no connecting device');
             return;
         }
@@ -181,12 +191,12 @@ class Memory extends Component {
     }
 
     handleEEGPowerLowBeta = (data) => {
-        console.log('onEEGPowerLowBeta', data);
+        //console.log('onEEGPowerLowBeta', data);
         this.props.onEEGPowerLowBeta(data);
     }
 
     handleEEGPowerDelta = (data) => {
-        console.log('onEEGPowerDelta', data);
+       // console.log('onEEGPowerDelta', data);
         this.setState({
             mindwaveTimer: this.state.mindwaveTimer + 1
         })
@@ -194,7 +204,7 @@ class Memory extends Component {
     }
 
     handleESense = (data) => {
-        console.log('onESense', data);
+        //console.log('onESense', data);
         if (data.poorSignal != -1) {
             this.props.onESense(data);
         }
@@ -202,11 +212,11 @@ class Memory extends Component {
     }
 
     handleEEGBlink = (data) => {
-        console.log('onEEGBlink', data);
+        //console.log('onEEGBlink', data);
     }
 
     handleMWMBaudRate = (data) => {
-        console.log('onMWMBaudRate', data);
+        //console.log('onMWMBaudRate', data);
     }
 
     pushDevice = (device) => {
@@ -249,85 +259,14 @@ class Memory extends Component {
     componentWillUnmount() {
         //clearTimeout(this.timerScan)
         this.mwm.removeAllListeners();
+        const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
+        connection.stop();
+
     }
     componentDidMount() {
 
         //返回控制
         BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
-
-        // mwm.onFoundDevice(device => {
-        //     console.log('onFoundDevice');
-        //     console.log(device)
-        //     this.state.devices.push(device)
-        //     // this.setState({
-        //     //     deviceFound: true
-        //     // });
-        //     // clearTimeout(this.timerScan)
-        //     // this._deviceconnect()
-        //     console.log('connect ', device.mfgId);
-        //     mwm.connect(this.state.devices[0].mfgId);
-        // })
-        // mwm.onConnect(state => {
-        //     console.log('mwm.onConnect');
-        //     console.log(state);
-        //     if (!state.success) {
-        //         console.log('connect fail');
-        //         setTimeout(() => {
-        //             console.log('reconnect ' + this.state.devices[0].mfgId);
-        //             mwm.connect(this.state.devices[0].mfgId);
-        //         }, 500);
-        //         return;
-        //     }
-        //     if (!this.state.mindwaveConnected && this.state.deviceFound) {
-        //         console.log(state.success === true ? "Connect Success" : "Connect Failed")
-        //         //讓畫面至少停留在腦波連線中3秒
-        //         var checkMindWaveConnectionDelayTimer = 0
-        //         this.timer = setInterval(
-        //             () => {
-        //                 checkMindWaveConnectionDelayTimer++
-        //                 console.log('CheckConnectionDelay : ' + checkMindWaveConnectionDelayTimer)
-        //                 //3秒後設定腦波連線狀態為已連線（畫面跳至poorsignal畫面）
-        //                 if (checkMindWaveConnectionDelayTimer == 3) {
-        //                     clearTimeout(this.timer)
-        //                     this.setState({
-        //                         mindwaveConnected: true,
-        //                     });
-        //                 }
-        //             }, 1000)
-        //         //var quizFunction = this.props.quizFunction
-        //     }
-        // })
-        // mwm.onDisconnect(state => {
-        //     console.log('onDisconnect');
-        //     console.log(state);
-        //     if (!this.state.mindwaveConnected) {
-        //         this.setState({
-        //             mindwaveConnected: false
-        //         });
-        //     }
-        //     console.log(state.success = true ? "Disconnect Success" : "Disconnect Faild")
-        // })
-
-        //以下三個為接收腦波的function
-        // mwm.onEEGPowerDelta(data => {
-        //     console.log('onEEGPowerDelta');
-        //     console.log(data);
-        //     this.setState({
-        //         mindwaveTimer: this.state.mindwaveTimer + 1
-        //     })
-        //     this.props.onEEGPowerDelta(data, this.state.mindwaveTimer)
-        // })
-        // mwm.onEEGPowerLowBeta(data => {
-        //     console.log('onEEGPowerLowBeta');
-        //     console.log(data);
-        //     this.props.onEEGPowerLowBeta(data)
-        // })
-        // mwm.onESense(data => {
-        //     console.log('onESense');
-        //     console.log(data);
-        //     this.props.onESense(data)
-        // })
-
 
         this.mwm = new MindWaveMobile();
         this.mwm.onConnect(this.handleConnect);
@@ -345,20 +284,26 @@ class Memory extends Component {
         const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
         connection.logging = true;
         const proxy = connection.createHubProxy('groupHub');
-        connection.start().done(() => {
-            console.log('Now connected, connection ID=' + connection.id);
-            proxy.invoke('group',this.props.login_account);
-        });
         proxy.on('addtogroup', (message1) => {
             console.log('message-from-server', message1);
+            //alert(message1);
             if (message1 == "startGame") {
-                this.setState({ startTest: true })
-                setTimeout(function () {
+                connection.stop();
+                //alert('stopConnect');
+                this.setState({ startTest: true });
+                setTimeout(()=>{
                     //結束收集腦波  
-                    this.setState({ endTestView: true })
+                    this.setState({ endTestView: true });
+                    //alert('endGame');
                 }, 210000);
             }
         });
+
+        connection.start().done(() => {
+            console.log('Now connected, connection ID=' + connection.id);
+            proxy.invoke('group', this.props.login_account);
+        });
+       
 
 
 
@@ -370,72 +315,59 @@ class Memory extends Component {
     componentWillReceiveProps(nextProps) {
         let account = this.props.login_account;
         //耳機訊號傳回時間（為了讓以上三個function稍微同步）
-        const { mindwaveTimer: previous_mindwaveTimer } = this.props;
-        const { mindwaveTimer } = nextProps;
+        //const { mindwaveTimer: previous_mindwaveTimer } = this.props;
+        //const { mindwaveTimer } = nextProps;
 
         //檢查訊號值正常（poorsignal為0）
         const { poorSignal } = nextProps;
-        console.log('poorSignal', poorSignal);
-        if (poorSignal == 0 && !this.state.poorSignalChecked && mindwaveTimer != previous_mindwaveTimer && this.state.mindwaveConnected) {
+        //console.log('poorSignal', poorSignal);
+        if (poorSignal == 0 && !this.state.poorSignalChecked && this.state.Connected) {
             //counter累加
             counter++
             //顯示倒數
-            timeCounterMinus = poorSingalTimerTimeMax - counter
-            this.setState({
-                poorSingalTimer: timeCounterMinus
-            })
+
             //當counter==5（需維持5秒的poorsignal=0 poorsignalchecked才會通過）
-            if (counter == poorSingalTimerTimeMax) {
-                this.setState({
-                    poorSignalChecked: true,
-                }, function () {
-                    this.setState({
-                        poorSingalTimer: poorSingalTimerTimeMax
-                    })
-                    poorSingalTimer = 0
-                    timeCounterMinus = 0
 
+            this.setState({ poorSignalChecked: true });
 
-                    //訊號穩定 可以開始遊戲
-                    connection.start().done(() => {
-                        
-                        proxy.invoke('group',this.props.login_account);
-                        console.log('Now connected, connection ID=' + connection.id);
-                       proxy.invoke('send', account, 'canStart').done((directResponse) => {
-                           
-                        })
-                    }).fail(() => {
-                        console.log('Failed');
-                    });
+            //訊號穩定 可以開始遊戲
+            const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
+            connection.logging = true;
+            const proxy = connection.createHubProxy('groupHub');
+            connection.start().done(() => {
 
+                proxy.invoke('group', this.props.login_account);
+                console.log('Now connected, connection ID=' + connection.id);
+                alert('Now connected, connection ID=' + connection.id);
+                proxy.invoke('send', account, 'canStart').done((directResponse) => {
+                    //alert('sended');
                 })
-            }
-            console.log('Counter ' + counter)
+            }).fail(() => {
+                alert('Failed');
+                console.log('Failed');
+            });
         }
 
         //訊號不正常（poorsignal不為0）
-        if (poorSignal != 0 && !this.state.checkPoorSignal && mindwaveTimer != previous_mindwaveTimer && this.state.mindwaveConnected) {
+        if (poorSignal != 0 && !this.state.checkPoorSignal && this.state.Connected) {
             counter = 0
-            console.log('PoorSignal Is Not 0')
-            this.setState({
-                poorSingalTimer: poorSingalTimerTimeMax
-            })
+           // console.log('PoorSignal Is Not 0')
         }
 
 
 
 
         //腦波運算與收集
-        //const { quizPointArray } = nextProps;
-        if (previous_mindwaveTimer != mindwaveTimer && this.state.startTest) {
+
+        if (this.state.startTest) {
             if (poorSignal == 0) {
                 console.log(nextProps.poorSignal)
                 this.setState({
                     poorSignal: nextProps.poorSignal,
                 })
-                this.setState({
-                    timerCounter: this.state.timerCounter + 1,
-                })
+                // this.setState({
+                //     timerCounter: this.state.timerCounter + 1,
+                // })
 
                 //將訊號push進訊號陣列
                 this.state.deltaArray.push(nextProps.delta)
@@ -450,7 +382,7 @@ class Memory extends Component {
                 //     delta: nextProps.delta, highAlpha: nextProps.highAlpha, lowAplpha: nextProps.lowAplpha, theta: nextProps.theta,
                 //     lowBeta: nextProps.lowBeta, midGamma: nextProps.midGamma, highBeta: nextProps.highBeta, lowGamma: nextProps.lowGamma
                 // })
-                console.log('訊號正常每秒跳一次，目前數值：' + this.state.timerCounter)
+                console.log('訊號正常每秒跳一次，目前數值：')
             } else {
                 this.setState({
                     poorSignal: nextProps.poorSignal,
@@ -550,9 +482,15 @@ class Memory extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.container}>
-                            <View style={styles.block} >
+                            <Text style={styles.mindwaveTitle}>即將為您偵測腦波</Text>
+                            <Text style={styles.mindwaveText}>請孩童帶妥耳機 </Text>
+                            {/*<View style={styles.block} >
                                 <Button onPress={this.handlePressScan} title="掃描" ></Button>
-                            </View>
+                </View>*/}
+                            {/*<TouchableHighlight style={styles.ScanBtn} onPress={()=>this.handlePressScan()}>
+                                <Text style={styles.ScanText}>掃描裝置</Text>
+                            </TouchableHighlight>*/}
+                            <Button onPress={this.handlePressScan} style={styles.ScanBtn} title="掃描" ></Button>
                             <View style={styles.block} >
                                 <Text style={styles.title} >裝置列表</Text>
                                 <ScrollView style={styles.deviceList} >
@@ -566,10 +504,14 @@ class Memory extends Component {
                                         })
                                     }
                                 </ScrollView>
+
                             </View>
+
+
+
                         </View>
 
-                        <View style={styles.contentView}>
+                        {/*<View style={styles.contentView}>
                             <Text style={styles.mindwaveTitle}>即將為您偵測腦波</Text>
                             <View style={styles.mindwavePicView}>
                                 <Image source={require('../images/Img_headset.png')} style={styles.mindwavePic} />
@@ -577,7 +519,7 @@ class Memory extends Component {
                             <Text style={styles.mindwaveText}>請開啟手機藍芽 與腦波耳機連線
                           {'\n             '}並請孩童帶妥耳機
                             </Text>
-                        </View>
+                                </View>*/}
                     </View>
 
                 );
@@ -604,12 +546,12 @@ class Memory extends Component {
                                 <Text style={styles.endDate}>{date}</Text>
                                 <Text style={styles.endScore}>{'     '}測量結果為 {this.state.score} 分</Text>
                             </View>
-                            <Text style={[styles.endTitle, { marginTop: 32 }]}>選擇測量孩童</Text>
+                            {/*<Text style={[styles.endTitle, { marginTop: 32 }]}>選擇測量孩童</Text>
                             <View style={styles.chooseChildView}>
                                 <TouchableOpacity onPress={() => this.props.goBack()}>
 
                                 </TouchableOpacity>
-                            </View>
+                </View>*/}
                             <Text style={styles.endTitle2}>選擇孩童狀態</Text>
                             <View style={{ flexDirection: 'row', marginLeft: width / 11.25 / 2, marginTop: 16 }}>
 
@@ -761,7 +703,7 @@ class Memory extends Component {
                                 <View style={styles.poorsignalBorder}></View>
                                 <Image source={require('../images/Shape.png')} style={styles.poorsignalImage2} />
                             </View>
-                            <Text style={styles.poorsignalText}>{'              '}請調整腦波耳機位置{'\n'}
+                            <Text style={styles.poorsignalText}>請調整腦波耳機位置{'\n'}
                                 直到訊號值歸零 即可請孩童開始遊戲</Text>
                         </View>
                     </View>
@@ -1023,14 +965,41 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#144669',
+        alignItems: 'center',
     },
     block: {
         flex: 1,
         padding: 10,
     },
+    ScanBtn: {
+        // marginLeft: width / 6,
+        width: 240,
+        height: 40,
+        backgroundColor: '#009688',
+        borderRadius: 100,
+        elevation: 8,
+        marginTop: 32,
+    },
+    ScanText: {
+        alignSelf: 'center',
+        alignItems: 'center',
+        marginTop: 12,
+        fontSize: 16,
+        fontFamily: 'Roboto-Light',
+        letterSpacing: 0.3,
+        color: '#FFFFFF',
+        lineHeight: 20,
+    },
     title: {
-        fontSize: 20,
+        alignSelf: 'center',
+        alignItems: 'center',
+        marginTop: 12,
+        fontSize: 16,
+        fontFamily: 'Roboto-Light',
+        letterSpacing: 0.3,
+        color: '#FFFFFF',
+        lineHeight: 20,
     },
     deviceList: {
         flex: 1,

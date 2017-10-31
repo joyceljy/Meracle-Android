@@ -12,6 +12,8 @@ export default (state = {
                 delta: action.delta, highAlpha: action.highAlpha,
                 lowAplpha: action.lowAplpha, theta: action.theta, mindwaveTimer: action.mindwaveTimer
             };
+            case 'Logout_SUCCESS':
+            return "";
         default:
             return state;
     }

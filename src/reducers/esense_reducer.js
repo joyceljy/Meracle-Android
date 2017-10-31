@@ -3,6 +3,8 @@ export default (state = { poorSignal: null }, action) => {
         case 'ON_ESENSE':
             // console.log(action.mindwaveTimer)
             return { poorSignal: action.poorSignal }
+            case 'Logout_SUCCESS':
+            return "";
         default:
             return state;
     }

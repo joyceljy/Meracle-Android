@@ -74,30 +74,6 @@ class MemberEditContainer extends MemberEditComponent {
             this.setState({ genderSelected: 1 })
         }
 
-        //signalr
-        const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
-        connection.logging = true;
-
-        const proxy = connection.createHubProxy('groupHub');
-
-        proxy.on('addtogroup', function (message) {
-            console.log(message);
-            if (message == 'openMindwavePage') {
-
-                proxy.invoke('send',account,'haveOpened');
-                Actions.MindwaveTest();
-                connection.stop();
-            }
-        });
-
-
-        // atempt connection, and handle errors
-        connection.start().done(() => {
-            proxy.invoke('group', this.props.login_account);
-            console.log('Now connected, connection ID=' + connection.id);
-        }).fail(() => {
-            console.log('Failed');
-        });
 
     };
 
@@ -118,6 +94,7 @@ class MemberEditContainer extends MemberEditComponent {
 
 
     }
+  
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MemberEditContainer);

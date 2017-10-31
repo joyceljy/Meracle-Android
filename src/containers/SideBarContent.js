@@ -19,6 +19,9 @@ MemberClick: () => {
     LogoutClick: (account) => {
         dispatch(LogoutAction());
     },
+    MindwaveClick:()=>{
+        Actions.MindwaveTest();
+    }
     
 });
 
