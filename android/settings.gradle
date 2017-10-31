@@ -1,4 +1,4 @@
-rootProject.name = 'memory'
+rootProject.name = 'Meracle'
 include ':react-native-mindwave-mobile'
 project(':react-native-mindwave-mobile').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-mindwave-mobile/android')
 include ':react-native-svg'

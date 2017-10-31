@@ -12,4 +12,4 @@ import App from './src/app';
 
 
 
-AppRegistry.registerComponent('memory', () => App);
+AppRegistry.registerComponent('Meracle', () => App);
