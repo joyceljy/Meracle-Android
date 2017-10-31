@@ -338,12 +338,12 @@ class Memory extends Component {
 
                 proxy.invoke('group', this.props.login_account);
                 console.log('Now connected, connection ID=' + connection.id);
-                alert('Now connected, connection ID=' + connection.id);
+                //alert('Now connected, connection ID=' + connection.id);
                 proxy.invoke('send', account, 'canStart').done((directResponse) => {
                     //alert('sended');
                 })
             }).fail(() => {
-                alert('Failed');
+                //alert('Failed');
                 console.log('Failed');
             });
         }
