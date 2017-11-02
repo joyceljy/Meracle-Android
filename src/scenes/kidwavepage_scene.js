@@ -4,12 +4,12 @@ import {
     StyleSheet,
     Image
 } from 'react-native';
-import Home from '../containers/home';
+import Kidwavepagepart from '../containers/kidwavepage_container';
 
-const HomeScene = () => {
+const KidwavepageScene = () => {
     return (
         <View style={styles.container}>
-            <Home />
+            <Kidwavepagepart />
         </View>
     );
 };
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
     },
   
 })
-export default HomeScene;
+export default KidwavepageScene;

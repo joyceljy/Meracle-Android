@@ -11,15 +11,21 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
-MemberClick: () => {
-    Actions.Member();
-},
-   
+    HomeClick: () => {
+        Actions.home();
+    },
+    MemberClick: () => {
+        Actions.Member();
+    },
     LogoutClick: (account) => {
         dispatch(LogoutAction());
     },
-    
+    wavechartClick: () => {
+        Actions.wave();
+    },
+    AllkidsHomeClick: () => {
+        Actions.AllKidsHome();
+    }
 });
 
 class SideBarContainer extends SideBarComponent {
@@ -38,6 +44,7 @@ class SideBarContainer extends SideBarComponent {
         if (logout_account == null || logout_account == '') {
             Actions.MemberLogin();
         }
+
     }
     componentDidMount() {
         //signalr

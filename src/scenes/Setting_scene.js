@@ -4,14 +4,12 @@ import {
     StyleSheet,
     Image
 } from 'react-native';
-import EditPassword from '../containers/EditPassword_container';
+import Setting from '../containers/Setting_container';
 
-const EditPasswordScene = () => {
- return (
+const SettingScene = () => {
+    return (
         <View style={styles.container}>
-               
-                     <EditPassword />
-            
+            <Setting />
         </View>
     );
 };
@@ -20,8 +18,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-       
     },
-    
+  
 })
-export default EditPasswordScene;
+export default SettingScene;

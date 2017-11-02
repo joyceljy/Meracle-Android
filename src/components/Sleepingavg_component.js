@@ -212,71 +212,58 @@ class Memory extends Component {
                 })}
             >
                 <View style={styles.Viewstyle}>
+                    <Image source={require('../images/bg_darkBlue1.png')} style={{ width: '100%', height: '100%' }} >
+                        <View style={styles.parentView}>
 
-                    <View style={styles.parentView}>
-
-                        <View style={{ flexDirection: 'row' }}>
-                            <TouchableOpacity onPress={this.openControlPanel} style={styles.menuIcon}>
-                                <Image source={require('../images/menu.png')} ></Image>
-                            </TouchableOpacity>
-                            <Text style={styles.title}>腦波測量結果</Text>
-                            <TouchableOpacity style={styles.settingIcon}>
-                                <Image source={require('../images/reload.png')} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                    <View style={styles.parentInfoView}>
-                        <View style={styles.conView}>
-                            <View>
-                                <Text style={styles.toptext}>個人平均狀態記憶力</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <TouchableOpacity onPress={() => this.props.BackButton()} style={styles.menuIcon}>
+                                    <Image source={require('../images/back.png')} ></Image>
+                                </TouchableOpacity>
+                                <Text style={styles.title}>大眾孩童睡眠時間</Text>
                             </View>
-                            <BarChart
-                                style={styles.chart}
-                                data={this.state.data}
-                                drawValueAboveBar={false}
-                                drawBarShadow={false}
-                                yAxis={this.state.yline}
-                                xAxis={this.state.xline}
-                                legend={this.state.legend}
-                            />
                         </View>
 
+                        <View style={styles.parentInfoView}>
+                            <View style={styles.conView}>
+                                <BarChart
+                                    style={styles.chart}
+                                    data={this.state.data}
+                                    xAxis={this.state.xline}
+                                    yAxis={this.state.yline}
+                                    animation={{ durationX: 2000 }}
+                                    legend={this.state.legend}
+                                    // gridBackgroundColor={processColor('#ffffff')}
+                                    drawBarShadow={false}
+                                    drawValueAboveBar={true}
+                                    drawLabels={false}
+                                    drawHighlightArrow={false}
+                                />
+                            </View>
+                        </View>
                         <View style={styles.statueView}>
 
                             <View>
-                                <Image style={styles.statueimgfirst} source={require('../images/status1.png')} />
-                                <Text style={styles.statuetxtfirst}>運動前</Text>
+                                <Text style={styles.statuetxtfirst}>8歲以下</Text>
                             </View>
                             <View>
-                                <Image style={styles.statueimgafter} source={require('../images/status2.png')} />
-                                <Text style={styles.statuetxt}>運動後</Text>
-                            </View>
-                            <View>
-                                <Image style={styles.statueimgafter} source={require('../images/status3.png')} />
-                                <Text style={styles.statuetxt}>吃飯前</Text>
-                            </View>
-                            <View>
-                                <Image style={styles.statueimgafter} source={require('../images/status4.png')} />
-                                <Text style={styles.statuetxt}>吃飯後</Text>
-                            </View>
-                            <View>
-                                <Image style={styles.statueimgafter} source={require('../images/status5.png')} />
-                                <Text style={styles.statuetxt}>睡覺前</Text>
-                            </View>
-                            <View>
-                                <Image style={styles.statueimgafter} source={require('../images/status6.png')} />
-                                <Text style={styles.statuetxt}>剛睡醒</Text>
-                            </View>
-                        </View>
-                        {
-                            // <View>
-                            //  <Image  source={require('../images/arrow.png')} />
-                            // </View>
-                        }
-                    </View>
 
-                    <View style={styles.childView}>
+                                <Text style={styles.statuetxt}>9-10歲</Text>
+                            </View>
+                            <View>
+
+                                <Text style={styles.statuetxt}>11-12歲</Text>
+                            </View>
+                            <View>
+
+                                <Text style={styles.statuetxt}>13-14歲</Text>
+                            </View>
+                            <View>
+
+                                <Text style={styles.statuetxt}>14歲以上</Text>
+                            </View>
+
+                        </View>
+
                         <ScrollView>
                             <View>
                                 <View style={styles.cardsize}>
@@ -284,148 +271,90 @@ class Memory extends Component {
                                         elevation: 0.8,
                                         borderRadius: 4,
                                     }}>
-                                        <CardItem button onPress={() => this.props.kidwavepageClick()}>
-                                            <Body style={{ flexDirection: 'row', }}>
-                                                <View style={{ flexDirection: 'column', }}>
-                                                    <View style={styles.kidcardimgstyle}>
-                                                        <Image source={require('../images/avatar_boy.png')} style={{ marginTop: 5, marginLeft: 2 }}></Image>
-                                                    </View>
-                                                    <Text style={styles.kidcardname}>
-                                                        andy
-                                                </Text>
+                                        <CardItem>
+                                            <Body style={{
+                                                flexDirection: 'column', justifyContent: 'flex-start',
 
+                                            }}>
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Text style={{ marginLeft: 5, marginTop: 10, fontSize: 14, opacity: 0.5, color: '#6D7084', fontFamily: "Roboto-Light" }}>1</Text>
+                                                    <Text style={{ marginLeft: 20, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: "Roboto-Light" }}>8歲以下</Text>
+                                                    <Text style={{ marginLeft: 130, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: " Roboto-Regular" }}>10</Text>
+                                                    <Text style={{ fontSize: 10, marginTop: 15, color: '#6D7084', fontFamily: " Roboto-Regular" }}>小時</Text>
                                                 </View>
-                                                <View style={{ flexDirection: 'column', marginLeft: 10 }}>
-                                                    <Svg
-                                                        height="50"
-                                                        width="10"
-                                                    >
-                                                        <Line
-                                                            x1="0"
-                                                            y1="0"
-                                                            x2="0"
-                                                            y2="100"
-                                                            stroke='rgba(109,112,132,0.1)'
-                                                            strokeWidth="2"
-                                                        />
-                                                    </Svg>
-                                                    <View style={{ flexDirection: 'row', marginTop: -50, marginLeft: 20 }} >
-                                                        <Text style={styles.newwave}>最新分數：</Text>
-                                                        <Text style={styles.newwavevalue}>75</Text>
-                                                        <View style={styles.besttimeview}>
-                                                            <Image source={require('../images/triangle/up.png')} ></Image>
-                                                            <Text style={styles.besttimevalue}>15</Text>
-                                                        </View>
+                                                <View
+                                                    style={{
+                                                        borderBottomColor: '#D4D4D4',
+                                                        borderBottomWidth: 1,
+                                                        width: '100%',
+                                                        opacity: 0.2,
+                                                        marginTop: 16
+                                                    }}
+                                                />
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Text style={{ marginLeft: 5, marginTop: 10, fontSize: 14, opacity: 0.5, color: '#6D7084', fontFamily: "Roboto-Light" }}>2</Text>
+                                                    <Text style={{ marginLeft: 20, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: "Roboto-Light" }}>11-12歲</Text>
+                                                    <Text style={{ marginLeft: 140, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: " Roboto-Regular" }}>9</Text>
+                                                    <Text style={{ fontSize: 10, marginTop: 15, color: '#6D7084', fontFamily: " Roboto-Regular" }}>小時</Text>
+                                                </View>
+                                                <View
+                                                    style={{
+                                                        borderBottomColor: '#D4D4D4',
+                                                        borderBottomWidth: 1,
+                                                        width: '100%',
+                                                        opacity: 0.2,
+                                                        marginTop: 16
+                                                    }}
+                                                />
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Text style={{ marginLeft: 5, marginTop: 10, fontSize: 14, opacity: 0.5, color: '#6D7084', fontFamily: "Roboto-Light" }}>3</Text>
+                                                    <Text style={{ marginLeft: 22, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: "Roboto-Light" }}>9-10歲</Text>
+                                                    <Text style={{ marginLeft: 140, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: " Roboto-Regular" }}>8.5 </Text>
+                                                    <Text style={{ fontSize: 10, marginTop: 15, color: '#6D7084', fontFamily: " Roboto-Regular" }}>小時</Text>
+                                                </View>
+                                                <View
+                                                    style={{
+                                                        borderBottomColor: '#D4D4D4',
+                                                        borderBottomWidth: 1,
+                                                        width: '100%',
+                                                        opacity: 0.2,
+                                                        marginTop: 16
+                                                    }}
+                                                />
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Text style={{ marginLeft: 5, marginTop: 10, fontSize: 14, opacity: 0.5, color: '#6D7084', fontFamily: "Roboto-Light" }}>4</Text>
+                                                    <Text style={{ marginLeft: 20, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: "Roboto-Light" }}>13-14歲</Text>
+                                                    <Text style={{ marginLeft: 140, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: " Roboto-Regular" }}>7</Text>
+                                                    <Text style={{ fontSize: 10, marginTop: 15, color: '#6D7084', fontFamily: " Roboto-Regular" }}>小時</Text>
+                                                </View>
+                                                <View
+                                                    style={{
+                                                        borderBottomColor: '#D4D4D4',
+                                                        borderBottomWidth: 1,
+                                                        width: '100%',
+                                                        opacity: 0.2,
+                                                        marginTop: 16
+                                                    }}
+                                                />
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Text style={{ marginLeft: 5, marginTop: 10, fontSize: 14, opacity: 0.5, color: '#6D7084', fontFamily: "Roboto-Light" }}>5</Text>
+                                                    <Text style={{ marginLeft: 20, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: "Roboto-Light" }}>14歲以上</Text>
+                                                    <Text style={{ marginLeft: 130, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: " Roboto-Regular" }}>6</Text>
+                                                    <Text style={{ fontSize: 10, marginTop: 15, color: '#6D7084', fontFamily: " Roboto-Regular" }}>小時</Text>
+                                                </View>
 
-                                                    </View>
-                                                    <View style={{ flexDirection: 'row', marginLeft: 20 }}>
-                                                        <Text style={styles.datetime}>2017/10/30 (一)</Text>
-                                                        <Text style={styles.statuesvalue}>吃飯前</Text>
-                                                    </View>
-                                                </View>
-                                                <Image source={require('../images/arrow_gray.png')} style={{ marginTop: 7, marginLeft: 80 }}></Image>
                                             </Body>
                                         </CardItem>
                                     </Card>
                                 </View>
 
-                                <View style={styles.cardsize}>
-                                    <Card style={{
-                                        elevation: 0.8,
-                                        borderRadius: 4,
-                                    }}>
-                                        <CardItem button>
-                                            <Body style={{ flexDirection: 'row', }}>
-                                                <View style={{ flexDirection: 'column', }}>
-                                                    <View style={styles.kid2cardimgstyle}>
-                                                        <Image source={require('../images/avatar_girl.png')} style={{ marginTop: 4, marginLeft: 1 }}></Image>
-                                                    </View>
-                                                    <Text style={styles.kidcardname}>joy</Text>
-                                                </View>
-                                                <View style={{ flexDirection: 'column', marginLeft: 10 }}>
-                                                    <Svg
-                                                        height="50"
-                                                        width="10"
-                                                    >
-                                                        <Line
-                                                            x1="0"
-                                                            y1="0"
-                                                            x2="0"
-                                                            y2="100"
-                                                            stroke='rgba(109,112,132,0.1)'
-                                                            strokeWidth="2"
-                                                        />
-                                                    </Svg>
-                                                    <View style={{ flexDirection: 'row', marginTop: -50, marginLeft: 20 }} >
-                                                        <Text style={styles.newwave}>最新分數：</Text>
-                                                        <Text style={styles.newwavevalue}>50</Text>
-                                                        <View style={styles.besttimeview}>
-                                                            <Image source={require('../images/triangle/up.png')} ></Image>
-                                                            <Text style={styles.besttimevalue}>13</Text>
-                                                        </View>
-                                                    </View>
-                                                    <View style={{ flexDirection: 'row', marginLeft: 20 }}>
-                                                        <Text style={styles.datetime}>2017/10/29 (日)</Text>
-                                                        <Text style={styles.statuesvalue}>吃飯前</Text>
-                                                    </View>
-                                                </View>
-                                                <Image source={require('../images/arrow_gray.png')} style={{ marginTop: 7, marginLeft: 80 }}></Image>
-                                            </Body>
-                                        </CardItem>
-                                    </Card>
-                                </View>
 
-                                <View style={styles.cardsize}>
-                                    <Card style={{
-                                        elevation: 0.8,
-                                        borderRadius: 4,
-                                    }}>
-                                        <CardItem button>
-                                            <Body style={{ flexDirection: 'row', }}>
-                                                <View style={{ flexDirection: 'column', }}>
-                                                    <View style={styles.kid3cardimgstyle}>
-                                                        <Image source={require('../images/avatar_boy.png')} style={{ marginTop: 5, marginLeft: 2 }}></Image></View>
-                                                    <Text style={styles.kidcardname}>
-                                                        may</Text>
-                                                </View>
-                                                <View style={{ flexDirection: 'column', marginLeft: 10 }}>
-                                                    <Svg
-                                                        height="50"
-                                                        width="10"
-                                                    >
-                                                        <Line
-                                                            x1="0"
-                                                            y1="0"
-                                                            x2="0"
-                                                            y2="100"
-                                                            stroke='rgba(109,112,132,0.1)'
-                                                            strokeWidth="2"
-                                                        />
-                                                    </Svg>
-                                                    <View style={{ flexDirection: 'row', marginTop: -50, marginLeft: 20 }} >
-                                                        <Text style={styles.newwave}>最新分數：</Text>
-                                                        <Text style={styles.newwavevalue}>89</Text>
-                                                        <View style={styles.besttimeview}>
-                                                            <Image source={require('../images/triangle/down.png')} ></Image>
-                                                            <Text style={styles.besttimevalue}>5</Text>
-                                                        </View>
-                                                    </View>
-                                                    <View style={{ flexDirection: 'row', marginLeft: 20 }}>
-                                                        <Text style={styles.datetime}>2017/10/27 (五)</Text>
-                                                        <Text style={styles.statuesvalue}>睡覺前</Text>
-                                                    </View>
-                                                </View>
-                                                <Image source={require('../images/arrow_gray.png')} style={{ marginTop: 7, marginLeft: 80 }}></Image>
-                                            </Body>
-                                        </CardItem>
-                                    </Card>
-                                </View>
-                                <View style={{ marginBottom: 12 }}></View>
+
+
+
                             </View>
                         </ScrollView>
-                    </View>
-
-
+                    </Image>
                 </View>
             </Drawer>
         );
@@ -435,7 +364,7 @@ class Memory extends Component {
 const styles = StyleSheet.create({
     Viewstyle: {
         flex: 1,
-        backgroundColor: '#F2F2F2',
+        // backgroundColor: '#F2F2F2',
     },
     parentView: {
         width: '100%',
@@ -443,8 +372,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#144669',
     },
     statueView: {
-        marginTop: -15,
-        backgroundColor: '#144669',
+        zIndex:1,
+        marginTop: -65,
+        marginBottom:20 ,
+        marginLeft:50,
         justifyContent: 'flex-start',
         flexDirection: 'row',
     },
@@ -452,7 +383,7 @@ const styles = StyleSheet.create({
         marginLeft: 28,
     },
     statueimgafter: {
-        marginLeft: 20,
+        marginLeft: 18,
     },
     statuetxtfirst: {
         marginLeft: 34,
@@ -460,13 +391,13 @@ const styles = StyleSheet.create({
         color: 'rgba(255,255,255,0.8)'
     },
     statuetxt: {
-        marginLeft: 24,
+        marginLeft:18,
         fontSize: 9,
         color: 'rgba(255,255,255,0.8)'
     },
     chart: {
-        width: '100%',
-        height: 150,
+        width: 330,
+        height: 220,
         // backgroundColor: 'rgba(221, 221, 255, 0.5)',
 
     },
@@ -480,7 +411,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         width: '100%',
         height: 300,
-        backgroundColor: '#144669',
+        // backgroundColor: '#144669',
         // marginTop: 16,
         // alignItems: "stretch",
     },
@@ -498,7 +429,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: '#FFFFFF',
-        width: 66,
+        // width: 66,
         height: 24,
         fontSize: 16,
         lineHeight: 24,
@@ -661,10 +592,10 @@ const styles = StyleSheet.create({
     // },
     //以下是假的
     cardsize: {
-        marginTop: 5,
-        marginLeft: 10,
-        width: 360,
-        height: 80,
+
+        marginLeft: 30,
+        width: 312,
+        height: 284,
     },
     kidcardname: {
         marginTop: -6,

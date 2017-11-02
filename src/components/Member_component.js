@@ -99,7 +99,7 @@ class Memory extends Component {
                                 elevation: 0.8,
                                 borderRadius: 4,
                             }}>
-                                <CardItem button onPress={() => this.props.ChildEdit(this.props.login_account,kidlistpre[key][i].CdName,this.props.login_token)}>
+                                <CardItem button onPress={() => this.props.ChildEdit(this.props.login_account, kidlistpre[key][i].CdName, this.props.login_token)}>
                                     <Body style={{ flexDirection: 'row', }}>
                                         <View style={this.kidlist(i)}>
                                             <Image source={require('../images/avatar_boy.png')} style={{ marginTop: 4, marginLeft: 2, }}></Image>
@@ -122,7 +122,7 @@ class Memory extends Component {
                                 elevation: 0.8,
                                 borderRadius: 4,
                             }}>
-                                <CardItem button onPress={() => this.props.ChildEdit(this.props.login_account,kidlistpre[key][i].CdName,this.props.login_token)}>
+                                <CardItem button onPress={() => this.props.ChildEdit(this.props.login_account, kidlistpre[key][i].CdName, this.props.login_token)}>
                                     <Body style={{ flexDirection: 'row', }}>
                                         <View style={this.kidlist(i)}>
                                             <Image source={require('../images/avatar_boy.png')} style={{ marginTop: 4, marginLeft: 2, }}></Image>
@@ -138,7 +138,7 @@ class Memory extends Component {
                         </View>
                     )
                 }
-                else if (kidlistpre[key][i].Gender === "男"  && kidlistpre[key][i].Imageurl != "DefaultImg.png") {
+                else if (kidlistpre[key][i].Gender === "男" && kidlistpre[key][i].Imageurl != "DefaultImg.png") {
                     kidlistaft.push(
                         <View style={styles.cardsize}>
                             <Card style={{
@@ -162,7 +162,7 @@ class Memory extends Component {
                     )
                 }
 
-                else if ( kidlistpre[key][i].Gender === "女" && kidlistpre[key][i].Imageurl != "DefaultImg.png") {
+                else if (kidlistpre[key][i].Gender === "女" && kidlistpre[key][i].Imageurl != "DefaultImg.png") {
                     kidlistaft.push(
                         <View style={styles.cardsize}>
                             <Card style={{
@@ -186,70 +186,71 @@ class Memory extends Component {
                     )
                 }
             };
-    }
-    return(
+        }
+        return (
             <Drawer
-    type="displace"
-    ref={(ref) => this._drawer = ref}
-    content={<SideBarContent />}
-    openDrawerOffset={100}
-    panOpenMask={0.80}
-    captureGestures="open"
-    styles={drawerStyles}
-    tweenHandler={ratio => ({
-        main: {
-            opacity: 1,
-        },
-        mainOverlay: {
-            opacity: ratio / 2,
-            backgroundColor: 'black',
-        },
-    })}
->
-    <View style={styles.Viewstyle}>
+                type="displace"
+                ref={(ref) => this._drawer = ref}
+                content={<SideBarContent />}
+                openDrawerOffset={100}
+                panOpenMask={0.80}
+                captureGestures="open"
+                styles={drawerStyles}
+                tweenHandler={ratio => ({
+                    main: {
+                        opacity: 1,
+                    },
+                    mainOverlay: {
+                        opacity: ratio / 2,
+                        backgroundColor: 'black',
+                    },
+                })}
+            >
+                <View style={styles.Viewstyle}>
 
-        <View style={styles.parentView}>
+                    <View style={styles.parentView}>
 
-            <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity onPress={this.openControlPanel} style={styles.menuIcon}>
-                    <Image source={require('../images/menu.png')} ></Image>
-                </TouchableOpacity>
-                <Text style={styles.title}>會員專區</Text>
-                <Image source={require('../images/setting.png')} style={styles.settingIcon} />
-            </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity onPress={this.openControlPanel} style={styles.menuIcon}>
+                                <Image source={require('../images/menu.png')} ></Image>
+                            </TouchableOpacity>
+                            <Text style={styles.title}>會員專區</Text>
+                            <TouchableOpacity onPress={()=>this.props.SettingClick()}  style={styles.settingIcon}>
+                                <Image source={require('../images/setting.png')}  />
+                            </TouchableOpacity>
+                        </View>
 
-            <View style={styles.parentInfoView}>
-                <TouchableOpacity onPress={this.props.goMemberEdit}>
+                        <View style={styles.parentInfoView}>
+                            <TouchableOpacity onPress={this.props.goMemberEdit}>
 
-                    <View style={styles.avatarView}>
-                        {(this.state.avatarSource === null) ? (
-                            <Image style={styles.avatar} source={{ uri: 'http://163.17.135.185/7thWebApi/Filefolder/'+ 'Defaultimage-Member.png' }} />
-                        ) : (
-                                <Image style={styles.avatar} source={this.state.avatarSource} />
-                            )}
+                                <View style={styles.avatarView}>
+                                    {(this.state.avatarSource === null) ? (
+                                        <Image style={styles.avatar} source={{ uri: 'http://163.17.135.185/7thWebApi/Filefolder/' + 'Defaultimage-Member.png' }} />
+                                    ) : (
+                                            <Image style={styles.avatar} source={this.state.avatarSource} />
+                                        )}
+                                </View>
+                                <Text style={styles.helloText}>Hello, {this.props.login_account}</Text>
+                                <Text style={styles.editText}>查看或編輯個人資料</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <Text style={styles.helloText}>Hello, {this.props.login_account}</Text>
-                    <Text style={styles.editText}>查看或編輯個人資料</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
 
-        <View style={styles.childView}>
-            <Text style={styles.subTitle}>管理您的小孩</Text>
-            <ScrollView>
-                {
-                    kidlistaft
-                }
-                <View style={{ marginBottom: 12 }}></View>
-            </ScrollView>
-        </View>
-        <ActionButton
-            buttonColor="#009688"
-            onPress={() => { this.props.goAddChild() }}>
-        </ActionButton>
-
-    </View>
-</Drawer>
+                    <View style={styles.childView}>
+                        <Text style={styles.subTitle}>管理您的小孩</Text>
+                        <ScrollView>
+                            {
+                                kidlistaft
+                            }
+                            <View style={{ marginBottom: 12 }}></View>
+                        </ScrollView>
+                    </View>
+                    <ActionButton
+                        buttonColor="#009688"
+                        onPress={() => { this.props.goAddChild() }}>
+                    </ActionButton>
+                  </View>
+            </Drawer>
         );
     }
 }

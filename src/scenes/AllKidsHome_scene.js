@@ -4,12 +4,12 @@ import {
     StyleSheet,
     Image
 } from 'react-native';
-import Home from '../containers/home';
+import AllKidsHome from '../containers/AllKidsHome_container';
 
-const HomeScene = () => {
+const AllKidsHomeScene = () => {
     return (
         <View style={styles.container}>
-            <Home />
+            <AllKidsHome />
         </View>
     );
 };
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
     },
   
 })
-export default HomeScene;
+export default AllKidsHomeScene;

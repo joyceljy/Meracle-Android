@@ -41,7 +41,20 @@ class Memory extends Component {
                                 {this.props.login_account}
                             </Text>
 
-
+                            <Button transparent onPress={() => this.props.HomeClick()} style={{ width: 288, height: 37 }}>
+                                <Left><EntypoIcon name="lock-open" style={{ fontSize: 12 }} /></Left>
+                                <Text style={{ fontSize: 10, fontFamily: 'monospace', color: "black" }}>首頁</Text>
+                                <Right>
+                                    <Icon name="arrow-forward" style={{ fontSize: 12, color: "black" }} />
+                                </Right>
+                            </Button>
+                            <Button transparent onPress={() => this.props.AllkidsHomeClick()} style={{ width: 288, height: 37 }}>
+                            <Left><EntypoIcon name="lock-open" style={{ fontSize: 12 }} /></Left>
+                            <Text style={{ fontSize: 10, fontFamily: 'monospace', color: "black" }}>大眾首頁</Text>
+                            <Right>
+                                <Icon name="arrow-forward" style={{ fontSize: 12, color: "black" }} />
+                            </Right>
+                        </Button>
                             <Button transparent onPress={() => this.props.MemberClick()} style={{ width: 288, height: 37 }}>
                                 <Left><EntypoIcon name="lock-open" style={{ fontSize: 12 }} /></Left>
                                 <Text style={{ fontSize: 10, fontFamily: 'monospace', color: "black" }}>會員專區</Text>

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import HomeComponent from '../components/home';
+import WaveavgComponent from '../components/waveavg_page';
 import { Actions } from 'react-native-router-flux';
 import signalr from 'react-native-signalr';
 import { processColor } from 'react-native';
@@ -17,11 +17,11 @@ const mapDispatchToProps = (dispatch) => ({
 }
 );
 
-class HomeContainer extends HomeComponent {
+class WaveavgContainer extends WaveavgComponent {
     constructor(props) {
         super(props);
         this.state = {
-            scene: 'home',
+            // scene: 'home',
             kidlistpre: [],
             legend: {
                 enabled: false,
@@ -92,7 +92,7 @@ class HomeContainer extends HomeComponent {
                 axisMinimum: 0,
                 centerAxisLabels: true,
                 drawGridLines: true,
-                drawAxisLine: false,
+                drawAxisLine: true,
                 gridDashedLine: { spaceLength: 10 }
             },
             yline:
@@ -159,4 +159,4 @@ class HomeContainer extends HomeComponent {
     // }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(WaveavgContainer);

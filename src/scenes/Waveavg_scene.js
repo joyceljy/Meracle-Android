@@ -4,12 +4,12 @@ import {
     StyleSheet,
     Image
 } from 'react-native';
-import Home from '../containers/home';
+import Waveavg from '../containers/Waveavg_page';
 
-const HomeScene = () => {
+const WaveavgScene = () => {
     return (
         <View style={styles.container}>
-            <Home />
+            <Waveavg />
         </View>
     );
 };
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
     },
   
 })
-export default HomeScene;
+export default WaveavgScene;

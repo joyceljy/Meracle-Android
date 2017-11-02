@@ -4,12 +4,12 @@ import {
     StyleSheet,
     Image
 } from 'react-native';
-import Home from '../containers/home';
+import Sleepingavg from '../containers/Sleepingavg_container';
 
-const HomeScene = () => {
+const SleepingavgScene = () => {
     return (
         <View style={styles.container}>
-            <Home />
+            <Sleepingavg />
         </View>
     );
 };
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
     },
   
 })
-export default HomeScene;
+export default SleepingavgScene;
