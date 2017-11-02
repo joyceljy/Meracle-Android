@@ -19,6 +19,9 @@ const mapDispatchToProps = (dispatch) => ({
     goMemberEdit: () => {
         Actions.MemberEdit();
     },
+    SettingClick: () => {
+        Actions.Setting();
+    },
     GetMemberData: (login_account, token) => {
         dispatch(GetMemberData(login_account, token));
     },
@@ -35,6 +38,7 @@ const mapDispatchToProps = (dispatch) => ({
     MindWave: () => {
         Actions.MindwaveTest();
     },
+   
 });
 
 class MemberContainer extends MemberComponent {

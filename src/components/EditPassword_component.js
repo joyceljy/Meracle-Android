@@ -19,167 +19,201 @@ import SideBarContent from '../containers/SideBarContent';
 class Memory extends Component {
     constructor(props) {
         super(props);
-        this.closeControlPanel = this.closeControlPanel.bind(this);
-        this.openControlPanel = this.openControlPanel.bind(this);
-    }
-    NewPasswordInput() {
-        return <Kohana secureTextEntry={true}
-            style={styles.InputTextStyle}
-            label={'新密碼'}
-            iconClass={MaterialsIcon}
-            iconName={'lock'}
-            iconColor={'white'}
-            labelStyle={{ color: 'white' }}
-            inputStyle={{}}
-            onChangeText={(text) => this.setState({ Password: text })}
-            useNativeDriver
-        />
-    }
-    closeControlPanel = () => {
-        this._drawer.close()
-    };
-    openControlPanel = () => {
-        this._drawer.open()
-    };
-    render() {
-        const drawerStyles = {
-            drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
-            main: { paddingLeft: 0 }
+        this.state = {
+            password_pre: '',
+            password_aft: '',
+            password_check: '',
+            empty_error: false,
+            checknewpsd_error: false
         }
+    }
+
+
+    render() {
+
         return (
-
-            <Drawer
-                type="displace"
-                ref={(ref) => this._drawer = ref}
-                content={<SideBarContent />}
-                openDrawerOffset={100}
-                panOpenMask={0.80}
-                captureGestures="open"
-                styles={drawerStyles}
-                tweenHandler={ratio => ({
-                    main: {
-                        opacity: 1,
-                    },
-                    mainOverlay: {
-                        opacity: ratio / 2,
-                        backgroundColor: 'black',
-                    },
-                })}
-            >
-                <View style={styles.menuIcon}>
-                    <Icon.Button name="menu" size={30} backgroundColor={null} color='#FFFFFF' onPress={this.openControlPanel}>
-                    </Icon.Button>
+            <View style={styles.Viewstyle}>
+                <View style={styles.topbarView}>
+                    <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
+                        <Image source={require('../images/back.png')} style={styles.topbarIcon} />
+                    </TouchableOpacity>
+                    <Text style={styles.topbarText}>修改密碼 </Text>
                 </View>
-
-
-                <View style={styles.Viewstyle}>
-
-                    <Image style={{ width: 125, height: 125 }} source={require('../images/Editpassword.png')} />
-                    <Text style={{ fontSize: 20, color: 'white' }}>{"\n"}修改密碼{"\n"}</Text>
-                    <Text style={{ color: 'white' }}>請輸入以下資訊修改新密碼{"\n"}</Text>
-
-                    <View>
-                        <Text>{"\n"}</Text>
-                        {/*NewPassword*/}
-                        {this.NewPasswordInput()}
-                        <Text>{"\n"}</Text>
-
-
-                        <TouchableOpacity style={styles.Buttonstyle1} onPress={() => {
-                            if (this.state.Account == '') {
-                                setTimeout(() => this.setState({
-                                    err1: true
-                                }), 500); // show toast after 0.5s
-
-                                setTimeout(() => this.setState({
-                                    err1: false
-                                }), 4000); // hide toast after 4s
-                            } else {
-                                this.props.EditPasswordClick(this.props.login_account, this.state.Password)
-                            }
-                        }}>
-                            <Text style={style = styles.ButtonText1}>送出</Text>
-                        </TouchableOpacity>
+                <View style={styles.Inputview}>
+                    {/*Password*/}
+                    <View style={[styles.Inputtextview, { marginTop: 8 }]}>
+                        <Image source={require('../images/password-white.png')} style={styles.InputtextIcon} />
+                        <TextInput
+                            style={styles.InputtextText}
+                            onChangeText={(text) => this.setState({ password_pre: text })}
+                            value={this.state.Password}
+                            placeholder="輸入目前密碼"
+                            placeholderStyle={styles.InputtextPlaceholder}
+                            placeholderTextColor='rgba(255,255,255,0.5)'
+                            autoCorrect={false}
+                            underlineColorAndroid='transparent'
+                            secureTextEntry={true}
+                        />
                     </View>
-
-                    {/*Toast*/}
-                    <Toast
-                        backgroundColor='rgba(0,0,0,0.8)'
-                        visible={this.state.err1}
-                        position={600}
-                        shadow={false}
-                        animation={false}
-                        hideOnPress={true}
-                    >密碼不能為空！</Toast>
-
-                    <Toast
-                        backgroundColor='rgba(0,0,0,0.8)'
-                        visible={this.state.success1}
-                        position={600}
-                        shadow={false}
-                        animation={false}
-                        hideOnPress={true}
-                    >修改成功!</Toast>
-
-
+                    {/*new Password*/}
+                    <View style={[styles.Inputtextview, { marginTop: 8 }]}>
+                        <Image source={require('../images/password-white.png')} style={styles.InputtextIcon} />
+                        <TextInput
+                            style={styles.InputtextText}
+                            onChangeText={(text) => this.setState({ password_aft: text })}
+                            value={this.state.password_aft}
+                            placeholder="輸入新密碼"
+                            placeholderStyle={styles.InputtextPlaceholder}
+                            placeholderTextColor='rgba(255,255,255,0.5)'
+                            autoCorrect={false}
+                            underlineColorAndroid='transparent'
+                            secureTextEntry={true}
+                        />
+                    </View>
+                    {/*check new Password*/}
+                    <View style={[styles.Inputtextview, { marginTop: 8 }]}>
+                        <Image source={require('../images/password-white.png')} style={styles.InputtextIcon} />
+                        <TextInput
+                            style={styles.InputtextText}
+                            onChangeText={(text) => this.setState({ password_check: text })}
+                            value={this.state.password_check}
+                            placeholder="確認新密碼"
+                            placeholderStyle={styles.InputtextPlaceholder}
+                            placeholderTextColor='rgba(255,255,255,0.5)'
+                            autoCorrect={false}
+                            underlineColorAndroid='transparent'
+                            secureTextEntry={true}
+                        />
+                    </View>
                 </View>
-            </Drawer>
+                <TouchableOpacity style={styles.editButton} onPress={() => {
+                    if (this.state.password_pre == '' || this.state.password_aft == '' || this.state.password_check == '') {
+                        //顯示錯誤訊息
+                        setTimeout(() => this.setState({
+                            empty_error: true
+                        }), 300); // show toast after 0.5s
 
+                        setTimeout(() => this.setState({
+                            empty_error: false
+                        }), 5000); // hide toast after 5s
+                    }
+                    else if (this.state.password_pre != '' && this.state.password_aft != this.state.password_check) {
+                        //顯示錯誤訊息
+                        setTimeout(() => this.setState({
+                            checknewpsd_error: true
+                        }), 300); // show toast after 0.5s
+
+                        setTimeout(() => this.setState({
+                            checknewpsd_error: false
+                        }), 5000); // hide toast after 5s
+                    }
+                    else {
+                        this.props.EditPasswordClick(this.props.login_account, this.state.password_pre, this.state.password_aft,this.props.login_token)
+                    }
+                }}>
+                    <Text style={styles.editButtonText}>確定更新</Text>
+                </TouchableOpacity>
+                {/*Toast*/}
+                <Toast
+                    backgroundColor='rgba(0,0,0,0.4)'
+                    visible={this.state.empty_error}
+                    position={500}
+                    shadow={false}
+                    animation={false}
+                    hideOnPress={true}
+                >欄位不能為空！</Toast>
+                <Toast
+                    backgroundColor='rgba(0,0,0,0.4)'
+                    visible={this.state.checknewpsd_error}
+                    position={500}
+                    shadow={false}
+                    animation={false}
+                    hideOnPress={true}
+                >新密碼與確認新密碼不一致！</Toast>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
     Viewstyle: {
-         alignItems: 'center',
         flex: 1,
-        justifyContent: 'center'
+        width: '100%',
+        backgroundColor: '#144669',
     },
-    backgroundImage: {
-        flex: 1,
-        alignSelf: 'stretch',
-        width: null,
+    topbarView: {
+        flexDirection: 'row',
+        width: '100%',
+        backgroundColor: '#144669',
+        // height: 56,
     },
+    topbarIcon: {
+        marginLeft: 16,
+        marginTop: 16,
+    },
+    topbarText: {
+        marginTop: 14,
+        marginLeft: 32,
+        fontSize: 16,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Regular',
+        color: 'rgb(255,255,255)',
+    },
+    Inputview: {
+        marginTop: 24,
+        marginLeft: 40,
+    },
+    Inputtextview: {
+        flexDirection: 'row',
+        backgroundColor: 'rgba(180,218,229,0.30)',
+        borderRadius: 100,
+        width: 304,
+        height: 48,
+        borderColor: 'rgba(180,218,229,0.30)',
+        borderWidth: 0.5,
+    },
+    InputtextText: {
+        width: 250,
+        height: 48,
+        marginLeft: 16,
+        fontSize: 16,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Regular',
+        color: '#FFFFFF',
+    },
+    InputtextPlaceholder: {
+        fontSize: 16,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Regular',
+    },
+    InputtextIcon: {
+        marginTop: 12,
+        marginLeft: 24,
+        opacity: 0.5,
 
-    Buttonstyle1: {
-        backgroundColor: 'rgb(255,255,255)',
-        width: 350,
-        height: 40,
-        alignSelf: 'center',
-        justifyContent: 'center',
-        borderRadius: 30,
-
     },
-    Buttonstyle2: {
-        //backgroundColor: 'rgb(255,255,255)',
-        width: 350,
-        height: 40,
-        alignSelf: 'center',
-        justifyContent: 'center',
-        borderRadius: 30,
-        borderWidth: 1,
-        borderColor: 'white'
-
+    editButton: {
+        backgroundColor: '#009688',
+        width: 272,
+        height: 56,
+        borderRadius: 100,
+        shadowOffset: { width: 0.6, height: 8, },
+        shadowColor: 'rgba(0,0,0,0.20)',
+        shadowRadius: 8,
+        shadowOpacity: 0,
+        marginLeft: 56,
+        marginTop: 32,
+        elevation: 2,
+        
     },
-    ButtonText1: {
-        textAlign: 'center',
-        color: 'black'
+    editButtonText: {
+        marginTop: 16,
+        fontSize: 18,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Medium',
+        color: 'rgb(255,255,255)',
+        marginLeft: 97,
     },
-    ButtonText2: {
-        textAlign: 'center',
-        color: 'white'
-    },
-    InputTextStyle: {
-        backgroundColor: 'rgba(255,255,255,0.5)',
-        borderRadius: 30,
-        width: 350
-    },
-    menuIcon: {
-        width: 48,
-        height: 45
-    }
-    //backgroundimage
-    // <Image source={require('../images/backgroundImg.png')} style={styles.backgroundImage} ></Image>
 
 });
 

@@ -18,11 +18,11 @@ const mapDispatchToProps = (dispatch) => ({
     MindwaveClick: () => {
         Actions.MindwaveTest();
     },
-    TestResultClick:()=>{
-
+    TestResultClick: () => {
+        Actions.home();
     },
-    PublicResultClick:()=>{
-
+    PublicResultClick: () => {
+        Actions.AllKidsHome();
     },
 
 });

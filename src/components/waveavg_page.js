@@ -269,11 +269,6 @@ class Memory extends Component {
                                 <Text style={styles.statuetxt}>剛睡醒</Text>
                             </View>
                         </View>
-                        {
-                            // <View>
-                            //  <Image  source={require('../images/arrow.png')} />
-                            // </View>
-                        }
                     </View>
 
                     <View style={styles.childView}>
@@ -284,7 +279,7 @@ class Memory extends Component {
                                         elevation: 0.8,
                                         borderRadius: 4,
                                     }}>
-                                        <CardItem button onPress={() => this.props.kidwavepageClick()}>
+                                        <CardItem button onPress={()=>this.props.kidwavepageClick()}>
                                             <Body style={{ flexDirection: 'row', }}>
                                                 <View style={{ flexDirection: 'column', }}>
                                                     <View style={styles.kidcardimgstyle}>
@@ -312,15 +307,10 @@ class Memory extends Component {
                                                     <View style={{ flexDirection: 'row', marginTop: -50, marginLeft: 20 }} >
                                                         <Text style={styles.newwave}>最新分數：</Text>
                                                         <Text style={styles.newwavevalue}>75</Text>
-                                                        <View style={styles.besttimeview}>
-                                                            <Image source={require('../images/triangle/up.png')} ></Image>
-                                                            <Text style={styles.besttimevalue}>15</Text>
-                                                        </View>
-
                                                     </View>
                                                     <View style={{ flexDirection: 'row', marginLeft: 20 }}>
                                                         <Text style={styles.datetime}>2017/10/30 (一)</Text>
-                                                        <Text style={styles.statuesvalue}>吃飯前</Text>
+                                                        <Text style={styles.statuesvalue}>運動前</Text>
                                                     </View>
                                                 </View>
                                                 <Image source={require('../images/arrow_gray.png')} style={{ marginTop: 7, marginLeft: 80 }}></Image>
@@ -343,26 +333,22 @@ class Memory extends Component {
                                                     <Text style={styles.kidcardname}>joy</Text>
                                                 </View>
                                                 <View style={{ flexDirection: 'column', marginLeft: 10 }}>
-                                                    <Svg
-                                                        height="50"
-                                                        width="10"
-                                                    >
-                                                        <Line
-                                                            x1="0"
-                                                            y1="0"
-                                                            x2="0"
-                                                            y2="100"
-                                                            stroke='rgba(109,112,132,0.1)'
-                                                            strokeWidth="2"
-                                                        />
-                                                    </Svg>
-                                                    <View style={{ flexDirection: 'row', marginTop: -50, marginLeft: 20 }} >
+                                                <Svg
+                                                    height="50"
+                                                    width="10"
+                                                >
+                                                    <Line
+                                                        x1="0"
+                                                        y1="0"
+                                                        x2="0"
+                                                        y2="100"
+                                                        stroke='rgba(109,112,132,0.1)'
+                                                        strokeWidth="2"
+                                                    />
+                                                </Svg>
+                                                <View style={{ flexDirection: 'row', marginTop: -50, marginLeft: 20 }} >
                                                         <Text style={styles.newwave}>最新分數：</Text>
                                                         <Text style={styles.newwavevalue}>50</Text>
-                                                        <View style={styles.besttimeview}>
-                                                            <Image source={require('../images/triangle/up.png')} ></Image>
-                                                            <Text style={styles.besttimevalue}>13</Text>
-                                                        </View>
                                                     </View>
                                                     <View style={{ flexDirection: 'row', marginLeft: 20 }}>
                                                         <Text style={styles.datetime}>2017/10/29 (日)</Text>
@@ -389,26 +375,22 @@ class Memory extends Component {
                                                         may</Text>
                                                 </View>
                                                 <View style={{ flexDirection: 'column', marginLeft: 10 }}>
-                                                    <Svg
-                                                        height="50"
-                                                        width="10"
-                                                    >
-                                                        <Line
-                                                            x1="0"
-                                                            y1="0"
-                                                            x2="0"
-                                                            y2="100"
-                                                            stroke='rgba(109,112,132,0.1)'
-                                                            strokeWidth="2"
-                                                        />
-                                                    </Svg>
-                                                    <View style={{ flexDirection: 'row', marginTop: -50, marginLeft: 20 }} >
+                                                <Svg
+                                                    height="50"
+                                                    width="10"
+                                                >
+                                                    <Line
+                                                        x1="0"
+                                                        y1="0"
+                                                        x2="0"
+                                                        y2="100"
+                                                        stroke='rgba(109,112,132,0.1)'
+                                                        strokeWidth="2"
+                                                    />
+                                                </Svg>
+                                                <View style={{ flexDirection: 'row', marginTop: -50, marginLeft: 20 }} >
                                                         <Text style={styles.newwave}>最新分數：</Text>
                                                         <Text style={styles.newwavevalue}>89</Text>
-                                                        <View style={styles.besttimeview}>
-                                                            <Image source={require('../images/triangle/down.png')} ></Image>
-                                                            <Text style={styles.besttimevalue}>5</Text>
-                                                        </View>
                                                     </View>
                                                     <View style={{ flexDirection: 'row', marginLeft: 20 }}>
                                                         <Text style={styles.datetime}>2017/10/27 (五)</Text>
@@ -569,30 +551,6 @@ const styles = StyleSheet.create({
         width: 45.8,
         height: 45.8,
         borderRadius: 100
-    },
-    besttimeview: {
-        marginLeft: 5,
-        marginTop: 5,
-        width: 48,
-        height: 20,
-        backgroundColor: 'rgba(0,0,0,0.1)',
-        borderRadius: 4,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-
-    },
-    besttimevalue: {
-        marginLeft: 5,
-        marginTop: -5,
-        opacity: 0.8,
-        fontFamily: 'Roboto-Light',
-        fontSize: 14,
-        color: '#6D7084',
-        letterSpacing: 0.91,
-        justifyContent: 'center',
-        alignItems: 'center',
-        lineHeight: 24,
     },
     helloText: {
 

@@ -218,7 +218,9 @@ class Memory extends Component {
                     <Image source={require('../images/menu.png')} ></Image>
                 </TouchableOpacity>
                 <Text style={styles.title}>會員專區</Text>
-                <Image source={require('../images/setting.png')} style={styles.settingIcon} />
+                <TouchableOpacity onPress={() => this.props.SettingClick()} style={styles.settingIcon}>
+                                <Image source={require('../images/setting.png')} />
+                            </TouchableOpacity>
             </View>
 
             <View style={styles.parentInfoView}>

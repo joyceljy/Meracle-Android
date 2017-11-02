@@ -1,34 +1,27 @@
 import { connect } from 'react-redux';
-import HomeComponent from '../components/home';
+import WaveavgComponent from '../components/waveavg_page';
 import { Actions } from 'react-native-router-flux';
 import signalr from 'react-native-signalr';
 import { processColor } from 'react-native';
-import { GetMemberData } from '../actions/MemberData_action';
-
 const mapStateToProps = (state) => ({
     login_account: state.login_account,
-    child_account: state.child_account,
-    login_token: state.login_token,
-    member_data: state.member_data,
+    child_account: state.child_account
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
-    kidwavepageClick: () => {
+    
+    kidwavepageClick:() => {
         Actions.kidwavepage();
     },
-    GetMemberData: (login_account, token) => {
-        dispatch(GetMemberData(login_account, token));
-    },
-}
 
+}
 );
 
-class HomeContainer extends HomeComponent {
+class WaveavgContainer extends WaveavgComponent {
     constructor(props) {
         super(props);
         this.state = {
-            scene: 'home',
+            // scene: 'home',
             kidlistpre: [],
             legend: {
                 enabled: false,
@@ -99,7 +92,7 @@ class HomeContainer extends HomeComponent {
                 axisMinimum: 0,
                 centerAxisLabels: true,
                 drawGridLines: true,
-                drawAxisLine: false,
+                drawAxisLine: true,
                 gridDashedLine: { spaceLength: 10 }
             },
             yline:
@@ -113,14 +106,39 @@ class HomeContainer extends HomeComponent {
 
         };
     }
+    componentDidMount() {
+        //signalr
+        const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
+        connection.logging = true;
 
+        const proxy = connection.createHubProxy('chatHub');
+
+        proxy.on('addNewMessageToPage', (argOne, argTwo, ) => {
+            console.log('message-from-server', argOne, argTwo);
+            if (argOne == 'openMindwavePage') {
+
+                proxy.invoke('send', 'haveOpened', '');
+                this.props.MindWave();
+                connection.stop();
+            }
+        });
+
+        // atempt connection, and handle errors
+        connection.start().done(() => {
+            console.log('Now connected, connection ID=' + connection.id);
+        }).fail(() => {
+            console.log('Failed');
+        });
+    }
     componentWillMount() {
         // BackAndroid.addEventListener('hardwareBackPress', this.onBackAndroid);
     }
+    componentWillUnmount() {
+        //BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid);
 
+    }
     componentWillReceiveProps(nextProps) {
-        //取得會員資料
-        const { member_data } = nextProps;
+
     }
 
 
@@ -141,4 +159,4 @@ class HomeContainer extends HomeComponent {
     // }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(WaveavgContainer);
