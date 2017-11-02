@@ -70,6 +70,8 @@ class Memory extends Component {
             statusSelected: 1,
             status: '運動前',
             score: '80',
+
+            showBtn:true,
         };
         console.log(this.state.imageArray)
     }
@@ -129,6 +131,7 @@ class Memory extends Component {
             }, 1000);
         } else {
             this.setState({ defaultPage: false })
+            this.setState({ showBtn: false })
             this.mwm.scan();
         }
         // this.setState({
@@ -517,9 +520,12 @@ class Memory extends Component {
 
                             <Text style={styles.defaultText}>按下開始測量後{"\n"} </Text>
                             <Text style={[styles.defaultText, { marginTop: -15 }]}>將會為您進行測量腦波的步驟 </Text>
-                            <TouchableHighlight onPress={this.handlePressScan} style={styles.ScanBtn}  >
-                                <Text style={styles.ScanText}>開始測量</Text>
-                            </TouchableHighlight>
+                           
+                                <TouchableOpacity onPress={this.handlePressScan} style={styles.ScanBtn}  >
+                                    <Text style={styles.ScanText}>開始測量</Text>
+                                </TouchableOpacity>
+                            
+
                         </View>
 
                     </View>
@@ -726,7 +732,7 @@ class Memory extends Component {
 
                         <View style={styles.contentView}>
                             <Text style={styles.poorsignalTitle}>準備好後 按下開始遊戲</Text>
-                            <Image source={require('../images/img-step3.png')} style={{width:160,height:117.3,resizeMode:'stretch',marginTop:56}} />
+                            <Image source={require('../images/img-step3.png')} style={{ width: 160, height: 117.3, resizeMode: 'stretch', marginTop: 56 }} />
 
                             <Text style={[styles.poorsignalText, { marginTop: 56.7 }]}>請孩童在遊戲畫面中</Text>
                             <Text style={[styles.poorsignalText, { marginTop: -2 }]}>按下 開始遊戲 將會自動開始測量</Text>
@@ -751,11 +757,9 @@ class Memory extends Component {
                         <View style={styles.contentView}>
                             <Text style={styles.poorsignalTitle}>正在為您偵測腦波</Text>
 
-                            <View style={styles.mindwavePicView}>
-                                <Image source={require('../images/Img_headset.png')} style={styles.mindwavePic} />
-                            </View>
-
-                            <Text style={[styles.poorsignalText, { marginTop: 24 }]}>請盡量避免頭部晃動  並保持訊號值歸零</Text>
+                                <Image source={require('../images/Img_headset.png')} style={{ width: 120, height: 107.3, resizeMode: 'stretch', marginTop: 56,alignSelf:'center' }} />
+                    
+                            <Text style={[styles.poorsignalText, { marginTop: 80 }]}>請盡量避免頭部晃動以免訊號中斷</Text>
 
                         </View>
                     </View>
@@ -848,12 +852,7 @@ const styles = StyleSheet.create({
         letterSpacing: 16,
         color: '#FFFFFF',
     },
-    mindwavePicView: {
-        marginTop: 32,
-        width: 168,
-        height: 168,
-        borderRadius: 100,
-    },
+   
     mindwavePic: {
         //marginTop: 2,
 
@@ -1099,14 +1098,17 @@ const styles = StyleSheet.create({
         width: 360,
         height: 247,
         backgroundColor: 'rgba(216,216,216,0.00)',
+        alignSelf: 'center',
+        alignItems: 'center',
     },
     deviceItem: {
         backgroundColor: 'rgba(255,255,255,0.75)',
         borderRadius: 4,
+        marginTop: 4,
     },
     deviceItemTitle: {
         marginLeft: 24,
-        marginTop: 13,
+        marginTop: 6,
         fontSize: 14,
         fontFamily: 'Roboto-Regular',
         letterSpacing: 0.5,
