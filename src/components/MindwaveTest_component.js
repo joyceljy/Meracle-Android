@@ -31,6 +31,8 @@ const poorSingalTimerTimeMax = 5
 class Memory extends Component {
     constructor(props) {
         super(props);
+        this.closeControlPanel = this.closeControlPanel.bind(this);
+        this.openControlPanel = this.openControlPanel.bind(this);
         this.state = {
 
             //確認裝置連接
@@ -71,7 +73,7 @@ class Memory extends Component {
             status: '運動前',
             score: '80',
 
-            showBtn:true,
+            showBtn: true,
         };
         console.log(this.state.imageArray)
     }
@@ -500,34 +502,52 @@ class Memory extends Component {
 
 
                     <View style={styles.Viewstyle}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <TouchableOpacity onPress={this.openControlPanel} style={styles.menuIcon}>
-                                <Image source={require('../images/menu.png')} ></Image>
-                            </TouchableOpacity>
-                            <Text style={styles.drawerTitle}>測量腦波</Text>
-                        </View>
-
-
-                        <View style={styles.container}>
-
-                            <View style={styles.View1}>
-                                <View style={styles.View2}>
-                                    <View style={styles.View3}>
-                                        <Image source={require('../images/img_measuring.png')} style={styles.earphonePic} />
-                                    </View>
-                                </View>
+                        <Drawer
+                            type="displace"
+                            ref={(ref) => this._drawer = ref}
+                            content={<SideBarContent />}
+                            openDrawerOffset={100}
+                            panOpenMask={0.80}
+                            captureGestures="open"
+                            styles={drawerStyles}
+                            tweenHandler={ratio => ({
+                                main: {
+                                    opacity: 1,
+                                },
+                                mainOverlay: {
+                                    opacity: ratio / 2,
+                                    backgroundColor: 'black',
+                                },
+                            })}
+                        >
+                            <View style={{ flexDirection: 'row' }}>
+                                <TouchableOpacity onPress={this.openControlPanel} style={styles.menuIcon}>
+                                    <Image source={require('../images/menu.png')} ></Image>
+                                </TouchableOpacity>
+                                <Text style={styles.drawerTitle}>測量腦波</Text>
                             </View>
 
-                            <Text style={styles.defaultText}>按下開始測量後{"\n"} </Text>
-                            <Text style={[styles.defaultText, { marginTop: -15 }]}>將會為您進行測量腦波的步驟 </Text>
-                           
+
+                            <View style={styles.container}>
+
+                                <View style={styles.View1}>
+                                    <View style={styles.View2}>
+                                        <View style={styles.View3}>
+                                            <Image source={require('../images/img_measuring.png')} style={styles.earphonePic} />
+                                        </View>
+                                    </View>
+                                </View>
+
+                                <Text style={styles.defaultText}>按下開始測量後{"\n"} </Text>
+                                <Text style={[styles.defaultText, { marginTop: -15 }]}>將會為您進行測量腦波的步驟 </Text>
+
                                 <TouchableOpacity onPress={this.handlePressScan} style={styles.ScanBtn}  >
                                     <Text style={styles.ScanText}>開始測量</Text>
                                 </TouchableOpacity>
-                            
 
-                        </View>
 
+                            </View>
+                        </Drawer>
                     </View>
 
                 );
@@ -757,8 +777,8 @@ class Memory extends Component {
                         <View style={styles.contentView}>
                             <Text style={styles.poorsignalTitle}>正在為您偵測腦波</Text>
 
-                                <Image source={require('../images/Img_headset.png')} style={{ width: 120, height: 107.3, resizeMode: 'stretch', marginTop: 56,alignSelf:'center' }} />
-                    
+                            <Image source={require('../images/Img_headset.png')} style={{ width: 120, height: 107.3, resizeMode: 'stretch', marginTop: 56, alignSelf: 'center' }} />
+
                             <Text style={[styles.poorsignalText, { marginTop: 80 }]}>請盡量避免頭部晃動以免訊號中斷</Text>
 
                         </View>
@@ -852,7 +872,7 @@ const styles = StyleSheet.create({
         letterSpacing: 16,
         color: '#FFFFFF',
     },
-   
+
     mindwavePic: {
         //marginTop: 2,
 
@@ -1099,7 +1119,7 @@ const styles = StyleSheet.create({
         height: 247,
         backgroundColor: 'rgba(216,216,216,0.00)',
         alignSelf: 'center',
-        alignItems: 'center',
+
     },
     deviceItem: {
         backgroundColor: 'rgba(255,255,255,0.75)',
