@@ -20,6 +20,8 @@ import MindWaveMobile from 'react-native-mindwave-mobile';
 import { SinglePickerMaterialDialog } from 'react-native-material-dialog';
 import signalr from 'react-native-signalr';
 import _ from 'lodash';
+import Drawer from 'react-native-drawer';
+import SideBarContent from '../containers/SideBarContent';
 
 const mwm = new MindWaveMobile()
 const isMock = false;
@@ -32,6 +34,8 @@ class Memory extends Component {
         this.state = {
 
             //確認裝置連接
+            defaultPage: true,
+            PrestartTest: false,
             deviceFound: false,
             mindwaveConnected: false,
             devices: [],
@@ -39,7 +43,7 @@ class Memory extends Component {
             //確認訊號值歸零
             poorSignalChecked: false,
             poorSingalTimer: poorSingalTimerTimeMax,
-
+            Connected: false,
             isScanning: false,
             willConnect: null,
 
@@ -64,11 +68,18 @@ class Memory extends Component {
 
             //狀態選擇
             statusSelected: 1,
-            status: '運動前'
+            status: '運動前',
+            score: '80',
         };
         console.log(this.state.imageArray)
     }
-
+    //drawer
+    closeControlPanel = () => {
+        this._drawer.close()
+    };
+    openControlPanel = () => {
+        this._drawer.open()
+    };
 
     //----腦波運算function----
     //取得最大值（傳入四個值,回傳最大值）
@@ -109,20 +120,22 @@ class Memory extends Component {
 
     //掃描裝置
     handlePressScan = () => {
-        if (!this.state.isScanning) {
-            if (isMock) {
-                setTimeout(() => {
-                    this.handleFoundDevice({
-                        id: 'test1234',
-                    });
-                }, 1000);
-            } else {
-                this.mwm.scan();
-            }
-            this.setState({
-                isScanning: true,
-            });
+        //if (!this.state.isScanning) {
+        if (isMock) {
+            setTimeout(() => {
+                this.handleFoundDevice({
+                    id: 'test1234',
+                });
+            }, 1000);
+        } else {
+            this.setState({ defaultPage: false })
+            this.mwm.scan();
         }
+        // this.setState({
+        //     isScanning: true,
+        // });
+        //}
+
     }
 
     handlePressConnectDevice = (device) => {
@@ -132,6 +145,7 @@ class Memory extends Component {
         }
         this.setState({
             willConnect: device.id,
+
         });
         if (isMock) {
             setTimeout(() => {
@@ -155,17 +169,25 @@ class Memory extends Component {
     }
 
     handleConnect = ({ success }) => {
-        alert(`連結 ${success ? '成功' : '失敗'}`);
+        //alert(`連結 ${success ? '成功' : '失敗'}`);
+        ToastAndroid.show(`連結 ${success ? '成功' : '失敗'}`, ToastAndroid.SHORT);
         if (success === true && this.state.willConnect) {
             this.changeConnectedState(this.state.willConnect, true);
+            this.setState({
+                Connected: true,
+            });
         } else {
             console.log('will connect device is null');
         }
     }
 
     handleDisconnect = ({ success }) => {
-        alert(`移除連結 ${success ? '成功' : '失敗'}`);
+        //alert(`移除連結 ${success ? '成功' : '失敗'}`);
+        ToastAndroid.show(`移除連結 ${success ? '成功' : '失敗'}`, ToastAndroid.SHORT);
         if (success === true && !this.state.mindwaveConnected) {
+            this.setState({
+                Connected: false,
+            });
             console.log('no connecting device');
             return;
         }
@@ -180,12 +202,12 @@ class Memory extends Component {
     }
 
     handleEEGPowerLowBeta = (data) => {
-        console.log('onEEGPowerLowBeta', data);
+        //console.log('onEEGPowerLowBeta', data);
         this.props.onEEGPowerLowBeta(data);
     }
 
     handleEEGPowerDelta = (data) => {
-        console.log('onEEGPowerDelta', data);
+        // console.log('onEEGPowerDelta', data);
         this.setState({
             mindwaveTimer: this.state.mindwaveTimer + 1
         })
@@ -193,7 +215,7 @@ class Memory extends Component {
     }
 
     handleESense = (data) => {
-        console.log('onESense', data);
+        //console.log('onESense', data);
         if (data.poorSignal != -1) {
             this.props.onESense(data);
         }
@@ -201,11 +223,11 @@ class Memory extends Component {
     }
 
     handleEEGBlink = (data) => {
-        console.log('onEEGBlink', data);
+        //console.log('onEEGBlink', data);
     }
 
     handleMWMBaudRate = (data) => {
-        console.log('onMWMBaudRate', data);
+        //console.log('onMWMBaudRate', data);
     }
 
     pushDevice = (device) => {
@@ -248,92 +270,21 @@ class Memory extends Component {
     componentWillUnmount() {
         //clearTimeout(this.timerScan)
         this.mwm.removeAllListeners();
+        const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
+        connection.stop();
+
     }
     componentDidMount() {
 
         //返回控制
         BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
 
-        // mwm.onFoundDevice(device => {
-        //     console.log('onFoundDevice');
-        //     console.log(device)
-        //     this.state.devices.push(device)
-        //     // this.setState({
-        //     //     deviceFound: true
-        //     // });
-        //     // clearTimeout(this.timerScan)
-        //     // this._deviceconnect()
-        //     console.log('connect ', device.mfgId);
-        //     mwm.connect(this.state.devices[0].mfgId);
-        // })
-        // mwm.onConnect(state => {
-        //     console.log('mwm.onConnect');
-        //     console.log(state);
-        //     if (!state.success) {
-        //         console.log('connect fail');
-        //         setTimeout(() => {
-        //             console.log('reconnect ' + this.state.devices[0].mfgId);
-        //             mwm.connect(this.state.devices[0].mfgId);
-        //         }, 500);
-        //         return;
-        //     }
-        //     if (!this.state.mindwaveConnected && this.state.deviceFound) {
-        //         console.log(state.success === true ? "Connect Success" : "Connect Failed")
-        //         //讓畫面至少停留在腦波連線中3秒
-        //         var checkMindWaveConnectionDelayTimer = 0
-        //         this.timer = setInterval(
-        //             () => {
-        //                 checkMindWaveConnectionDelayTimer++
-        //                 console.log('CheckConnectionDelay : ' + checkMindWaveConnectionDelayTimer)
-        //                 //3秒後設定腦波連線狀態為已連線（畫面跳至poorsignal畫面）
-        //                 if (checkMindWaveConnectionDelayTimer == 3) {
-        //                     clearTimeout(this.timer)
-        //                     this.setState({
-        //                         mindwaveConnected: true,
-        //                     });
-        //                 }
-        //             }, 1000)
-        //         //var quizFunction = this.props.quizFunction
-        //     }
-        // })
-        // mwm.onDisconnect(state => {
-        //     console.log('onDisconnect');
-        //     console.log(state);
-        //     if (!this.state.mindwaveConnected) {
-        //         this.setState({
-        //             mindwaveConnected: false
-        //         });
-        //     }
-        //     console.log(state.success = true ? "Disconnect Success" : "Disconnect Faild")
-        // })
-
-        //以下三個為接收腦波的function
-        // mwm.onEEGPowerDelta(data => {
-        //     console.log('onEEGPowerDelta');
-        //     console.log(data);
-        //     this.setState({
-        //         mindwaveTimer: this.state.mindwaveTimer + 1
-        //     })
-        //     this.props.onEEGPowerDelta(data, this.state.mindwaveTimer)
-        // })
-        // mwm.onEEGPowerLowBeta(data => {
-        //     console.log('onEEGPowerLowBeta');
-        //     console.log(data);
-        //     this.props.onEEGPowerLowBeta(data)
-        // })
-        // mwm.onESense(data => {
-        //     console.log('onESense');
-        //     console.log(data);
-        //     this.props.onESense(data)
-        // })
-
-
         this.mwm = new MindWaveMobile();
         this.mwm.onConnect(this.handleConnect);
         this.mwm.onDisconnect(this.handleDisconnect);
         this.mwm.onFoundDevice(this.handleFoundDevice);
         this.mwm.onEEGPowerLowBeta(this.handleEEGPowerLowBeta);
-        this.mwm.onEEGPowerDelta(this.handleEEGPowerLowBeta);
+        this.mwm.onEEGPowerDelta(this.handleEEGPowerDelta);
         this.mwm.onESense(this.handleESense);
         if (Platform.OS === 'ios') {
             this.mwm.onEEGBlink(this.handleEEGBlink);
@@ -341,19 +292,33 @@ class Memory extends Component {
         }
 
         //signalr
-        const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
+        const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
         connection.logging = true;
-        const proxy = connection.createHubProxy('chatHub');
-        proxy.on('addNewMessageToPage', (message1, message2) => {
-            console.log('message-from-server', message1, message2);
-            if (message1 == "startGame" || message2 == "startGame") {
-                this.setState({ startTest: true })
-                setTimeout(function () {
+        const proxy = connection.createHubProxy('groupHub');
+        proxy.on('addtogroup', (message1) => {
+            console.log('message-from-server', message1);
+            //alert(message1);
+
+            if (message1 == "startGame") {
+
+                connection.stop();
+                //alert('stopConnect');
+                this.setState({ PrestartTest: false });
+                this.setState({ startTest: true });
+                setTimeout(() => {
                     //結束收集腦波  
-                    this.setState({ endTestView: true })
-                }, 240000);
+                    this.setState({ endTestView: true });
+                    //alert('endGame');
+                }, 210000);
             }
         });
+
+        connection.start().done(() => {
+            console.log('Now connected, connection ID=' + connection.id);
+            //alert(connection.id);
+            proxy.invoke('group', this.props.login_account);
+        });
+
 
 
 
@@ -363,71 +328,62 @@ class Memory extends Component {
         return true;
     }
     componentWillReceiveProps(nextProps) {
+        let account = this.props.login_account;
         //耳機訊號傳回時間（為了讓以上三個function稍微同步）
-        const { mindwaveTimer: previous_mindwaveTimer } = this.props;
-        const { mindwaveTimer } = nextProps;
+        //const { mindwaveTimer: previous_mindwaveTimer } = this.props;
+        //const { mindwaveTimer } = nextProps;
 
         //檢查訊號值正常（poorsignal為0）
         const { poorSignal } = nextProps;
-        console.log('poorSignal', poorSignal);
-        if (poorSignal == 0 && !this.state.poorSignalChecked && mindwaveTimer != previous_mindwaveTimer && this.state.mindwaveConnected) {
+        //console.log('poorSignal', poorSignal);
+        if (poorSignal == 0 && !this.state.poorSignalChecked && this.state.Connected) {
             //counter累加
             counter++
             //顯示倒數
-            timeCounterMinus = poorSingalTimerTimeMax - counter
-            this.setState({
-                poorSingalTimer: timeCounterMinus
-            })
+
             //當counter==5（需維持5秒的poorsignal=0 poorsignalchecked才會通過）
-            if (counter == poorSingalTimerTimeMax) {
-                this.setState({
-                    poorSignalChecked: true,
-                }, function () {
-                    this.setState({
-                        poorSingalTimer: poorSingalTimerTimeMax
-                    })
-                    poorSingalTimer = 0
-                    timeCounterMinus = 0
 
+            this.setState({ poorSignalChecked: true });
 
-                    //訊號穩定 可以開始遊戲
-                    connection.start().done(() => {
-                        console.log('Now connected, connection ID=' + connection.id);
-                        proxy.invoke('send', 'canStart', '').done((directResponse) => {
-                            console.log('direct-response-from-server', directResponse);
-                        })
-                    }).fail(() => {
-                        console.log('Failed');
-                    });
+            //訊號穩定 可以開始遊戲
+            const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
+            connection.logging = true;
+            const proxy = connection.createHubProxy('groupHub');
+            connection.start().done(() => {
 
+                proxy.invoke('group', this.props.login_account);
+                console.log('Now connected, connection ID=' + connection.id);
+                //alert('Now connected, connection ID=' + connection.id);
+                proxy.invoke('send', account, 'canStart').done((directResponse) => {
+                    ToastAndroid.show('訊號穩定！', ToastAndroid.SHORT);
+                    this.setState({ PrestartTest: true });
                 })
-            }
-            console.log('Counter ' + counter)
+            }).fail(() => {
+                //alert('Failed');
+                console.log('Failed');
+            });
         }
 
         //訊號不正常（poorsignal不為0）
-        if (poorSignal != 0 && !this.state.checkPoorSignal && mindwaveTimer != previous_mindwaveTimer && this.state.mindwaveConnected) {
+        if (poorSignal != 0 && !this.state.checkPoorSignal && this.state.Connected) {
             counter = 0
-            console.log('PoorSignal Is Not 0')
-            this.setState({
-                poorSingalTimer: poorSingalTimerTimeMax
-            })
+            // console.log('PoorSignal Is Not 0')
         }
 
 
 
 
         //腦波運算與收集
-        //const { quizPointArray } = nextProps;
-        if (previous_mindwaveTimer != mindwaveTimer && this.state.startTest) {
+
+        if (this.state.startTest) {
             if (poorSignal == 0) {
                 console.log(nextProps.poorSignal)
                 this.setState({
                     poorSignal: nextProps.poorSignal,
                 })
-                this.setState({
-                    timerCounter: this.state.timerCounter + 1,
-                })
+                // this.setState({
+                //     timerCounter: this.state.timerCounter + 1,
+                // })
 
                 //將訊號push進訊號陣列
                 this.state.deltaArray.push(nextProps.delta)
@@ -442,7 +398,7 @@ class Memory extends Component {
                 //     delta: nextProps.delta, highAlpha: nextProps.highAlpha, lowAplpha: nextProps.lowAplpha, theta: nextProps.theta,
                 //     lowBeta: nextProps.lowBeta, midGamma: nextProps.midGamma, highBeta: nextProps.highBeta, lowGamma: nextProps.lowGamma
                 // })
-                console.log('訊號正常每秒跳一次，目前數值：' + this.state.timerCounter)
+                console.log('訊號正常每秒跳一次，目前數值：')
             } else {
                 this.setState({
                     poorSignal: nextProps.poorSignal,
@@ -530,8 +486,49 @@ class Memory extends Component {
         }
     }
     render() {
+        const drawerStyles = {
+            drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
+            main: { paddingLeft: 0 }
+        }
         {
-            //腦波耳機連線中畫面
+            //default page
+            if (this.state.defaultPage == true) {
+                return (
+
+
+                    <View style={styles.Viewstyle}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity onPress={this.openControlPanel} style={styles.menuIcon}>
+                                <Image source={require('../images/menu.png')} ></Image>
+                            </TouchableOpacity>
+                            <Text style={styles.drawerTitle}>測量腦波</Text>
+                        </View>
+
+
+                        <View style={styles.container}>
+
+                            <View style={styles.View1}>
+                                <View style={styles.View2}>
+                                    <View style={styles.View3}>
+                                        <Image source={require('../images/img_measuring.png')} style={styles.earphonePic} />
+                                    </View>
+                                </View>
+                            </View>
+
+                            <Text style={styles.defaultText}>按下開始測量後{"\n"} </Text>
+                            <Text style={[styles.defaultText, { marginTop: -15 }]}>將會為您進行測量腦波的步驟 </Text>
+                            <TouchableHighlight onPress={this.handlePressScan} style={styles.ScanBtn}  >
+                                <Text style={styles.ScanText}>開始測量</Text>
+                            </TouchableHighlight>
+                        </View>
+
+                    </View>
+
+                );
+            }
+
+
+            //掃描畫面
             if (!this.state.mindwaveConnected) {
                 return (
 
@@ -542,26 +539,35 @@ class Memory extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.container}>
-                            <View style={styles.block} >
-                                <Button onPress={this.handlePressScan} title="掃描" ></Button>
+                            <Text style={styles.mindwaveTitle}>正在掃描附近裝置</Text>
+
+                            <View style={[styles.View1, { width: 120, height: 120, marginTop: 16 }]}>
+                                <View style={[styles.View2, { width: 90, height: 90, marginTop: 15 }]}>
+                                    <View style={[styles.View3, { width: 60, height: 60, marginTop: 15 }]}>
+                                        <Image source={require('../images/step2.png')} style={{ resizeMode: 'stretch', marginTop: 13 }} />
+                                    </View>
+                                </View>
                             </View>
-                            <View style={styles.block} >
-                                <Text style={styles.title} >裝置列表</Text>
-                                <ScrollView style={styles.deviceList} >
-                                    {
-                                        this.state.devices.map((device, index) => {
-                                            const handlePress = () => this.state.mindwaveConnected ? this.handlePressDisconnectDevice() : this.handlePressConnectDevice(device);
-                                            const message = `裝置 ${device.name || device.id} ${this.state.willConnect === device.id ? '[正在連結]' : this.state.mindwaveConnected === device.id ? '[已連結]' : ''}`
-                                            return <TouchableOpacity key={index} style={styles.deviceItem} onPress={handlePress} >
-                                                <Text style={styles.deviceItemTitle} >{message}</Text>
-                                            </TouchableOpacity>
-                                        })
-                                    }
-                                </ScrollView>
-                            </View>
+
+
+                            <Text style={styles.deviceTitle} >裝置列表</Text>
+                            <ScrollView style={styles.deviceList} >
+                                {
+                                    this.state.devices.map((device, index) => {
+                                        const handlePress = () => this.state.mindwaveConnected ? this.handlePressDisconnectDevice() : this.handlePressConnectDevice(device);
+                                        const message = `裝置 ${device.name || device.id} ${this.state.willConnect === device.id ? '[正在連結]' : this.state.mindwaveConnected === device.id ? '[已連結]' : ''}`
+                                        return <TouchableOpacity key={index} style={styles.deviceItem} onPress={handlePress} >
+                                            <Text style={styles.deviceItemTitle} >{message}</Text>
+                                        </TouchableOpacity>
+                                    })
+                                }
+                            </ScrollView>
+
+
+
                         </View>
 
-                        <View style={styles.contentView}>
+                        {/*<View style={styles.contentView}>
                             <Text style={styles.mindwaveTitle}>即將為您偵測腦波</Text>
                             <View style={styles.mindwavePicView}>
                                 <Image source={require('../images/Img_headset.png')} style={styles.mindwavePic} />
@@ -569,7 +575,7 @@ class Memory extends Component {
                             <Text style={styles.mindwaveText}>請開啟手機藍芽 與腦波耳機連線
                           {'\n             '}並請孩童帶妥耳機
                             </Text>
-                        </View>
+                                </View>*/}
                     </View>
 
                 );
@@ -596,12 +602,12 @@ class Memory extends Component {
                                 <Text style={styles.endDate}>{date}</Text>
                                 <Text style={styles.endScore}>{'     '}測量結果為 {this.state.score} 分</Text>
                             </View>
-                            <Text style={[styles.endTitle, { marginTop: 32 }]}>選擇測量孩童</Text>
+                            {/*<Text style={[styles.endTitle, { marginTop: 32 }]}>選擇測量孩童</Text>
                             <View style={styles.chooseChildView}>
                                 <TouchableOpacity onPress={() => this.props.goBack()}>
 
                                 </TouchableOpacity>
-                            </View>
+                </View>*/}
                             <Text style={styles.endTitle2}>選擇孩童狀態</Text>
                             <View style={{ flexDirection: 'row', marginLeft: width / 11.25 / 2, marginTop: 16 }}>
 
@@ -706,6 +712,31 @@ class Memory extends Component {
 
                 );
             }
+
+            //等待按下開始遊戲畫面
+            else if (this.state.PrestartTest) {
+                return (
+
+                    <View style={styles.Viewstyle}>
+                        <View style={styles.topbarView}>
+                            <TouchableOpacity onPress={() => this.props.goBack()}>
+                                <Text style={styles.topbarText}>結束</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={styles.contentView}>
+                            <Text style={styles.poorsignalTitle}>準備好後 按下開始遊戲</Text>
+                            <Image source={require('../images/img-step3.png')} style={{width:160,height:117.3,resizeMode:'stretch',marginTop:56}} />
+
+                            <Text style={[styles.poorsignalText, { marginTop: 56.7 }]}>請孩童在遊戲畫面中</Text>
+                            <Text style={[styles.poorsignalText, { marginTop: -2 }]}>按下 開始遊戲 將會自動開始測量</Text>
+
+                        </View>
+                    </View>
+
+                );
+            }
+
             //測驗進行中畫面
             else if (this.state.startTest) {
                 return (
@@ -718,13 +749,10 @@ class Memory extends Component {
                         </View>
 
                         <View style={styles.contentView}>
-                            <Text style={styles.poorsignalTitle}>正在測量孩童腦波</Text>
-                            <View style={styles.View1}>
-                                <View style={styles.View2}>
-                                    <View style={styles.View3}>
-                                        <Image source={require('../images/img_measuring.png')} style={styles.earphonePic} />
-                                    </View>
-                                </View>
+                            <Text style={styles.poorsignalTitle}>正在為您偵測腦波</Text>
+
+                            <View style={styles.mindwavePicView}>
+                                <Image source={require('../images/Img_headset.png')} style={styles.mindwavePic} />
                             </View>
 
                             <Text style={[styles.poorsignalText, { marginTop: 24 }]}>請盡量避免頭部晃動  並保持訊號值歸零</Text>
@@ -734,7 +762,9 @@ class Memory extends Component {
 
                 );
             }
-            else if (!this.state.poorSignalChecked || !this.state.startTest) {
+
+            //poorSignal畫面
+            else if (!this.state.poorSignalChecked || !this.state.PrestartTest) {
                 return (
 
                     <View style={styles.Viewstyle}>
@@ -753,7 +783,7 @@ class Memory extends Component {
                                 <View style={styles.poorsignalBorder}></View>
                                 <Image source={require('../images/Shape.png')} style={styles.poorsignalImage2} />
                             </View>
-                            <Text style={styles.poorsignalText}>{'              '}請調整腦波耳機位置{'\n'}
+                            <Text style={styles.poorsignalText}>{'                '}請調整腦波耳機位置{'\n'}
                                 直到訊號值歸零 即可請孩童開始遊戲</Text>
                         </View>
                     </View>
@@ -768,6 +798,22 @@ const styles = StyleSheet.create({
         flex: 1,
         width: width,
         backgroundColor: '#144669',
+    },
+    menuIcon: {
+        marginLeft: 18,
+        width: 24,
+        height: 24,
+        marginTop: 16,
+    },
+    drawerTitle: {
+        color: '#FFFFFF',
+        width: 66,
+        height: 24,
+        fontSize: 16,
+        lineHeight: 24,
+        fontFamily: 'Roboto-Regular',
+        marginTop: 14,
+        marginLeft: 32,
     },
     topbarView: {
         flexDirection: 'row',
@@ -820,14 +866,15 @@ const styles = StyleSheet.create({
         letterSpacing: 0.3,
         color: '#FFFFFF',
     },
-    mindwaveText: {
+    defaultText: {
         opacity: 0.8,
-        marginTop: 32,
-        fontSize: 12,
-        lineHeight: 16,
+        marginTop: 48,
+        fontSize: 14,
+        lineHeight: 18,
         fontFamily: 'Roboto-Light',
-        letterSpacing: 0.5,
+        letterSpacing: 0.8,
         color: '#FFFFFF',
+        alignSelf: 'center',
     },
     poorsignalTitle: {
         marginTop: 80,
@@ -955,7 +1002,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     View1: {
-        marginTop: 16,
+        marginTop: 62,
         alignItems: 'center',
         //opacity: 0.05,
         backgroundColor: 'rgba(255,255,255,0.05)',
@@ -989,6 +1036,8 @@ const styles = StyleSheet.create({
         opacity: 1,
         alignItems: 'center',
         zIndex: 4,
+        resizeMode: 'stretch',
+
     },
     endDate: {
         alignItems: 'center',
@@ -1015,28 +1064,64 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#144669',
+        alignItems: 'center',
     },
     block: {
         flex: 1,
         padding: 10,
     },
-    title: {
-        fontSize: 20,
+    ScanBtn: {
+        elevation: 2,
+        backgroundColor: '#009688',
+        width: 272,
+        height: 56,
+        borderRadius: 100,
+        shadowOffset: { width: 0.6, height: 8, },
+        shadowColor: 'rgba(0,0,0,0.20)',
+        shadowRadius: 8,
+        shadowOpacity: 0,
+        alignSelf: 'center',
+        marginTop: 47,
     },
+    ScanText: {
+        alignSelf: 'center',
+        alignItems: 'center',
+        marginTop: 16,
+        fontSize: 18,
+        fontFamily: 'Roboto-Medium',
+        letterSpacing: 1.5,
+        color: '#FFFFFF',
+        lineHeight: 24,
+    },
+
     deviceList: {
-        flex: 1,
-        // paddingTop: 10,
-        // paddingRight: 5,
-        // paddingLeft: 5,
+        width: 360,
+        height: 247,
+        backgroundColor: 'rgba(216,216,216,0.00)',
     },
     deviceItem: {
-        borderWidth: 1,
-        borderColor: 'black',
+        backgroundColor: 'rgba(255,255,255,0.75)',
+        borderRadius: 4,
     },
     deviceItemTitle: {
-        padding: 10,
+        marginLeft: 24,
+        marginTop: 13,
+        fontSize: 14,
+        fontFamily: 'Roboto-Regular',
+        letterSpacing: 0.5,
+        color: '#FFFFFF',
+        lineHeight: 22,
     },
+    deviceTitle: {
+        alignSelf: 'center',
+        marginTop: 32,
+        fontSize: 14,
+        fontFamily: 'Roboto-Light',
+        letterSpacing: 0.8,
+        color: 'rgba(255,255,255,0.8)',
+        lineHeight: 18,
+    }
 });
 
 export default Memory;

@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
     ChildEdit: (login_account, childname, login_token) => {
         dispatch(GetChildrenData(login_account, childname, login_token));
-        //Actions.ChildrenEdit();
+
     },
     ChildListActionClick: (account, login_token) => {
         dispatch(ChildrenListAction(account, login_token));
@@ -45,58 +45,46 @@ class MemberContainer extends MemberComponent {
     constructor(props) {
         super(props);
         this.state = {
-            //avatarSource: null,
-            imageurl: '',
+            avatarSource: null,
+            imagedata_base64: null,
         }
 
     }
 
     componentDidMount() {
-        //取得會員資料
+        let account = this.props.login_account;
         this.props.GetMemberData(this.props.login_account, this.props.login_token);
 
+        //取得會員資料
+        this.setState({
+            imageurl: this.props.member_data.member_data.Imageurl
+        });
+
+
         this.props.ChildListActionClick(this.props.login_account, this.props.login_token);
-       
-            //signalr
-            const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
-            connection.logging = true;
-    
-            const proxy = connection.createHubProxy('chatHub');
-    
-            proxy.on('addNewMessageToPage', (argOne, argTwo, ) => {
-                console.log('message-from-server', argOne, argTwo);
-                if (argOne == 'openMindwavePage') {
-    
-                    proxy.invoke('send', 'haveOpened', '');
-                    this.props.MindWave();
-                    connection.stop();
-                }
-            });
-    
-            // atempt connection, and handle errors
-            connection.start().done(() => {
-                console.log('Now connected, connection ID=' + connection.id);
-            }).fail(() => {
-                console.log('Failed');
-            });
-        
+
+
     };
 
     componentWillReceiveProps(nextProps) {
         //取得會員資料
         const { member_data } = nextProps;
+        this.setState({
+            imageurl: this.props.member_data.member_data.Imageurl
+        });
         const { child_data } = nextProps;
+        const { childList } = nextProps;
         const { child_data: previous_child_data } = this.props;
 
-        if (previous_child_data != child_data) {
-            Actions.ChildrenEdit();
+        if (previous_child_data!= child_data) {
+              Actions.ChildrenEdit();
         }
-      
-        this.setState({
-            imageurl: member_data.member_data.Imageurl
-        });
+
+
 
     }
+
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MemberContainer);

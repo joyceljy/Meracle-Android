@@ -19,7 +19,7 @@ import Sleepingavg from './Sleepingavg_scene';
 // import waveavgpage from './waveavg_scene';
 const scenes = Actions.create(
     <Scene key="root" >
-        <Scene key="Sleepingavg" component={Sleepingavg} hideNavBar={true} />
+        
         <Scene key="MemberLogin" component={MemberLogin} hideNavBar={true} />
         <Scene key="MemberRegister" component={MemberRegister} hideNavBar={true} />
         <Scene key="ChildrenRegister" component={ChildrenRegister} hideNavBar={true} />
@@ -27,7 +27,7 @@ const scenes = Actions.create(
         <Scene key="home" component={Home} hideNavBar={true} />
         <Scene key="AllKidsHome" component={AllKidsHome} hideNavBar={true} />
         <Scene key="kidwavepage" component={kidwavepage} hideNavBar={true} />
-
+        <Scene key="Sleepingavg" component={Sleepingavg} hideNavBar={true} />
         <Scene key="MemberEdit" component={MemberEdit} hideNavBar={true} />
         <Scene key="ChildrenEdit" component={ChildrenEdit} hideNavBar={true} />
         <Scene key="EditPassword" component={EditPassword} hideNavBar={true} />

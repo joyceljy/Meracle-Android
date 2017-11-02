@@ -309,7 +309,7 @@ class Memory extends Component {
                                                 <View style={{ flexDirection: 'row' }}>
                                                     <Text style={{ marginLeft: 5, marginTop: 10, fontSize: 14, opacity: 0.5, color: '#6D7084', fontFamily: "Roboto-Light" }}>3</Text>
                                                     <Text style={{ marginLeft: 22, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: "Roboto-Light" }}>9-10歲</Text>
-                                                    <Text style={{ marginLeft: 140, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: " Roboto-Regular" }}>8.5 </Text>
+                                                    <Text style={{ marginLeft: 135, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: " Roboto-Regular" }}>8.5 </Text>
                                                     <Text style={{ fontSize: 10, marginTop: 15, color: '#6D7084', fontFamily: " Roboto-Regular" }}>小時</Text>
                                                 </View>
                                                 <View

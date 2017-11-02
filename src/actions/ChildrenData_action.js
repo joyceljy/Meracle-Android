@@ -1,7 +1,11 @@
 import Toast from 'react-native-root-toast';
-
+import { Actions } from 'react-native-router-flux';
 //取得小孩資料
 export const GetChildrenData = (account, childname, token) => {
+    // const callback = () => {
+      
+    //     Actions.ChildEdit();
+    // }
     return (dispatch, getState, { api }) => {
         api.fetch_childrendata(account, childname, token)
             .then(data => {
@@ -19,13 +23,21 @@ export const GetChildrenData = (account, childname, token) => {
             .catch(err => console.log(err));
     };
 };
+//清空小孩資料
+export const ClearChildrenData = () => {
+    return (dispatch, getState) => {
+        dispatch({
+            type: 'GET_CHILDDATA_SUCCESS', child_data: null
+        })
+    };
+};
 
 //儲存小孩資料
-export const SaveChildrenData = (account, childname, birthdate, gender, token) => {
+export const SaveChildrenData = (login_account, childname, birthdate, gender, token) => {
     const callback = (message) => {
         // 通过调用 Toast.show(message, options); 可以在屏幕上显示一个toast，并返回一个toast实例
         let toast = Toast.show(message, {
-            duration: 50000, // toast显示时长
+            duration: 3000, // toast显示时长
             position: Toast.positions.BOTTOM, // toast位置
             shadow: false, // toast是否出现阴影
             animation: true, // toast显示/隐藏的时候是否需要使用动画过渡
@@ -33,9 +45,10 @@ export const SaveChildrenData = (account, childname, birthdate, gender, token) =
             delay: 0, // toast显示的延时
 
         });
+        //Actions.ChildEdit();
     }
     return (dispatch, getState, { api }) => {
-        api.fetch_savechildrendata(account, childname, address, birthdate, gender, token)
+        api.fetch_savechildrendata(login_account, childname, birthdate, gender, token)
             .then(data => {
                 console.log(data)
                 if (data === "success") {

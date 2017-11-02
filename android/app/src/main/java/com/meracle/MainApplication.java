@@ -1,4 +1,4 @@
-package com.memory;
+package com.meracle;
 
 import android.app.Application;
 

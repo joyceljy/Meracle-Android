@@ -28,10 +28,6 @@ class EditPasswordContainer  extends EditPasswordComponent  {
         }
     }
 
-    componentDidMount() {
-        
-
-    };
 
     componentWillReceiveProps(nextProps) {
         const { editpwd_status } = nextProps;
@@ -42,7 +38,7 @@ class EditPasswordContainer  extends EditPasswordComponent  {
             Actions.Setting();
         }
     }
-
+  
 
 
 }

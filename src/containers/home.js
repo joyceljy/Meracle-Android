@@ -3,18 +3,25 @@ import HomeComponent from '../components/home';
 import { Actions } from 'react-native-router-flux';
 import signalr from 'react-native-signalr';
 import { processColor } from 'react-native';
+import { GetMemberData } from '../actions/MemberData_action';
+
 const mapStateToProps = (state) => ({
     login_account: state.login_account,
-    child_account: state.child_account
+    child_account: state.child_account,
+    login_token: state.login_token,
+    member_data: state.member_data,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    
-    kidwavepageClick:() => {
+
+    kidwavepageClick: () => {
         Actions.kidwavepage();
     },
-
+    GetMemberData: (login_account, token) => {
+        dispatch(GetMemberData(login_account, token));
+    },
 }
+
 );
 
 class HomeContainer extends HomeComponent {
@@ -106,39 +113,14 @@ class HomeContainer extends HomeComponent {
 
         };
     }
-    componentDidMount() {
-        //signalr
-        const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
-        connection.logging = true;
 
-        const proxy = connection.createHubProxy('chatHub');
-
-        proxy.on('addNewMessageToPage', (argOne, argTwo, ) => {
-            console.log('message-from-server', argOne, argTwo);
-            if (argOne == 'openMindwavePage') {
-
-                proxy.invoke('send', 'haveOpened', '');
-                this.props.MindWave();
-                connection.stop();
-            }
-        });
-
-        // atempt connection, and handle errors
-        connection.start().done(() => {
-            console.log('Now connected, connection ID=' + connection.id);
-        }).fail(() => {
-            console.log('Failed');
-        });
-    }
     componentWillMount() {
         // BackAndroid.addEventListener('hardwareBackPress', this.onBackAndroid);
     }
-    componentWillUnmount() {
-        //BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid);
 
-    }
     componentWillReceiveProps(nextProps) {
-
+        //取得會員資料
+        const { member_data } = nextProps;
     }
 
 

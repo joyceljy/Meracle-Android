@@ -6,11 +6,12 @@ import {
     Button,
     StyleSheet,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
 import Toast from 'react-native-root-toast';
-
+var { height, width } = Dimensions.get('window');
 
 class Memory extends Component {
     constructor(props) {
@@ -133,9 +134,10 @@ const styles = StyleSheet.create({
     },
     backgroundImage: {
         flex: 1,
-        alignSelf: 'stretch',
+        resizeMode: 'stretch',
         zIndex: -1,
-
+        width:width,
+        height:height,
     },
     logoView: {
         width: 120,

@@ -296,7 +296,7 @@ export function fetch_getCdList(account, login_token) {
     });
 }
 
-//小孩編輯（POST）
+//小孩資料（POST）
 export function fetch_childrendata(login_account, childname, token) {
     const api_url = `${get_base_url()}/Member/CdPersonalPage`;
     // TODO deal with json decode error situation
@@ -311,6 +311,30 @@ export function fetch_childrendata(login_account, childname, token) {
         body: JSON.stringify({
             "Account": login_account,
             "CdName": childname,
+
+        })
+    }).then(response => {
+        return response.json()
+    });
+}
+
+//小孩編輯（POST）
+export function fetch_savechildrendata(login_account, childname, birthdate, gender, token) {
+    const api_url = `${get_base_url()}/Member/EdlitCdPersonalPage`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            "Account": login_account,
+            "CdName": childname,
+            "Birthday":birthdate,
+            "Gender":gender,
 
         })
     }).then(response => {

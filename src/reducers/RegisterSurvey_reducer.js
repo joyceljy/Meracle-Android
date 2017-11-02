@@ -6,6 +6,8 @@ export default (state = null, action) => {
             return true;
         case 'REG_SURVEY_FAIL':
             return false;
+            case 'Logout_SUCCESS':
+            return "";
         default:
             return state;
     }

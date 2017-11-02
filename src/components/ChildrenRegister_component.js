@@ -481,6 +481,8 @@ class Memory extends Component {
                         title={"較注重孩童的飲食"}
                         titleColor={'#1D1D26'}
                         backgroundColor={'#FFFFFF'}
+                        okLabel={'確定'}
+                        cancelLabel={'取消'}
                         items={Q3List.map((row, index) => {
                             return { value: index, label: row }
                         })}
@@ -522,7 +524,7 @@ class Memory extends Component {
                         您已成功新增一名小孩</Text>
 
                     <View style={styles.finishProfile}>
-                        <View style={[styles.imageView, { marginLeft: 36 }]}>
+                        <View style={[styles.imageView, { marginLeft: 36,backgroundColor:'#9ACBD9' }]}>
                             {(this.state.avatarSource === null) ? (
                                 <Image style={styles.avatar} source={require('../images/avatar_boy copy 2.png')} />
                             ) : (
@@ -652,16 +654,20 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     imageView: {
-        backgroundColor: '#9ACBD9',
+        backgroundColor: '#FFFFFF',
         width: 128,
         height: 128,
         marginTop: 16,
         //marginLeft: 128,
         borderRadius: 100,
+        borderWidth: 7,
+        borderColor: '#9ACBD9',
     },
     avatar: {
-        marginTop: 24,
-        marginLeft: 19,
+        marginTop: 16,
+        marginLeft: 8,
+        width:100,
+        height:85,
     },
     otherImagetitle: {
         fontSize: 16,
@@ -681,6 +687,8 @@ const styles = StyleSheet.create({
         marginTop: 16,
         marginLeft: 162,
         marginBottom: -4,
+        elevation:6,
+        
     },
     uploadImage: {
         marginLeft: 18,
@@ -728,6 +736,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 6,
         marginTop: 40,
         marginLeft: 92,
+        elevation:6,
     },
     finishName: {
         marginLeft: 72,

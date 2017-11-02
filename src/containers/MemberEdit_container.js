@@ -15,7 +15,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 
     BackButton: () => {
-        Actions.Member();
+        Actions.Member({ type: "reset" });
     },
     // GetMemberData: (login_account, token) => {
     //     dispatch(GetMemberData(login_account, token));
@@ -59,6 +59,7 @@ class MemberEditContainer extends MemberEditComponent {
 
     componentDidMount() {
         //this.props.GetMemberData(this.props.login_account,this.props.login_token);
+        let account = this.props.login_account;
         this.setState({
             birthdate: this.props.member_data.member_data.Birthday,
             Address: this.props.member_data.member_data.Address,
@@ -67,35 +68,13 @@ class MemberEditContainer extends MemberEditComponent {
             imageurl: this.props.member_data.member_data.Imageurl
         });
 
-        if (this.props.member_data.member_data.Gender == '男') {
+        if (this.props.member_data.member_data.Gender.trim() == '男') {
             this.setState({ genderSelected: 0 })
         } else {
             this.setState({ genderSelected: 1 })
         }
-       
-            //signalr
-            const connection = signalr.hubConnection('http://signalrchattestpj.azurewebsites.net');
-            connection.logging = true;
-    
-            const proxy = connection.createHubProxy('chatHub');
-    
-            proxy.on('addNewMessageToPage', (argOne, argTwo, ) => {
-                console.log('message-from-server', argOne, argTwo);
-                if (argOne == 'openMindwavePage') {
-    
-                    proxy.invoke('send', 'haveOpened', '');
-                    this.props.MindWave();
-                    connection.stop();
-                }
-            });
-    
-            // atempt connection, and handle errors
-            connection.start().done(() => {
-                console.log('Now connected, connection ID=' + connection.id);
-            }).fail(() => {
-                console.log('Failed');
-            });
-        
+
+
     };
 
     componentWillReceiveProps(nextProps) {
@@ -115,6 +94,7 @@ class MemberEditContainer extends MemberEditComponent {
 
 
     }
+  
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MemberEditContainer);
