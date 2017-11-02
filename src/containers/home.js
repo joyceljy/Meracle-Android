@@ -8,6 +8,7 @@ const mapStateToProps = (state) => ({
     login_account: state.login_account,
     child_account: state.child_account,
     login_token: state.login_token,
+    member_data: state.member_data,
 });
 
 const mapDispatchToProps = (dispatch) => ({

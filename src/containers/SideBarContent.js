@@ -1,28 +1,30 @@
 import { connect } from 'react-redux';
 import SideBarComponent from '../components/SideBarContent';
 import { Actions } from 'react-native-router-flux';
-import { LogoutAction } from '../actions/Logout_action';
 import { ListChildren } from '../actions/ChildrenData_action';
 import signalr from 'react-native-signalr';
 
 const mapStateToProps = (state) => ({
     login_account: state.login_account,
-    child_account: state.child_account
+    child_account: state.child_account,
+    member_data: state.member_data,
 });
 
 const mapDispatchToProps = (dispatch) => ({
 
-MemberClick: () => {
-    Actions.Member();
-},
-   
-    LogoutClick: (account) => {
-        dispatch(LogoutAction());
+    MemberClick: () => {
+        Actions.Member();
     },
-    MindwaveClick:()=>{
+    MindwaveClick: () => {
         Actions.MindwaveTest();
-    }
-    
+    },
+    TestResultClick:()=>{
+
+    },
+    PublicResultClick:()=>{
+
+    },
+
 });
 
 class SideBarContainer extends SideBarComponent {
@@ -31,42 +33,36 @@ class SideBarContainer extends SideBarComponent {
         this.state = {
             childerr: false,
             modalVisible: false,
+            genderText: '',
+            Name: '',
+            imageurl: '',
         }
     }
     componentWillMount() {
 
     }
     componentWillReceiveProps(nextProps) {
-        const { logout_account } = nextProps;
-        if (logout_account == null || logout_account == '') {
-            Actions.MemberLogin();
-        }
+
+        const { member_data } = nextProps;
+
     }
-    // componentDidMount() {
-    //     //signalr
-    //     const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
-    //     connection.logging = true;
+    componentDidMount() {
+        this.setState({
+            Name: this.props.member_data.member_data.Name,
+            imageurl: this.props.member_data.member_data.Imageurl,
+            pressLabel1: false,
+            pressLabel2: false,
+            pressLabel3: false,
+            pressLabel4: false,
+        });
 
-    //     const proxy = connection.createHubProxy('chatHub');
+        if (this.props.member_data.member_data.Gender.trim() == '男') {
+            this.setState({ genderText: '先生' })
+        } else {
+            this.setState({ genderText: '小姐' })
+        }
 
-    //     proxy.on('addMessage', (argOne ) => {
-    //         console.log('message-from-server', argOne);
-    //         if (argOne == 'openMindwavePage') {
-
-    //             proxy.invoke('send', this.props.login_account, 'haveOpened');
-    //             this.props.MindWave();
-    //             connection.stop();
-    //         }
-    //     });
-
-    //     // atempt connection, and handle errors
-    //     connection.start().done(() => {
-    //         proxy.invoke('group',this.props.login_account);
-    //         console.log('Now connected, connection ID=' + connection.id);
-    //     }).fail(() => {
-    //         console.log('Failed');
-    //     });
-    // }
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SideBarContainer);
