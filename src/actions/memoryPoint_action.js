@@ -1,36 +1,36 @@
-//const quizPointArray = []
-export const get_memory_point= (mindwaveData,login_account,child_account) => {
-    // return (dispatch, getState, { api }) => {
-    //     if (sex == '男') {
-    //         api.fetch_get_quiz_point(mindwaveData)
-    //             .then(data => {
-    //                 console.log(data)
-    //                 console.log('算男生分數');
-    //                 if (data) {
-    //                     quizPointArray.push(data.point)
-    //                     if (quizPointArray.length == imageNumber) {
-    //                         console.log('測驗結束，取得以下值，準備Post');
-    //                         console.log(imageArray)
-    //                         console.log(quizPointArray)
-    //                         console.log(account)
-    //                         api.fetch_save_quiz_history(imageArray, quizPointArray, account)
-    //                             .then(data => {
-    //                                 console.log(data)
-    //                                 if (data) {
-    //                                     dispatch({
-    //                                         type: 'SAVE_QUIZ_HISTORY_SUCCESS', resultData: data
-    //                                     })
-    //                                     quizPointArray = []
-    //                                 }
-    //                             })
-    //                             .catch(err => console.log(err));
-    //                     }
-    //                     dispatch({
-    //                         type: 'GET_QUIZARRAY_POINT_SUCCESS', quizPointArray: quizPointArray
-    //                     })
-    //                 }
-    //             })
-    //             .catch(err => console.log(err));
-    //     } 
-    // };
+
+export const get_memory_point = (mindwaveData,login_token) => {
+    return (dispatch, getState, { api }) => {
+
+        api.fetch_get_memory_point(mindwaveData,login_token)
+            .then(data => {
+                console.log('分數計算中')
+                dispatch({
+                    type: 'GET_POINT_SUCCESS', quizPointArray: data
+                })
+
+            })
+            .catch(err => console.log(err));
+
+    };
+};
+
+export const save_memory_point = (login_account, login_token, cdName, finalScore, statusSelected) => {
+    return (dispatch, getState, { api }) => {
+
+        api.fetch_save_memory_point(login_account, login_token, cdName, finalScore, statusSelected)
+            .then(data => {
+                
+                if (data == "success") {
+                    console.log('分數儲存成功')
+                    dispatch({
+                        type: 'SAVE_POINT_SUCCESS'
+                    })
+                }
+
+
+            })
+            .catch(err => console.log(err));
+
+    };
 };

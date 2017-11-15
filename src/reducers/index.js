@@ -20,6 +20,8 @@ import esense_reducer from './esense_reducer';
 import CheckMemAccount_reducer from './CheckMemAccount_reducer';
 import CheckChildName_reducer from './CheckChildName_reducer';
 import ChildList_reducer from './ChildList_reducer';
+import MemoryPoint_reducer from './MemoryPoint_reducer';
+import SaveMemoryPoint_reducer from './SaveMemoryPoint_reducer';
 const root_reducers = combineReducers({
 
     //login
@@ -64,7 +66,11 @@ const root_reducers = combineReducers({
     esense: esense_reducer,
 
     //小孩列表
-    childList:ChildList_reducer
+    childList:ChildList_reducer,
+
+    //記憶分數
+    quizPointArray:MemoryPoint_reducer,
+    quizSaved:SaveMemoryPoint_reducer,
 });
 
 export default root_reducers;

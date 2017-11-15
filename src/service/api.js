@@ -333,11 +333,55 @@ export function fetch_savechildrendata(login_account, childname, birthdate, gend
         body: JSON.stringify({
             "Account": login_account,
             "CdName": childname,
-            "Birthday":birthdate,
-            "Gender":gender,
+            "Birthday": birthdate,
+            "Gender": gender,
 
         })
     }).then(response => {
         return response.json()
+    });
+}
+
+//取得記憶分數（POST）
+export function fetch_get_point(mindwaveData,login_token) {
+    const api_url = `${get_base_url()}/Point/GetPoint`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': login_token,
+        },
+        body: JSON.stringify({
+            lowGammaSD:mindwaveData.lowGammaSD,
+            lowAlphaSD:mindwaveData.lowAlphaSD,
+        })
+    }).then(res => {
+        return res.json()
+    });
+}
+
+//儲存記憶分數（POST）
+export function fetch_save_memory_point(login_account, login_token, cdName, finalScore, statusSelected) {
+    const api_url = `${get_base_url()}/Point/SaveCdScore`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': login_token,
+        },
+        body: JSON.stringify({
+            Account:login_account,
+            CdName:cdName,
+            Score:finalScore,
+            Status:statusSelected
+        })
+    }).then(res => {
+        return res.json()
     });
 }

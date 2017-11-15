@@ -67,13 +67,20 @@ class Memory extends Component {
             poorSignal: this.props.poorSignal ? this.props.poorSignal : 0,
             meditation: 0,
             attention: 0,
-
+            timerCounter: 0,
             //狀態選擇
             statusSelected: 1,
             status: '運動前',
             score: '80',
 
             showBtn: true,
+
+            //分數陣列
+            PointArray: [],
+
+            //
+            cdName: '',
+            finalScore: '',
         };
         console.log(this.state.imageArray)
     }
@@ -270,7 +277,14 @@ class Memory extends Component {
 
         this.setState(_state);
     }
-
+    countPoint(array) {
+        let points = 0;
+        for (let i = 0; i < array.length; i++) {
+            points += array[i];
+        }
+        alert(points);
+        return points / array.length;
+    }
 
     componentWillUnmount() {
         //clearTimeout(this.timerScan)
@@ -311,7 +325,11 @@ class Memory extends Component {
                 this.setState({ PrestartTest: false });
                 this.setState({ startTest: true });
                 setTimeout(() => {
-                    //結束收集腦波  
+                    //結束收集腦波 
+                    let countp = this.countPoint(this.state.PointArray);
+                    this.setState({ finalScore: countp });
+                    console.log('finalscore', countp);
+
                     this.setState({ endTestView: true });
                     //alert('endGame');
                 }, 210000);
@@ -386,9 +404,7 @@ class Memory extends Component {
                 this.setState({
                     poorSignal: nextProps.poorSignal,
                 })
-                // this.setState({
-                //     timerCounter: this.state.timerCounter + 1,
-                // })
+
 
                 //將訊號push進訊號陣列
                 this.state.deltaArray.push(nextProps.delta)
@@ -399,6 +415,10 @@ class Memory extends Component {
                 this.state.midGammaArray.push(nextProps.midGamma)
                 this.state.highBetaArray.push(nextProps.highBeta)
                 this.state.lowGammaArray.push(nextProps.lowGamma)
+
+                this.setState({
+                    timerCounter: this.state.timerCounter + 1,
+                })
                 // console.log({
                 //     delta: nextProps.delta, highAlpha: nextProps.highAlpha, lowAplpha: nextProps.lowAplpha, theta: nextProps.theta,
                 //     lowBeta: nextProps.lowBeta, midGamma: nextProps.midGamma, highBeta: nextProps.highBeta, lowGamma: nextProps.lowGamma
@@ -412,7 +432,8 @@ class Memory extends Component {
             }
 
             //每收集到4秒的腦波則計算一次腦波
-            if (this.state.timerCounter % this.state.time == 0 && this.state.timerCounter != 0 && this.props.poorSignal == 0) {
+            if (this.state.timerCounter == 4 && this.state.timerCounter != 0 && this.props.poorSignal == 0) {
+                alert('getMindWave');
                 this.setState({
                     delta_max: this._getMax(this.state.deltaArray[0], this.state.deltaArray[1], this.state.deltaArray[2], this.state.deltaArray[3]),
                     delta_min: this._getMin(this.state.deltaArray[0], this.state.deltaArray[1], this.state.deltaArray[2], this.state.deltaArray[3]),
@@ -469,8 +490,8 @@ class Memory extends Component {
                         "highBetaBig": this.state.highBeta_max, "highBetaSmall": this.state.highBeta_min, "highBetaAverage": this.state.highBeta_avg, "highBetaSD": this.state.highBeta_sd,
                         "lowGammaBig": this.state.lowGamma_max, "lowGammaSmall": this.state.lowGamma_min, "lowGammaAverage": this.state.lowGamma_avg, "lowGammaSD": this.state.lowGamma_sd,
                         "midGammaBig": this.state.midGamma_max, "midGammaSmall": this.state.midGamma_min, "midGammaAverage": this.state.midGamma_avg, "midGammaSD": this.state.midGamma_sd
-                    }
-                        , this.props.login_account, this.props.child_account);
+                    }, this.props.login_token
+                    );
                 })
 
                 //清空訊號收集陣列
@@ -485,9 +506,11 @@ class Memory extends Component {
                     lowGammaArray: [],
                 })
 
-
-
+                this.setState({
+                    timerCounter: 0,
+                })
             }
+            this.state.PointArray.push(nextProps.quizPointArray)
         }
     }
     render() {
@@ -626,7 +649,7 @@ class Memory extends Component {
                         <View style={styles.contentView2}>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={styles.endDate}>{date}</Text>
-                                <Text style={styles.endScore}>{'     '}測量結果為 {this.state.score} 分</Text>
+                                <Text style={styles.endScore}>{'     '}測量結果為 {this.state.finalScore} 分</Text>
                             </View>
                             {/*<Text style={[styles.endTitle, { marginTop: 32 }]}>選擇測量孩童</Text>
                             <View style={styles.chooseChildView}>
@@ -729,7 +752,7 @@ class Memory extends Component {
 
                             <TouchableOpacity style={styles.finishButton} onPress={() => {
 
-                                this.props.SaveStatus(this.props.login_account, this.state.Name, this.state.status, this.props.login_token)
+                                this.props.SaveMemoryPoint(this.props.login_account, this.props.login_token, this.state.cdName, this.state.finalScore, this.state.statusSelected)
                             }}>
                                 <Text style={styles.finishButtonText}>完成</Text>
                             </TouchableOpacity>

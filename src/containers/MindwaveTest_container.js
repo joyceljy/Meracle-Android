@@ -3,7 +3,7 @@ import MindwaveTestComponent from '../components/MindwaveTest_component';
 import { Actions } from 'react-native-router-flux';
 import MindWaveMobile from 'react-native-mindwave-mobile';
 import { on_eeg_power_delta, on_eeg_power_low_beta, on_esense } from '../actions/mindwave_action';
-import {get_memory_point} from '../actions/memoryPoint_action';
+import {get_memory_point,save_memory_point} from '../actions/memoryPoint_action';
 
 const mwm = new MindWaveMobile()
 const mapStateToProps = (state) => ({
@@ -18,7 +18,9 @@ const mapStateToProps = (state) => ({
     lowGamma: state.eeg_power_low_beta.lowGamma,
     poorSignal: state.esense.poorSignal,
     mindwaveTimer: state.eeg_power_delta.mindwaveTimer,
-
+    //分數
+    quizPointArray:state.quizPointArray,
+    quizSaved:state.quizSaved,
     //會員部分
     login_account: state.login_account,
     child_account: state.child_account,
@@ -34,11 +36,11 @@ const mapDispatchToProps = (dispatch) => ({
     onESense: (data) => {
         dispatch(on_esense(data.poorSignal));
     },
-    getMemoryPoint: (mindwaveData, login_account,child_account) => {
-        dispatch(get_memory_point(mindwaveData,login_account,child_account));
+    getMemoryPoint: (mindwaveData,login_token) => {
+        dispatch(get_memory_point(mindwaveData,login_token));
     },
-    SaveStatus:(login_account,Name,status,login_token)=>{
-
+    SaveMemoryPoint:(login_account,login_token,cdName,finalScore,statusSelected)=>{
+        dispatch(save_memory_point(login_account,login_token,cdName,finalScore,statusSelected));
     },
     goBack:()=>{
         Actions.pop();
