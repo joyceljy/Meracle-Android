@@ -343,25 +343,27 @@ export function fetch_savechildrendata(login_account, childname, birthdate, gend
 }
 
 //取得記憶分數（POST）
-export function fetch_get_point(mindwaveData,login_token) {
+export function fetch_get_memory_point(mindwaveData,login_token) {
     const api_url = `${get_base_url()}/Point/GetPoint`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
         method: 'POST',
         headers: {
             //'Content-Type': 'application/x-www-form-urlencoded',
+            //'Authorization': login_token,
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': login_token,
         },
         body: JSON.stringify({
-            lowGammaSD:mindwaveData.lowGammaSD,
-            lowAlphaSD:mindwaveData.lowAlphaSD,
+            "lowGammaSD":mindwaveData.lowGammaSD,
+            "lowAlphaSD":mindwaveData.lowAlphaSD,
+
         })
-    }).then(res => {
-        return res.json()
+    }).then(response => {
+        return response.json()
     });
 }
+
 
 //儲存記憶分數（POST）
 export function fetch_save_memory_point(login_account, login_token, cdName, finalScore, statusSelected) {
@@ -373,15 +375,15 @@ export function fetch_save_memory_point(login_account, login_token, cdName, fina
             //'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': login_token,
+            //'Authorization': login_token,
         },
         body: JSON.stringify({
-            Account:login_account,
-            CdName:cdName,
-            Score:finalScore,
-            Status:statusSelected
+            "Account":login_account,
+            "CdName":cdName,
+            "Score":finalScore,
+            "Status":statusSelected
         })
-    }).then(res => {
-        return res.json()
+    }).then(response => {
+        return response.json()
     });
 }

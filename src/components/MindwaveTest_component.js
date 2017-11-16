@@ -58,7 +58,7 @@ class Memory extends Component {
             //腦波數據
             delta: this.props.delta ? this.props.delta : null, delta_max: 0.00, delta_min: 0.00, delta_avg: 0.00, delta_sd: 0.00, deltaArray: [],
             highAlpha: this.props.highAlpha ? this.props.highAlpha : null, highAlpha_max: 0.00, highAlpha_min: 0.00, highAlpha_avg: 0.00, highAlpha_sd: 0.00, highAlphaArray: [],
-            lowAplpha: this.props.lowAplpha ? this.props.lowAplpha : null, lowAplpha_max: 0.00, lowAplpha_min: 0.00, lowAplpha_avg: 0.00, lowAplpha_sd: 0.00, lowAplphaArray: [],
+            lowAlpha: this.props.lowAlpha ? this.props.lowAlpha : null, lowAlpha_max: 0.00, lowAlpha_min: 0.00, lowAlpha_avg: 0.00, lowAlpha_sd: 0.00, lowAlphaArray: [],
             theta: this.props.theta ? this.props.theta : null, theta_max: 0.00, theta_min: 0.00, theta_avg: 0.00, theta_sd: 0.00, thetaArray: [],
             lowBeta: this.props.lowBeta ? this.props.lowBeta : null, lowBeta_max: 0.00, lowBeta_min: 0.00, lowBeta_avg: 0.00, lowBeta_sd: 0.00, lowBetaArray: [],
             midGamma: this.props.midGamma ? this.props.midGamma : null, midGamma_max: 0.00, midGamma_min: 0.00, midGamma_avg: 0.00, midGamma_sd: 0.00, midGammaArray: [],
@@ -279,11 +279,17 @@ class Memory extends Component {
     }
     countPoint(array) {
         let points = 0;
+        let countTimes=0
         for (let i = 0; i < array.length; i++) {
-            points += array[i];
+            if (array[i] > 0) {
+                points += array[i];
+                countTimes++;
+            }
+          
         }
-        alert(points);
-        return points / array.length;
+        //alert(points);
+        let num=points / countTimes;
+        return num;
     }
 
     componentWillUnmount() {
@@ -311,36 +317,40 @@ class Memory extends Component {
         }
 
         //signalr
-        const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
-        connection.logging = true;
-        const proxy = connection.createHubProxy('groupHub');
-        proxy.on('addtogroup', (message1) => {
-            console.log('message-from-server', message1);
-            //alert(message1);
+        // const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
+        // connection.logging = true;
+        // const proxy = connection.createHubProxy('groupHub');
+        // proxy.on('addtogroup', (message1) => {
+        //     console.log('message-from-server', message1);
+        //     //alert(message1);
 
-            if (message1 == "startGame") {
+        //     if (message1 == "startGame") {
 
-                connection.stop();
-                //alert('stopConnect');
-                this.setState({ PrestartTest: false });
-                this.setState({ startTest: true });
-                setTimeout(() => {
-                    //結束收集腦波 
-                    let countp = this.countPoint(this.state.PointArray);
-                    this.setState({ finalScore: countp });
-                    console.log('finalscore', countp);
+        //         connection.stop();
+        //         //alert('stopConnect');
+        //         this.setState({ PrestartTest: false });
+        //         this.setState({ startTest: true });
+        //         setTimeout(() => {
+        //             //結束收集腦波 
+        //             let countp = this.countPoint(this.state.PointArray);
+        //             this.setState({ finalScore: countp });
+        //             alert(countp);
+        //             console.log('finalscore', countp);
 
-                    this.setState({ endTestView: true });
-                    //alert('endGame');
-                }, 210000);
-            }
-        });
+        //             this.setState({ endTestView: true });
+        //             //alert('endGame');
+        //         }, 210000);
+        //     }else{
+        //         alert(message1);
+        //         this.setState({ cdName: message1 });
+        //     }
+        // });
 
-        connection.start().done(() => {
-            console.log('Now connected, connection ID=' + connection.id);
-            //alert(connection.id);
-            proxy.invoke('group', this.props.login_account);
-        });
+        // connection.start().done(() => {
+        //     console.log('Now connected, connection ID=' + connection.id);
+        //     //alert(connection.id);
+        //     proxy.invoke('group', this.props.login_account);
+        // });
 
 
 
@@ -368,23 +378,37 @@ class Memory extends Component {
 
             this.setState({ poorSignalChecked: true });
 
-            //訊號穩定 可以開始遊戲
-            const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
-            connection.logging = true;
-            const proxy = connection.createHubProxy('groupHub');
-            connection.start().done(() => {
+            this.setState({ PrestartTest: false });
+            this.setState({ startTest: true });
+            setTimeout(() => {
+                //結束收集腦波 
+                let countp = 0;
+               countp= this.countPoint(this.state.PointArray);
+                this.setState({ finalScore: countp });
+                // alert(countp);
+                console.log('finalscore', countp);
 
-                proxy.invoke('group', this.props.login_account);
-                console.log('Now connected, connection ID=' + connection.id);
-                //alert('Now connected, connection ID=' + connection.id);
-                proxy.invoke('send', account, 'canStart').done((directResponse) => {
-                    ToastAndroid.show('訊號穩定！', ToastAndroid.SHORT);
-                    this.setState({ PrestartTest: true });
-                })
-            }).fail(() => {
-                //alert('Failed');
-                console.log('Failed');
-            });
+                this.setState({ endTestView: true });
+                //alert('endGame');
+            }, 120000);
+
+            //訊號穩定 可以開始遊戲
+            // const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
+            // connection.logging = true;
+            // const proxy = connection.createHubProxy('groupHub');
+            // connection.start().done(() => {
+
+            //     proxy.invoke('group', this.props.login_account);
+            //     console.log('Now connected, connection ID=' + connection.id);
+            //     //alert('Now connected, connection ID=' + connection.id);
+            //     proxy.invoke('send', account, 'canStart').done((directResponse) => {
+            //         ToastAndroid.show('訊號穩定！', ToastAndroid.SHORT);
+            //         this.setState({ PrestartTest: true });
+            //     })
+            // }).fail(() => {
+            //     //alert('Failed');
+            //     console.log('Failed');
+            // });
         }
 
         //訊號不正常（poorsignal不為0）
@@ -400,7 +424,7 @@ class Memory extends Component {
 
         if (this.state.startTest) {
             if (poorSignal == 0) {
-                console.log(nextProps.poorSignal)
+                //console.log(nextProps.poorSignal)
                 this.setState({
                     poorSignal: nextProps.poorSignal,
                 })
@@ -409,7 +433,7 @@ class Memory extends Component {
                 //將訊號push進訊號陣列
                 this.state.deltaArray.push(nextProps.delta)
                 this.state.highAlphaArray.push(nextProps.highAlpha)
-                this.state.lowAplphaArray.push(nextProps.lowAplpha)
+                this.state.lowAlphaArray.push(nextProps.lowAlpha)
                 this.state.thetaArray.push(nextProps.theta)
                 this.state.lowBetaArray.push(nextProps.lowBeta)
                 this.state.midGammaArray.push(nextProps.midGamma)
@@ -420,10 +444,10 @@ class Memory extends Component {
                     timerCounter: this.state.timerCounter + 1,
                 })
                 // console.log({
-                //     delta: nextProps.delta, highAlpha: nextProps.highAlpha, lowAplpha: nextProps.lowAplpha, theta: nextProps.theta,
+                //     delta: nextProps.delta, highAlpha: nextProps.highAlpha, lowAlpha: nextProps.lowAlpha, theta: nextProps.theta,
                 //     lowBeta: nextProps.lowBeta, midGamma: nextProps.midGamma, highBeta: nextProps.highBeta, lowGamma: nextProps.lowGamma
                 // })
-                console.log('訊號正常每秒跳一次，目前數值：')
+                //console.log('訊號正常每秒跳一次，目前數值：')
             } else {
                 this.setState({
                     poorSignal: nextProps.poorSignal,
@@ -433,7 +457,7 @@ class Memory extends Component {
 
             //每收集到4秒的腦波則計算一次腦波
             if (this.state.timerCounter == 4 && this.state.timerCounter != 0 && this.props.poorSignal == 0) {
-                alert('getMindWave');
+
                 this.setState({
                     delta_max: this._getMax(this.state.deltaArray[0], this.state.deltaArray[1], this.state.deltaArray[2], this.state.deltaArray[3]),
                     delta_min: this._getMin(this.state.deltaArray[0], this.state.deltaArray[1], this.state.deltaArray[2], this.state.deltaArray[3]),
@@ -443,10 +467,10 @@ class Memory extends Component {
                     highAlpha_min: this._getMin(this.state.highAlphaArray[0], this.state.highAlphaArray[1], this.state.highAlphaArray[2], this.state.highAlphaArray[3]),
                     highAlpha_sd: this._getSD(this.state.highAlphaArray[0], this.state.highAlphaArray[1], this.state.highAlphaArray[2], this.state.highAlphaArray[3]),
                     highAlpha_avg: this._getAvg(this.state.highAlphaArray[0], this.state.highAlphaArray[1], this.state.highAlphaArray[2], this.state.highAlphaArray[3]),
-                    lowAplpha_max: this._getMax(this.state.lowAplphaArray[0], this.state.lowAplphaArray[1], this.state.lowAplphaArray[2], this.state.lowAplphaArray[3]),
-                    lowAplpha_min: this._getMin(this.state.lowAplphaArray[0], this.state.lowAplphaArray[1], this.state.lowAplphaArray[2], this.state.lowAplphaArray[3]),
-                    lowAplpha_sd: this._getSD(this.state.lowAplphaArray[0], this.state.lowAplphaArray[1], this.state.lowAplphaArray[2], this.state.lowAplphaArray[3]),
-                    lowAplpha_avg: this._getAvg(this.state.lowAplphaArray[0], this.state.lowAplphaArray[1], this.state.lowAplphaArray[2], this.state.lowAplphaArray[3]),
+                    lowAlpha_max: this._getMax(this.state.lowAlphaArray[0], this.state.lowAlphaArray[1], this.state.lowAlphaArray[2], this.state.lowAlphaArray[3]),
+                    lowAlpha_min: this._getMin(this.state.lowAlphaArray[0], this.state.lowAlphaArray[1], this.state.lowAlphaArray[2], this.state.lowAlphaArray[3]),
+                    lowAlpha_sd: this._getSD(this.state.lowAlphaArray[0], this.state.lowAlphaArray[1], this.state.lowAlphaArray[2], this.state.lowAlphaArray[3]),
+                    lowAlpha_avg: this._getAvg(this.state.lowAlphaArray[0], this.state.lowAlphaArray[1], this.state.lowAlphaArray[2], this.state.lowAlphaArray[3]),
                     theta_max: this._getMax(this.state.thetaArray[0], this.state.thetaArray[1], this.state.thetaArray[2], this.state.thetaArray[3]),
                     theta_min: this._getMin(this.state.thetaArray[0], this.state.thetaArray[1], this.state.thetaArray[2], this.state.thetaArray[3]),
                     theta_sd: this._getSD(this.state.thetaArray[0], this.state.thetaArray[1], this.state.thetaArray[2], this.state.thetaArray[3]),
@@ -471,7 +495,7 @@ class Memory extends Component {
                     console.log({
                         "deltaBig": this.state.delta_max, "deltaSmall": this.state.delta_min, "deltaAverage": this.state.delta_avg, "deltaSD": this.state.delta_sd,
                         "thetaBig": this.state.theta_max, "thetaSmall": this.state.theta_min, "thetaAverage": this.state.theta_avg, "thetaSD": this.state.theta_sd,
-                        "lowAlphaBig": this.state.lowAplpha_max, "lowAlphaSmall": this.state.lowAplpha_min, "lowAlphaAverage": this.state.lowAplpha_avg, "lowAlphaSD": this.state.lowAplpha_sd,
+                        "lowAlphaBig": this.state.lowAlpha_max, "lowAlphaSmall": this.state.lowAlpha_min, "lowAlphaAverage": this.state.lowAlpha_avg, "lowAlphaSD": this.state.lowAlpha_sd,
                         "highAlphaBig": this.state.highAlpha_max, "highAlphaSmall": this.state.highAlpha_min, "highAlphaAverage": this.state.highAlpha_avg, "highAlphaSD": this.state.highAlpha_sd,
                         "lowBetaBig": this.state.lowBeta_max, "lowBetaSmall": this.state.lowBeta_min, "lowBetaAverage": this.state.lowBeta_avg, "lowBetaSD": this.state.lowBeta_sd,
                         "highBetaBig": this.state.highBeta_max, "highBetaSmall": this.state.highBeta_min, "highBetaAverage": this.state.highBeta_avg, "highBetaSD": this.state.highBeta_sd,
@@ -484,7 +508,7 @@ class Memory extends Component {
                     this.props.getMemoryPoint({
                         "deltaBig": this.state.delta_max, "deltaSmall": this.state.delta_min, "deltaAverage": this.state.delta_avg, "deltaSD": this.state.delta_sd,
                         "thetaBig": this.state.theta_max, "thetaSmall": this.state.theta_min, "thetaAverage": this.state.theta_avg, "thetaSD": this.state.theta_sd,
-                        "lowAlphaBig": this.state.lowAplpha_max, "lowAlphaSmall": this.state.lowAplpha_min, "lowAlphaAverage": this.state.lowAplpha_avg, "lowAlphaSD": this.state.lowAplpha_sd,
+                        "lowAlphaBig": this.state.lowAlpha_max, "lowAlphaSmall": this.state.lowAlpha_min, "lowAlphaAverage": this.state.lowAlpha_avg, "lowAlphaSD": this.state.lowAlpha_sd,
                         "highAlphaBig": this.state.highAlpha_max, "highAlphaSmall": this.state.highAlpha_min, "highAlphaAverage": this.state.highAlpha_avg, "highAlphaSD": this.state.highAlpha_sd,
                         "lowBetaBig": this.state.lowBeta_max, "lowBetaSmall": this.state.lowBeta_min, "lowBetaAverage": this.state.lowBeta_avg, "lowBetaSD": this.state.lowBeta_sd,
                         "highBetaBig": this.state.highBeta_max, "highBetaSmall": this.state.highBeta_min, "highBetaAverage": this.state.highBeta_avg, "highBetaSD": this.state.highBeta_sd,
@@ -498,7 +522,7 @@ class Memory extends Component {
                 this.setState({
                     deltaArray: [],
                     highAlphaArray: [],
-                    lowAplphaArray: [],
+                    lowAlphaArray: [],
                     thetaArray: [],
                     lowBetaArray: [],
                     midGammaArray: [],
@@ -509,8 +533,10 @@ class Memory extends Component {
                 this.setState({
                     timerCounter: 0,
                 })
+                console.log('要推進陣列的記憶值',nextProps.quizPointArray);
+                this.state.PointArray.push(nextProps.quizPointArray);
             }
-            this.state.PointArray.push(nextProps.quizPointArray)
+            
         }
     }
     render() {

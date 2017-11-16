@@ -10,7 +10,7 @@ const mapStateToProps = (state) => ({
     //腦波部分
     delta: state.eeg_power_delta.delta,
     highAlpha: state.eeg_power_delta.highAlpha,
-    lowAplpha: state.eeg_power_delta.lowAplpha,
+    lowAlpha: state.eeg_power_delta.lowAlpha,
     theta: state.eeg_power_delta.theta,
     lowBeta: state.eeg_power_low_beta.lowBeta,
     midGamma: state.eeg_power_low_beta.midGamma,
@@ -24,11 +24,12 @@ const mapStateToProps = (state) => ({
     //會員部分
     login_account: state.login_account,
     child_account: state.child_account,
+    login_token:state.login_token,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     onEEGPowerDelta: (data, mindwaveTimer) => {
-        dispatch(on_eeg_power_delta(data.delta, data.highAlpha, data.lowAplpha, data.theta, mindwaveTimer));
+        dispatch(on_eeg_power_delta(data.delta, data.highAlpha, data.lowAlpha, data.theta, mindwaveTimer));
     },
     onEEGPowerLowBeta: (data) => {
         dispatch(on_eeg_power_low_beta(data.lowBeta, data.midGamma, data.highBeta, data.lowGamma));

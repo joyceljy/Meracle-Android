@@ -1,12 +1,12 @@
 
 export const get_memory_point = (mindwaveData,login_token) => {
     return (dispatch, getState, { api }) => {
-
         api.fetch_get_memory_point(mindwaveData,login_token)
             .then(data => {
-                console.log('分數計算中')
+                //console.log('分數計算中');
+                //console.log(data.score);
                 dispatch({
-                    type: 'GET_POINT_SUCCESS', quizPointArray: data
+                    type: 'GET_POINT_SUCCESS', quizPointArray: data.score
                 })
 
             })
@@ -17,7 +17,6 @@ export const get_memory_point = (mindwaveData,login_token) => {
 
 export const save_memory_point = (login_account, login_token, cdName, finalScore, statusSelected) => {
     return (dispatch, getState, { api }) => {
-
         api.fetch_save_memory_point(login_account, login_token, cdName, finalScore, statusSelected)
             .then(data => {
                 
