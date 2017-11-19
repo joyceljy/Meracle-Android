@@ -26,7 +26,7 @@ import SideBarContent from '../containers/SideBarContent';
 const mwm = new MindWaveMobile()
 const isMock = false;
 var { height, width } = Dimensions.get('window');
-var counter = 0
+var Settlecounter = 0
 const poorSingalTimerTimeMax = 5
 class Memory extends Component {
     constructor(props) {
@@ -279,16 +279,16 @@ class Memory extends Component {
     }
     countPoint(array) {
         let points = 0;
-        let countTimes=0
+        let countTimes = 0
         for (let i = 0; i < array.length; i++) {
             if (array[i] > 0) {
                 points += array[i];
                 countTimes++;
             }
-          
+
         }
         //alert(points);
-        let num=points / countTimes;
+        let num = points / countTimes;
         return num;
     }
 
@@ -317,40 +317,44 @@ class Memory extends Component {
         }
 
         //signalr
-        // const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
-        // connection.logging = true;
-        // const proxy = connection.createHubProxy('groupHub');
-        // proxy.on('addtogroup', (message1) => {
-        //     console.log('message-from-server', message1);
-        //     //alert(message1);
+        let GameNameTimer = 0;
+        const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
+        connection.logging = true;
+        const proxy = connection.createHubProxy('groupHub');
+        proxy.on('addtogroup', (message1) => {
+            console.log('message-from-server', message1);
+            //alert(message1);
+            if (message1 == "FarmerGame") {
+                GameNameTimer = 210000;
+            }
+            if (message1 == "startGame") {
 
-        //     if (message1 == "startGame") {
+                connection.stop();
+                //alert('stopConnect');
+                this.setState({ PrestartTest: false });
+                this.setState({ startTest: true });
+                setTimeout(() => {
+                    //結束收集腦波 
+                    let countp = 0;
+                    countp = this.countPoint(this.state.PointArray);
+                    this.setState({ finalScore: countp });
+                    alert(countp);
+                    console.log('finalscore', countp);
 
-        //         connection.stop();
-        //         //alert('stopConnect');
-        //         this.setState({ PrestartTest: false });
-        //         this.setState({ startTest: true });
-        //         setTimeout(() => {
-        //             //結束收集腦波 
-        //             let countp = this.countPoint(this.state.PointArray);
-        //             this.setState({ finalScore: countp });
-        //             alert(countp);
-        //             console.log('finalscore', countp);
+                    this.setState({ endTestView: true });
+                    //alert('endGame');
+                }, GameNameTimer);
+            } else if (message1 != "FarmerGame") {
+                alert(message1);
+                this.setState({ cdName: message1 });
+            }
+        });
 
-        //             this.setState({ endTestView: true });
-        //             //alert('endGame');
-        //         }, 210000);
-        //     }else{
-        //         alert(message1);
-        //         this.setState({ cdName: message1 });
-        //     }
-        // });
-
-        // connection.start().done(() => {
-        //     console.log('Now connected, connection ID=' + connection.id);
-        //     //alert(connection.id);
-        //     proxy.invoke('group', this.props.login_account);
-        // });
+        connection.start().done(() => {
+            console.log('Now connected, connection ID=' + connection.id);
+            //alert(connection.id);
+            proxy.invoke('group', this.props.login_account);
+        });
 
 
 
@@ -371,49 +375,52 @@ class Memory extends Component {
         //console.log('poorSignal', poorSignal);
         if (poorSignal == 0 && !this.state.poorSignalChecked && this.state.Connected) {
             //counter累加
-            counter++
+            Settlecounter++;
+            ToastAndroid.show('訊號穩定！倒數' + 5 - Settlecounter + '秒', ToastAndroid.SHORT);
             //顯示倒數
 
-            //當counter==5（需維持5秒的poorsignal=0 poorsignalchecked才會通過）
+            //當Settlecounter==5（需維持5秒的poorsignal=0 poorsignalchecked才會通過）
+            if (Settlecounter == 5) {
+                this.setState({ poorSignalChecked: true });
 
-            this.setState({ poorSignalChecked: true });
+                // this.setState({ PrestartTest: false });
+                // this.setState({ startTest: true });
+                // setTimeout(() => {
+                //     //結束收集腦波 
+                //     let countp = 0;
+                //     countp = this.countPoint(this.state.PointArray);
+                //     this.setState({ finalScore: countp });
+                //     // alert(countp);
+                //     console.log('finalscore', countp);
 
-            this.setState({ PrestartTest: false });
-            this.setState({ startTest: true });
-            setTimeout(() => {
-                //結束收集腦波 
-                let countp = 0;
-               countp= this.countPoint(this.state.PointArray);
-                this.setState({ finalScore: countp });
-                // alert(countp);
-                console.log('finalscore', countp);
+                //     this.setState({ endTestView: true });
+                //     //alert('endGame');
+                // }, 120000);
 
-                this.setState({ endTestView: true });
-                //alert('endGame');
-            }, 120000);
+                //訊號穩定 可以開始遊戲
+                const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
+                connection.logging = true;
+                const proxy = connection.createHubProxy('groupHub');
+                connection.start().done(() => {
 
-            //訊號穩定 可以開始遊戲
-            // const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
-            // connection.logging = true;
-            // const proxy = connection.createHubProxy('groupHub');
-            // connection.start().done(() => {
+                    proxy.invoke('group', this.props.login_account);
+                    console.log('Now connected, connection ID=' + connection.id);
+                    //alert('Now connected, connection ID=' + connection.id);
+                    proxy.invoke('send', account, 'canStart').done((directResponse) => {
+                        ToastAndroid.show('訊號穩定！可以開始遊戲了！', ToastAndroid.SHORT);
+                        this.setState({ PrestartTest: true });
+                    })
+                }).fail(() => {
+                    //alert('Failed');
+                    console.log('Failed');
+                });
+            }
 
-            //     proxy.invoke('group', this.props.login_account);
-            //     console.log('Now connected, connection ID=' + connection.id);
-            //     //alert('Now connected, connection ID=' + connection.id);
-            //     proxy.invoke('send', account, 'canStart').done((directResponse) => {
-            //         ToastAndroid.show('訊號穩定！', ToastAndroid.SHORT);
-            //         this.setState({ PrestartTest: true });
-            //     })
-            // }).fail(() => {
-            //     //alert('Failed');
-            //     console.log('Failed');
-            // });
         }
 
         //訊號不正常（poorsignal不為0）
         if (poorSignal != 0 && !this.state.checkPoorSignal && this.state.Connected) {
-            counter = 0
+            Settlecounter = 0
             // console.log('PoorSignal Is Not 0')
         }
 
@@ -514,7 +521,7 @@ class Memory extends Component {
                         "highBetaBig": this.state.highBeta_max, "highBetaSmall": this.state.highBeta_min, "highBetaAverage": this.state.highBeta_avg, "highBetaSD": this.state.highBeta_sd,
                         "lowGammaBig": this.state.lowGamma_max, "lowGammaSmall": this.state.lowGamma_min, "lowGammaAverage": this.state.lowGamma_avg, "lowGammaSD": this.state.lowGamma_sd,
                         "midGammaBig": this.state.midGamma_max, "midGammaSmall": this.state.midGamma_min, "midGammaAverage": this.state.midGamma_avg, "midGammaSD": this.state.midGamma_sd
-                    }, this.props.login_token
+                    }, this.props.login_token, this.props.login_account, this.state.cdName
                     );
                 })
 
@@ -533,10 +540,10 @@ class Memory extends Component {
                 this.setState({
                     timerCounter: 0,
                 })
-                console.log('要推進陣列的記憶值',nextProps.quizPointArray);
+                console.log('要推進陣列的記憶值', nextProps.quizPointArray);
                 this.state.PointArray.push(nextProps.quizPointArray);
             }
-            
+
         }
     }
     render() {
@@ -777,8 +784,7 @@ class Memory extends Component {
                             </View>
 
                             <TouchableOpacity style={styles.finishButton} onPress={() => {
-
-                                this.props.SaveMemoryPoint(this.props.login_account, this.props.login_token, this.state.cdName, this.state.finalScore, this.state.statusSelected)
+                                this.props.SaveMemoryPoint(this.props.login_account, this.props.login_token, this.state.cdName, this.state.finalScore, this.state.statusSelected);
                             }}>
                                 <Text style={styles.finishButtonText}>完成</Text>
                             </TouchableOpacity>

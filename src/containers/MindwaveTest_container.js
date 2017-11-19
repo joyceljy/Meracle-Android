@@ -3,7 +3,7 @@ import MindwaveTestComponent from '../components/MindwaveTest_component';
 import { Actions } from 'react-native-router-flux';
 import MindWaveMobile from 'react-native-mindwave-mobile';
 import { on_eeg_power_delta, on_eeg_power_low_beta, on_esense } from '../actions/mindwave_action';
-import {get_memory_point,save_memory_point} from '../actions/memoryPoint_action';
+import { get_memory_point, save_memory_point } from '../actions/memoryPoint_action';
 
 const mwm = new MindWaveMobile()
 const mapStateToProps = (state) => ({
@@ -19,12 +19,12 @@ const mapStateToProps = (state) => ({
     poorSignal: state.esense.poorSignal,
     mindwaveTimer: state.eeg_power_delta.mindwaveTimer,
     //分數
-    quizPointArray:state.quizPointArray,
-    quizSaved:state.quizSaved,
+    quizPointArray: state.quizPointArray,
+    quizSaved: state.quizSaved,
     //會員部分
     login_account: state.login_account,
     child_account: state.child_account,
-    login_token:state.login_token,
+    login_token: state.login_token,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -37,13 +37,16 @@ const mapDispatchToProps = (dispatch) => ({
     onESense: (data) => {
         dispatch(on_esense(data.poorSignal));
     },
-    getMemoryPoint: (mindwaveData,login_token) => {
-        dispatch(get_memory_point(mindwaveData,login_token));
+    getMemoryPoint: (mindwaveData, login_token, login_account, childname) => {
+        dispatch(get_memory_point(mindwaveData, login_token, login_account, childname));
     },
-    SaveMemoryPoint:(login_account,login_token,cdName,finalScore,statusSelected)=>{
-        dispatch(save_memory_point(login_account,login_token,cdName,finalScore,statusSelected));
+    SaveMemoryPoint: (login_account, login_token, cdName, finalScore, statusSelected) => {
+        dispatch(save_memory_point(login_account, login_token, cdName, finalScore, statusSelected));
+        setTimeout(() => {
+            Actions.home();
+        }, 2000);
     },
-    goBack:()=>{
+    goBack: () => {
         Actions.pop();
     }
 }

@@ -343,7 +343,7 @@ export function fetch_savechildrendata(login_account, childname, birthdate, gend
 }
 
 //取得記憶分數（POST）
-export function fetch_get_memory_point(mindwaveData,login_token) {
+export function fetch_get_memory_point(mindwaveData,login_token,login_account,childname) {
     const api_url = `${get_base_url()}/Point/GetPoint`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
@@ -355,6 +355,41 @@ export function fetch_get_memory_point(mindwaveData,login_token) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+
+            "Account":login_account,
+            "CdName":childname,
+            "deltaBig":mindwaveData.deltaBig	,
+            "deltaSmall":mindwaveData.deltaSmall,
+            "deltaAverage":mindwaveData.deltaAverage,
+            "deltaSD":mindwaveData.deltaSD,
+            "thetaBig":mindwaveData.thetaBig,
+            "thetaSmall":mindwaveData.thetaSmall,
+            "thetaAverage":mindwaveData.thetaAverage,
+            "thetaSD":mindwaveData.thetaSD,
+            "lowAlphaBig":mindwaveData.lowAlphaBig,
+            "lowAlphaSmall":mindwaveData.lowAlphaSmall,
+            "lowAlphaAverage":mindwaveData.lowAlphaAverage,
+            "highAlphaBig":mindwaveData.highAlphaBig,
+            "highAlphaSmall":mindwaveData.highAlphaSmall,
+            "highAlphaAverage":mindwaveData.highAlphaAverage,
+            "highAlphaSD":mindwaveData.highAlphaSD,
+            "lowBetaBig":mindwaveData.lowBetaBig,
+            "lowBetaSmall":mindwaveData.lowBetaSmall,
+            "lowBetaAverage":mindwaveData.lowBetaAverage,
+            "lowBetaSD":mindwaveData.lowBetaSD,
+            "highBetaBig":mindwaveData.highBetaBig,
+            "highBetaSmall":mindwaveData.highBetaSmall,
+            "highBetaAverage":mindwaveData.highBetaAverage,
+            "highBetaSD":mindwaveData.highBetaSD,
+            "lowGammaBig":mindwaveData.lowGammaBig,
+            "lowGammaSmall":mindwaveData.lowGammaSmall,
+            "lowGammaAverage":mindwaveData.lowGammaAverage,
+            "midGammaBig":mindwaveData.midGammaBig,
+            "midGammaSmall":mindwaveData.midGammaSmall,
+            "midGammaAverage":mindwaveData.midGammaAverage,
+            "midGammaSD":mindwaveData.midGammaSD,
+
+            //記憶力用
             "lowGammaSD":mindwaveData.lowGammaSD,
             "lowAlphaSD":mindwaveData.lowAlphaSD,
 
