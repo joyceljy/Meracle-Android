@@ -26,7 +26,8 @@ import SideBarContent from '../containers/SideBarContent';
 const mwm = new MindWaveMobile()
 const isMock = false;
 var { height, width } = Dimensions.get('window');
-var Settlecounter = 0
+var Settlecounter = 0;
+var Toastshow;
 const poorSingalTimerTimeMax = 5
 class Memory extends Component {
     constructor(props) {
@@ -81,6 +82,7 @@ class Memory extends Component {
             //
             cdName: '',
             finalScore: '',
+
         };
         console.log(this.state.imageArray)
     }
@@ -317,20 +319,32 @@ class Memory extends Component {
         }
 
         //signalr
-        let GameNameTimer = 0;
+
         const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
         connection.logging = true;
         const proxy = connection.createHubProxy('groupHub');
         proxy.on('addtogroup', (message1) => {
-            console.log('message-from-server', message1);
-            //alert(message1);
-            if (message1 == "FarmerGame") {
-                GameNameTimer = 210000;
-            }
-            if (message1 == "startGame") {
 
+
+            if (message1 != "startGame" && message1 != "canStart" && message1 != "startGame2") {
+                this.setState({ cdName: message1 });
+            }
+
+            if (message1 == "startGame") {
                 connection.stop();
-                //alert('stopConnect');
+                this.setState({ PrestartTest: false });
+                this.setState({ startTest: true });
+                setTimeout(() => {
+                    //結束收集腦波 
+                    let countp = 0;
+                    countp = this.countPoint(this.state.PointArray);
+                    this.setState({ finalScore: countp });
+                    console.log('finalscore', countp);
+
+                    this.setState({ endTestView: true });
+                }, 210000);
+            } else if (message1 == "startGame2") {
+                connection.stop();
                 this.setState({ PrestartTest: false });
                 this.setState({ startTest: true });
                 setTimeout(() => {
@@ -342,17 +356,12 @@ class Memory extends Component {
                     console.log('finalscore', countp);
 
                     this.setState({ endTestView: true });
-                    //alert('endGame');
-                }, GameNameTimer);
-            } else if (message1 != "FarmerGame") {
-                alert(message1);
-                this.setState({ cdName: message1 });
+                }, 120000);
             }
         });
 
         connection.start().done(() => {
             console.log('Now connected, connection ID=' + connection.id);
-            //alert(connection.id);
             proxy.invoke('group', this.props.login_account);
         });
 
@@ -366,9 +375,7 @@ class Memory extends Component {
     }
     componentWillReceiveProps(nextProps) {
         let account = this.props.login_account;
-        //耳機訊號傳回時間（為了讓以上三個function稍微同步）
-        //const { mindwaveTimer: previous_mindwaveTimer } = this.props;
-        //const { mindwaveTimer } = nextProps;
+
 
         //檢查訊號值正常（poorsignal為0）
         const { poorSignal } = nextProps;
@@ -376,13 +383,21 @@ class Memory extends Component {
         if (poorSignal == 0 && !this.state.poorSignalChecked && this.state.Connected) {
             //counter累加
             Settlecounter++;
-            ToastAndroid.show('訊號穩定！倒數' + 5 - Settlecounter + '秒', ToastAndroid.SHORT);
-            //顯示倒數
 
-            //當Settlecounter==5（需維持5秒的poorsignal=0 poorsignalchecked才會通過）
+            let DownSettleCounter = 5 - Settlecounter;
+            //顯示倒數
+            //ToastAndroid.show('訊號穩定！倒數' + DownSettleCounter + '秒', ToastAndroid.SHORT);
+            if (Settlecounter <= 5) {
+                Toastshow = setInterval(() => {
+                    ToastAndroid.show('等待訊號穩定中', ToastAndroid.SHORT);
+                }, 2000);
+            }
+
+
+            //當Settlecounter==5（需維持10次的poorsignal=0 poorsignalchecked才會通過）
             if (Settlecounter == 5) {
                 this.setState({ poorSignalChecked: true });
-
+                clearInterval(Toastshow);
                 // this.setState({ PrestartTest: false });
                 // this.setState({ startTest: true });
                 // setTimeout(() => {
@@ -405,13 +420,11 @@ class Memory extends Component {
 
                     proxy.invoke('group', this.props.login_account);
                     console.log('Now connected, connection ID=' + connection.id);
-                    //alert('Now connected, connection ID=' + connection.id);
                     proxy.invoke('send', account, 'canStart').done((directResponse) => {
                         ToastAndroid.show('訊號穩定！可以開始遊戲了！', ToastAndroid.SHORT);
                         this.setState({ PrestartTest: true });
                     })
                 }).fail(() => {
-                    //alert('Failed');
                     console.log('Failed');
                 });
             }
@@ -420,8 +433,8 @@ class Memory extends Component {
 
         //訊號不正常（poorsignal不為0）
         if (poorSignal != 0 && !this.state.checkPoorSignal && this.state.Connected) {
-            Settlecounter = 0
-            // console.log('PoorSignal Is Not 0')
+            Settlecounter = 0;
+            clearInterval(Toastshow);
         }
 
 

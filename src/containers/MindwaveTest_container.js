@@ -47,7 +47,7 @@ const mapDispatchToProps = (dispatch) => ({
         }, 2000);
     },
     goBack: () => {
-        Actions.pop();
+        Actions.home({ type: "reset" });
     }
 }
 );
