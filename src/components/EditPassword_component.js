@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
     },
     InputtextText: {
+        marginTop:3,
         width: 250,
         height: 48,
         marginLeft: 16,
@@ -182,6 +183,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     InputtextPlaceholder: {
+        marginTop:3,
         fontSize: 16,
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',

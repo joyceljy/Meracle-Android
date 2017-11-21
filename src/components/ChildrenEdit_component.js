@@ -39,6 +39,7 @@ class Memory extends Component {
 
 
 
+
     ImageSelect = () => {
         const options = {
             cancelButtonTitle: '取消',
@@ -73,13 +74,13 @@ class Memory extends Component {
                 //let source = { uri: response.uri };
 
                 // You can also display the image using data:
-                 let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
                 this.setState({
                     avatarSource: source,
                     imagedata_base64: response.data
+                   
                 });
-                //this.props.SaveImage(this.props.login_account,this.props.child_account, this.state.imagedata_base64)
             }
         });
     }
@@ -102,7 +103,7 @@ class Memory extends Component {
                     {(this.state.avatarSource === null) ? (
                         <Image style={styles.avatar} source={{ uri: 'https://www.meracle.me/home/Filefolder/' + this.state.imageurl }} />
                     ) : (
-                            <Image style={styles.avatar} source={{ uri: this.state.avatarSource }} />
+                            <Image style={styles.avatar} source={this.state.avatarSource} />
                         )}
 
                 </View>
@@ -199,8 +200,8 @@ class Memory extends Component {
                             err1: false
                         }), 5000); // hide toast after 5s
                     } else {
-                        this.props.SaveButtonClick(this.props.login_account, this.state.Name, this.state.birthdate, this.state.gender,this.props.login_token)
-                         this.props.SaveImage(this.props.login_account, this.state.imagedata_base64,this.props.login_token)
+                        this.props.SaveButtonClick(this.props.login_account, this.state.Name, this.state.birthdate, this.state.gender, this.props.login_token)
+                        this.props.SaveImage(this.props.login_account,this.state.Name, this.state.imagedata_base64, this.props.login_token)
                     }
                 }}>
                     <Text style={styles.editButtonText}>確定更新</Text>
@@ -271,15 +272,16 @@ const styles = StyleSheet.create({
         marginTop: 16,
         borderRadius: 100,
         marginBottom: 16,
-        shadowColor:'rgba(255,255,255,0.2)',
-        shadowRadius:8,
+        shadowColor: 'rgba(255,255,255,0.2)',
+        shadowRadius: 8,
         borderWidth: 7,
         borderColor: '#9ACBD9',
     },
     avatar: {
-        marginTop: 24,
-        marginLeft: 19,
-        
+        width: 115,
+        height:115,
+        borderRadius: 100,
+
     },
     Inputtextview: {
         flexDirection: 'row',
@@ -291,6 +293,7 @@ const styles = StyleSheet.create({
         marginLeft: 40,
     },
     InputtextText: {
+        marginTop: 3,
         width: 250,
         marginLeft: 16,
         fontSize: 16,
@@ -299,6 +302,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     InputtextPlaceholder: {
+        marginTop: 3,
         fontSize: 16,
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',
@@ -361,7 +365,7 @@ const styles = StyleSheet.create({
         marginTop: -48,
         marginLeft: 216,
         zIndex: 2,
-        elevation:6,
+        elevation: 6,
     },
     uploadImage: {
         marginLeft: 12.4,

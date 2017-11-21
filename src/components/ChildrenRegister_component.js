@@ -584,6 +584,7 @@ const styles = StyleSheet.create({
         alignSelf:'center',
     },
     InputtextText: {
+        marginTop:3,
         width: 250,
         marginLeft: 16,
         fontSize: 16,
@@ -592,6 +593,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     InputtextPlaceholder: {
+        marginTop:3,
         fontSize: 16,
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',
@@ -675,8 +677,9 @@ const styles = StyleSheet.create({
     avatar: {
         marginTop: 16,
         marginLeft: 8,
-        width:100,
-        height:85,
+        width:80,
+        height:80,
+        borderRadius: 100,
     },
     otherImagetitle: {
         fontSize: 16,

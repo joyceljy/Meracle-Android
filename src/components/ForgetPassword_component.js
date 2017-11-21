@@ -31,11 +31,12 @@ class Memory extends Component {
                     </TouchableOpacity>
                     <Text style={styles.topbarText}>忘記密碼</Text>
                 </View>
-                <Image style={{ width: 125, height: 100, marginTop: 40 }} source={require('../images/forgotpassword.png')} />
-                <Text style={styles.subTitle}>輸入以下資訊取得新密碼{"\n"}</Text>
+               
+                <Text style={styles.subTitle}>輸入您的電子信箱{'\n'}</Text>
+                <Text style={styles.subTitle}>系統將會自動發送新密碼至您的電子信箱！</Text>
 
                 <View style={styles.Inputtextview}>
-                    <Image source={require('../images/email.png')} style={styles.InputtextIcon} />
+                    <Image source={require('../images/email_white.png')} style={styles.InputtextIcon} />
                     <TextInput
                         style={styles.InputtextText}
                         onChangeText={(text) => this.setState({ Account: text })}
@@ -64,14 +65,9 @@ class Memory extends Component {
                         this.props.ForgetButtonClick(this.state.Account)
                     }
                 }}>
-                    <Text style={style = styles.ButtonText1}>送出</Text>
+                    <Text style={style = styles.ButtonText1}>確定發送</Text>
                 </TouchableOpacity>
                
-               
-
-                <Text style={styles.remindText}>系統將會發送新密碼至電子郵件信箱。</Text>
-
-
 
                 {/*Toast*/}
                 <Toast
@@ -117,6 +113,7 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#144669',
         height: 56,
+        marginBottom:64,
     },
     topbarIcon: {
         marginLeft: 16,
@@ -131,11 +128,9 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     subTitle: {
-        fontSize: 16,
-        lineHeight: 24,
+        fontSize: 14,
+        lineHeight: 20,
         fontFamily: 'PingFangTC-Regular',
-        marginTop: 24,
-       
         color: '#FFFFFF',
     },
     Inputtextview: {
@@ -148,6 +143,7 @@ const styles = StyleSheet.create({
         //marginLeft: 40,
     },
     InputtextText: {
+        marginTop:4,
         width: 250,
         marginLeft: 16,
         fontSize: 16,
@@ -156,6 +152,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     InputtextPlaceholder: {
+        marginTop:3,
         fontSize: 16,
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',

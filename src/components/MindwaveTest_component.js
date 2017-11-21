@@ -75,6 +75,7 @@ class Memory extends Component {
             score: '80',
 
             showBtn: true,
+            canShowToast: true,
 
             //分數陣列
             PointArray: [],
@@ -326,9 +327,9 @@ class Memory extends Component {
         proxy.on('addtogroup', (message1) => {
 
 
-            if (message1 != "startGame" && message1 != "canStart" && message1 != "startGame2") {
-                this.setState({ cdName: message1 });
-            }
+            // if (message1 != "startGame" && message1 != "canStart" && message1 != "startGame2") {
+
+            // }
 
             if (message1 == "startGame") {
                 connection.stop();
@@ -352,11 +353,14 @@ class Memory extends Component {
                     let countp = 0;
                     countp = this.countPoint(this.state.PointArray);
                     this.setState({ finalScore: countp });
-                    alert(countp);
+
                     console.log('finalscore', countp);
 
                     this.setState({ endTestView: true });
                 }, 120000);
+            } else if (message1 != 'canStart') {
+                this.setState({ cdName: message1 });
+                alert(message1);
             }
         });
 
@@ -381,23 +385,20 @@ class Memory extends Component {
         const { poorSignal } = nextProps;
         //console.log('poorSignal', poorSignal);
         if (poorSignal == 0 && !this.state.poorSignalChecked && this.state.Connected) {
+            this.setState({ canShowToast: false })
+            
             //counter累加
             Settlecounter++;
 
             let DownSettleCounter = 5 - Settlecounter;
             //顯示倒數
             //ToastAndroid.show('訊號穩定！倒數' + DownSettleCounter + '秒', ToastAndroid.SHORT);
-            if (Settlecounter <= 5) {
-                Toastshow = setInterval(() => {
-                    ToastAndroid.show('等待訊號穩定中', ToastAndroid.SHORT);
-                }, 2000);
-            }
 
 
             //當Settlecounter==5（需維持10次的poorsignal=0 poorsignalchecked才會通過）
             if (Settlecounter == 5) {
                 this.setState({ poorSignalChecked: true });
-                clearInterval(Toastshow);
+
                 // this.setState({ PrestartTest: false });
                 // this.setState({ startTest: true });
                 // setTimeout(() => {
@@ -434,7 +435,11 @@ class Memory extends Component {
         //訊號不正常（poorsignal不為0）
         if (poorSignal != 0 && !this.state.checkPoorSignal && this.state.Connected) {
             Settlecounter = 0;
-            clearInterval(Toastshow);
+            if (this.state.canShowToast) {
+                ToastAndroid.show('請避免頭部晃動', ToastAndroid.SHORT);
+                this.setState({ canShowToast: false })
+            }
+
         }
 
 
@@ -820,7 +825,7 @@ class Memory extends Component {
 
                         <View style={styles.contentView}>
                             <Text style={styles.poorsignalTitle}>準備好後 按下開始遊戲</Text>
-                            <Image source={require('../images/img-step3.png')} style={{ width: 160, height: 117.3, resizeMode: 'stretch', marginTop: 56 }} />
+                            <Image source={require('../images/img-step3.png')} style={{ width: 160, resizeMode: 'stretch', marginTop: 56 }} />
 
                             <Text style={[styles.poorsignalText, { marginTop: 56.7 }]}>請孩童在遊戲畫面中</Text>
                             <Text style={[styles.poorsignalText, { marginTop: -2 }]}>按下 開始遊戲 將會自動開始測量</Text>

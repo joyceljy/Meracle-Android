@@ -324,10 +324,16 @@ const styles = StyleSheet.create({
     },
     backgroundImage: {
         flex: 1,
-        alignSelf: 'stretch',
+        resizeMode: 'stretch',
         zIndex: -1,
-        width: width,
-        height: height,
+        width:width,
+        height:height,
+        alignSelf: 'stretch',
+        position:'absolute',
+        left:0,
+        right:0,
+        top:0,
+        bottom:0
     },
     logoView: {
         width: 120,
@@ -357,6 +363,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
     },
     InputtextText: {
+        marginTop:3,
         width: 250,
         height: 48,
         marginLeft: 16,
@@ -366,6 +373,7 @@ const styles = StyleSheet.create({
         color: '#144669',
     },
     InputtextPlaceholder: {
+        marginTop:3,
         fontSize: 16,
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',
