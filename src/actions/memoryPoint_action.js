@@ -1,16 +1,19 @@
 import Toast from 'react-native-root-toast';
 export const get_memory_point = (mindwaveData, login_token, login_account, childname) => {
     return (dispatch, getState, { api }) => {
-        api.fetch_get_memory_point(mindwaveData, login_token, login_account, childname)
-            .then(data => {
-                //console.log('分數計算中');
-                //console.log(data.score);
-                dispatch({
-                    type: 'GET_POINT_SUCCESS', quizPointArray: data.score
-                })
+        if (childname != null) {
+            api.fetch_get_memory_point(mindwaveData, login_token, login_account, childname)
+                .then(data => {
+                    //console.log('分數計算中');
+                    //console.log(data.score);
+                    dispatch({
+                        type: 'GET_POINT_SUCCESS', quizPointArray: data.score
+                    })
 
-            })
-            .catch(err => console.log(err));
+                })
+                .catch(err => console.log(err));
+        }
+
 
     };
 };
@@ -44,5 +47,13 @@ export const save_memory_point = (login_account, login_token, cdName, finalScore
             })
             .catch(err => console.log(err));
 
+    };
+};
+
+export const clear_memory = () => {
+    return (dispatch, getState) => {
+        dispatch({
+            type: 'CLEAR_MEMORY'
+        })
     };
 };

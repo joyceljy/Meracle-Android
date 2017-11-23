@@ -198,7 +198,7 @@ class Memory extends Component {
 
     handleDisconnect = ({ success }) => {
         //alert(`移除連結 ${success ? '成功' : '失敗'}`);
-        ToastAndroid.show(`移除連結 ${success ? '成功' : '失敗'}`, ToastAndroid.SHORT);
+        //ToastAndroid.show(`移除連結 ${success ? '成功' : '失敗'}`, ToastAndroid.SHORT);
         if (success === true && !this.state.mindwaveConnected) {
             this.setState({
                 Connected: false,
@@ -357,10 +357,10 @@ class Memory extends Component {
                     console.log('finalscore', countp);
 
                     this.setState({ endTestView: true });
-                }, 120000);
+                }, 116000);
             } else if (message1 != 'canStart') {
                 this.setState({ cdName: message1 });
-                alert(message1);
+               // alert(message1);
             }
         });
 
@@ -385,7 +385,7 @@ class Memory extends Component {
         const { poorSignal } = nextProps;
         //console.log('poorSignal', poorSignal);
         if (poorSignal == 0 && !this.state.poorSignalChecked && this.state.Connected) {
-            this.setState({ canShowToast: false })
+            this.setState({ canShowToast: true })
             
             //counter累加
             Settlecounter++;
@@ -395,23 +395,11 @@ class Memory extends Component {
             //ToastAndroid.show('訊號穩定！倒數' + DownSettleCounter + '秒', ToastAndroid.SHORT);
 
 
-            //當Settlecounter==5（需維持10次的poorsignal=0 poorsignalchecked才會通過）
-            if (Settlecounter == 5) {
+            //當Settlecounter==10（需維持10次的poorsignal=0 poorsignalchecked才會通過）
+            if (Settlecounter == 10) {
                 this.setState({ poorSignalChecked: true });
 
-                // this.setState({ PrestartTest: false });
-                // this.setState({ startTest: true });
-                // setTimeout(() => {
-                //     //結束收集腦波 
-                //     let countp = 0;
-                //     countp = this.countPoint(this.state.PointArray);
-                //     this.setState({ finalScore: countp });
-                //     // alert(countp);
-                //     console.log('finalscore', countp);
-
-                //     this.setState({ endTestView: true });
-                //     //alert('endGame');
-                // }, 120000);
+               
 
                 //訊號穩定 可以開始遊戲
                 const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
@@ -850,7 +838,7 @@ class Memory extends Component {
                         <View style={styles.contentView}>
                             <Text style={styles.poorsignalTitle}>正在為您偵測腦波</Text>
 
-                            <Image source={require('../images/Img_headset.png')} style={{ width: 120, height: 107.3, resizeMode: 'stretch', marginTop: 56, alignSelf: 'center' }} />
+                            <Image source={require('../images/Img_headset.png')} style={{ width: 120, resizeMode: 'contain', marginTop: 56, alignSelf: 'center' }} />
 
                             <Text style={[styles.poorsignalText, { marginTop: 80 }]}>請盡量避免頭部晃動以免訊號中斷</Text>
 
@@ -1192,16 +1180,19 @@ const styles = StyleSheet.create({
         height: 247,
         backgroundColor: 'rgba(216,216,216,0.00)',
         alignSelf: 'center',
+        alignItems: 'center',
 
     },
     deviceItem: {
+        width:312,
+        height:48,
         backgroundColor: 'rgba(255,255,255,0.75)',
         borderRadius: 4,
         marginTop: 4,
     },
     deviceItemTitle: {
         marginLeft: 24,
-        marginTop: 6,
+        marginTop: 13,
         fontSize: 14,
         fontFamily: 'Roboto-Regular',
         letterSpacing: 0.5,

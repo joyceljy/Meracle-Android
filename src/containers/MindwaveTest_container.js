@@ -3,7 +3,7 @@ import MindwaveTestComponent from '../components/MindwaveTest_component';
 import { Actions } from 'react-native-router-flux';
 import MindWaveMobile from 'react-native-mindwave-mobile';
 import { on_eeg_power_delta, on_eeg_power_low_beta, on_esense } from '../actions/mindwave_action';
-import { get_memory_point, save_memory_point } from '../actions/memoryPoint_action';
+import { get_memory_point, save_memory_point,clear_memory } from '../actions/memoryPoint_action';
 
 const mwm = new MindWaveMobile()
 const mapStateToProps = (state) => ({
@@ -43,10 +43,12 @@ const mapDispatchToProps = (dispatch) => ({
     SaveMemoryPoint: (login_account, login_token, cdName, finalScore, statusSelected) => {
         dispatch(save_memory_point(login_account, login_token, cdName, finalScore, statusSelected));
         setTimeout(() => {
-            Actions.home();
+            dispatch(clear_memory);
+            Actions.home({ type: "reset" });
         }, 2000);
     },
     goBack: () => {
+        dispatch(clear_memory);
         Actions.home({ type: "reset" });
     }
 }

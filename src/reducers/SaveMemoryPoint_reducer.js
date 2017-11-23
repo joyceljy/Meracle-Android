@@ -3,6 +3,8 @@ export default (state = [], action) => {
         case 'SAVE_POINT_SUCCESS':
             action.Callback("儲存成功")
             return true;
+        case 'Logout_SUCCESS':
+            return "";
         default:
             return state;
     }

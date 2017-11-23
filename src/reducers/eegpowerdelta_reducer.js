@@ -13,7 +13,15 @@ export default (state = {
                 lowAlpha: action.lowAlpha, theta: action.theta, mindwaveTimer: action.mindwaveTimer
             };
             case 'Logout_SUCCESS':
-            return "";
+            return {
+                delta: null, highAlpha: null,
+                lowAlpha: null, theta: null, mindwaveTimer: null
+            };
+            case 'CLEAR_MEMORY':
+            return {
+                delta: null, highAlpha: null,
+                lowAlpha: null, theta: null, mindwaveTimer: null
+            };
         default:
             return state;
     }

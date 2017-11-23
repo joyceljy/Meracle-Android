@@ -675,8 +675,9 @@ const styles = StyleSheet.create({
         borderColor: '#9ACBD9',
     },
     avatar: {
+        alignSelf:'center',
         marginTop: 16,
-        marginLeft: 8,
+        //marginLeft: 8,
         width:80,
         height:80,
         borderRadius: 100,
