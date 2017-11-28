@@ -19,9 +19,9 @@ var { height, width } = Dimensions.get('window');
 class Memory extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            kidlistpre: [],
-        }
+        // this.state = {
+        //     // kidlistpre: [],
+        // }
     }
     closeControlPanel = () => {
         this._drawer.close()

@@ -4,6 +4,16 @@ import { Actions } from 'react-native-router-flux';
 import signalr from 'react-native-signalr';
 import { processColor } from 'react-native';
 import { GetMemberData } from '../actions/MemberData_action';
+import {
+    TotalPublicBodyAction,
+    AvgPublicBodyAction,
+    AvgPublicMealActionOrderBy,
+    AvgPublicMealAction,
+    AvgPublicSleepAvgScoreOrderbyAction,
+    AvgPublicSleepAvgScoreAction,
+    AvgPublicMemeryOrderByAction,
+    AvgPublicMemeryAction
+} from '../actions/AllKidschart_action';
 
 const mapStateToProps = (state) => ({
     login_account: state.login_account,
@@ -20,6 +30,30 @@ const mapDispatchToProps = (dispatch) => ({
     GetMemberData: (login_account, token) => {
         dispatch(GetMemberData(login_account, token));
     },
+    GetAllKidsProblemData: () => { //生理狀況分布
+        dispatch(TotalPublicBodyAction());
+    },
+    GetAllKidsProblemDataOrderby: () => { //生理狀況平均指數排序
+        dispatch(AvgPublicBodyAction());
+    },
+    GetAllKidsMealData: () => { //飲食習慣分布
+        dispatch(AvgPublicMealAction());
+    },
+    GetAllKidsMealDataOrderby: () => { //飲食習慣平均指數排序
+        dispatch(AvgPublicMealActionOrderBy());
+    },
+    GetAllKidsSleepAvgScoreData: () => { //睡眠時間無排序
+        dispatch(AvgPublicSleepAvgScoreAction());
+    },
+    GetAllKidsSleepAvgScoreDataOrderby: () => { //睡眠時間排序
+        dispatch(AvgPublicSleepAvgScoreOrderbyAction());
+    },
+    GetAvgPublicMemeryOrderBy: () => {//每日記憶力表現排序
+        dispatch(AvgPublicMemeryOrderByAction());
+    },
+    GetAvgPublicMemery: () => {//每日記憶力折線圖
+        dispatch(AvgPublicMemeryAction());
+    }
 }
 
 );
@@ -98,13 +132,20 @@ class HomeContainer extends HomeComponent {
                 axisMaximum: 6,
                 axisMinimum: 0,
                 centerAxisLabels: true,
-                drawGridLines: true,
-                drawAxisLine: false,
+                drawGridLines: false,
+                // drawAxisLine: false,
                 gridDashedLine: { spaceLength: 10 }
             },
             yline:
             {
-                left: { textColor: processColor('#B4DAE5'), textSize: 10, drawAxisLine: false, gridDashedLine: { spaceLength: 10 } },
+                left: {
+                    textColor: processColor('#B4DAE5'), textSize: 10,
+                    drawAxisLine: false,
+                    gridDashedLine: {
+                        lineLength: 10,
+                        spaceLength: 8
+                    },
+                },
                 right: { drawLabels: false, drawAxisLine: false },
 
 
@@ -115,7 +156,14 @@ class HomeContainer extends HomeComponent {
     }
 
     componentWillMount() {
-        // BackAndroid.addEventListener('hardwareBackPress', this.onBackAndroid);
+        this.props.GetAllKidsProblemData();
+        this.props.GetAllKidsProblemDataOrderby();
+        this.props.GetAllKidsMealDataOrderby();
+        this.props.GetAllKidsMealData();
+        this.props.GetAllKidsSleepAvgScoreData();
+        this.props.GetAllKidsSleepAvgScoreDataOrderby();
+        this.props.GetAvgPublicMemeryOrderBy();
+        this.props.GetAvgPublicMemery();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -124,21 +172,7 @@ class HomeContainer extends HomeComponent {
     }
 
 
-    // onBackAndroid = () => {
-    //     
-    //          Alert.aler                                                                                                                                                                                                                                                                                                                                                                                                                                      t(
-    //         '',
-    //         '是否要關閉APP?',
-    //         [
-    //             { text: '取消', onPress: () => { } },
-    //             { text: '確定', onPress: () => { BackAndroid.exitApp(); } },
-    //         ],
-    //     );
-    //     return true;
-    //     
-
-
-    // }
+   
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

@@ -1,9 +1,10 @@
+// PublicSleepAvgScore_SUCCESS
 export default (state = null, action) => {
     switch (action.type) {
 
-        case 'ChildrenList_SUCCESS':
-            return action.childList;
-        case 'ChildrenList_Fail':
+        case 'PublicSleepAvgScore_SUCCESS':
+            return action.PublicSleepAvgScoredata;
+        case 'PublicSleepAvgScore_FAIL':
             return "";
         case 'Logout_SUCCESS':
             return "";

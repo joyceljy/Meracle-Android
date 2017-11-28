@@ -3,5 +3,6 @@ export const LogoutAction = () => {
         dispatch({
             type: 'Logout_SUCCESS'
         })
+            // .catch(err => console.log(err));
     };
 }

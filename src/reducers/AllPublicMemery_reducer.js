@@ -1,9 +1,11 @@
+// AvgPublicMemery_SUCCESS
+// AvgPublicMemerydata
 export default (state = null, action) => {
     switch (action.type) {
 
-        case 'ChildrenList_SUCCESS':
-            return action.childList;
-        case 'ChildrenList_Fail':
+        case 'AvgPublicMemery_SUCCESS':
+            return action.AvgPublicMemerydata;
+        case 'AvgPublicMemery_FAIL':
             return "";
         case 'Logout_SUCCESS':
             return "";

@@ -1,9 +1,10 @@
+// PublicBody_SUCCESS
 export default (state = null, action) => {
     switch (action.type) {
 
-        case 'ChildrenList_SUCCESS':
-            return action.childList;
-        case 'ChildrenList_Fail':
+        case 'PublicBody_SUCCESS':
+            return action.PublicBody;
+        case 'PublicBody_FAIL':
             return "";
         case 'Logout_SUCCESS':
             return "";

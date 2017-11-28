@@ -236,12 +236,12 @@ class Memory extends Component {
                             </View>
                         </View>
                         <View style={{ flexDirection: 'column', marginLeft: 20 }}>
-                            <Text style={styles.besttime}>最佳狀態</Text>
+                            <Text style={styles.besttime}>今日最佳狀態</Text>
                             <View style={styles.besttimeview}><Text style={styles.besttimevalue}>吃飯後</Text></View>
                         </View>
                         <View style={{ flexDirection: 'column', marginLeft: 25 }}>
-                            <Text style={styles.besttime}>最佳時段</Text>
-                            <View style={styles.besttimeview}><Text style={styles.besttimevalue}>週五</Text></View>
+                            <Text style={styles.besttime}>今日最佳時段</Text>
+                            <View style={styles.besttimeview}><Text style={styles.besttimevalue}>9點~10點</Text></View>
                         </View>
                         {
                             // <View style={{ marginTop: 8, backgroundColor: '#9ACBD9', width: 8, height: 8, borderRadius: 100, borderColor: '#FFFFFF', borderWidth: 1, zIndex: 1 }}>
