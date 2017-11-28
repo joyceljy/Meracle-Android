@@ -319,7 +319,7 @@ class Memory extends Component {
 
                                                     </View>
                                                     <View style={{ flexDirection: 'row', marginLeft: 20 }}>
-                                                        <Text style={styles.datetime}>2017/10/30 (一)</Text>
+                                                        <Text style={styles.datetime}>2017/10/30</Text>
                                                         <Text style={styles.statuesvalue}>吃飯前</Text>
                                                     </View>
                                                 </View>
@@ -365,7 +365,7 @@ class Memory extends Component {
                                                         </View>
                                                     </View>
                                                     <View style={{ flexDirection: 'row', marginLeft: 20 }}>
-                                                        <Text style={styles.datetime}>2017/10/29 (日)</Text>
+                                                        <Text style={styles.datetime}>2017/10/29</Text>
                                                         <Text style={styles.statuesvalue}>吃飯前</Text>
                                                     </View>
                                                 </View>
@@ -411,7 +411,7 @@ class Memory extends Component {
                                                         </View>
                                                     </View>
                                                     <View style={{ flexDirection: 'row', marginLeft: 20 }}>
-                                                        <Text style={styles.datetime}>2017/10/27 (五)</Text>
+                                                        <Text style={styles.datetime}>2017/10/27</Text>
                                                         <Text style={styles.statuesvalue}>睡覺前</Text>
                                                     </View>
                                                 </View>
@@ -443,16 +443,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#144669',
     },
     statueView: {
+        width:350,
         marginTop: -15,
         backgroundColor: '#144669',
         justifyContent: 'flex-start',
         flexDirection: 'row',
     },
     statueimgfirst: {
-        marginLeft: 28,
+        marginLeft: 26,
     },
     statueimgafter: {
-        marginLeft: 20,
+        marginLeft: 14,
     },
     statuetxtfirst: {
         marginLeft: 34,
@@ -460,7 +461,7 @@ const styles = StyleSheet.create({
         color: 'rgba(255,255,255,0.8)'
     },
     statuetxt: {
-        marginLeft: 24,
+        marginLeft: 22,
         fontSize: 9,
         color: 'rgba(255,255,255,0.8)'
     },
@@ -498,7 +499,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: '#FFFFFF',
-        width: 66,
+        width: 99,
         height: 24,
         fontSize: 16,
         lineHeight: 24,
@@ -509,7 +510,7 @@ const styles = StyleSheet.create({
     settingIcon: {
         width: 24,
         height: 24,
-        marginLeft: 182,
+        marginLeft:145,
         marginTop: 16,
     },
     childView: {
@@ -542,34 +543,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: 'rgba(109,112,132,0.8)',
     },
-    subTitle: {
-        fontSize: 10,
-        lineHeight: 16,
-        fontFamily: 'Roboto-Regular',
-        marginTop: 8,
-        marginLeft: 149,
-        color: '#636566',
-        marginBottom: -8,
-    },
-    avatarView: {
-        width: 72,
-        height: 72,
-        borderWidth: 5,
-        borderColor: '#9ACBD9',
-        borderRadius: 100,
-        //backgroundColor: 'transparent',
-        //overflow: 'hidden',
-        opacity: 0.1,
-        zIndex: 1,
-        backgroundColor: '#FFFFFF',
-        marginTop: 15,
-        marginLeft: 48,
-    },
-    avatar: {
-        width: 45.8,
-        height: 45.8,
-        borderRadius: 100
-    },
     besttimeview: {
         marginLeft: 5,
         marginTop: 5,
@@ -593,55 +566,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         lineHeight: 24,
-    },
-    helloText: {
-
-        fontSize: 16,
-        lineHeight: 24,
-        fontFamily: 'Roboto-Regular',
-        color: '#FFFFFF',
-        marginLeft: 152,
-        marginTop: -65,
-
-
-    },
-    editText: {
-        fontSize: 14,
-        lineHeight: 22,
-        fontFamily: 'PingFangTC-Light',
-        color: '#FFFFFF',
-        marginLeft: 152,
-        marginTop: 4,
-
-    },
-    kidname: {
-        justifyContent: 'center',
-        left: 54,
-        top: -12,
-        fontFamily: 'Roboto-Regular',
-        fontSize: 16,
-        color: '#FFFFFF',
-        letterSpacing: 0.5,
-        lineHeight: 24,
-        // width: 50,
-        height: 24,
-        // backgroundColor:'red'
-    },
-    underbar: {
-        // top: 262,
-        width: 384,
-        // height: 300,
-        // marginBottom:10,
-        backgroundColor: '#F2F2F2'
-    },
-    underbartext: {
-        fontSize: 10,
-        letterSpacing: 0.5,
-        lineHeight: 16,
-        color: '#636566',
-        fontFamily: 'PingFangTC-Light',
-        top: 8,
-        left: 133
     },
     // cardsize: {
     //     marginLeft: 16,
@@ -680,13 +604,11 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 50,
-
         // top: 10,
         // bottom: 10,
         // justifyContent: 'center',
         marginLeft: -6,
         backgroundColor: '#9ACBD9'
-
     },
     kid2cardimgstyle: {
         width: 40,
@@ -703,22 +625,6 @@ const styles = StyleSheet.create({
         // bottom: 10,
         marginLeft: -6,
         backgroundColor: '#F2992E'
-    },
-    kid4cardimgstyle: {
-        width: 40,
-        height: 40,
-        borderRadius: 50,
-        bottom: 10,
-        marginLeft: -10,
-        backgroundColor: '#2F9A9E'
-    },
-    kid5cardimgstyle: {
-        width: 40,
-        height: 40,
-        borderRadius: 50,
-        // bottom: 10,
-        marginLeft: -10,
-        backgroundColor: '#A77DC2'
     },
 
 });

@@ -1,9 +1,11 @@
+// PublicMemoryTotalset_SUCCESS
+// PublicMemoryTotalset
 export default (state = null, action) => {
     switch (action.type) {
 
-        case 'ChildrenList_SUCCESS':
-            return action.childList;
-        case 'ChildrenList_Fail':
+        case 'PublicMemoryTotalset_SUCCESS':
+            return action.PublicMemoryTotalset;
+        case 'PublicMemoryTotalset_FAIL':
             return "";
         case 'Logout_SUCCESS':
             return "";

@@ -422,3 +422,164 @@ export function fetch_save_memory_point(login_account, login_token, cdName, fina
         return response.json()
     });
 }
+//大眾小孩生理狀況統計（GET）
+export function fetch_AvgPublicBodyOrderBy() { //生理狀況平均記憶指數排序
+    const api_url = `${get_base_url()}/Survey/AvgPublicBodyAvgScoreOrderBy`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'GET',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            // 'Authorization': token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+
+        // body: JSON.stringify({
+           
+
+        // })
+    }).then(response => {
+        return response.json()
+    });
+}
+export function fetch_AvgPublicBodyNoOrderBy() { //生理狀況分布
+    const api_url = `${get_base_url()}/Survey/AvgPublicBodyNoOrderBy`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'GET',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            // 'Authorization': token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+
+        // body: JSON.stringify({
+           
+
+        // })
+    }).then(response => {
+        return response.json()
+    });
+}
+export function fetch_AvgPublicCerealOrderBy() { //飲食習慣平均記憶指數排序
+    const api_url = `${get_base_url()}/Survey/AvgPublicCerealOrderBy`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'GET',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            // 'Authorization': token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+
+        // body: JSON.stringify({
+           
+
+        // })
+    }).then(response => {
+        return response.json()
+    });
+}
+export function fetch_AllPublicCereal() { //飲食習慣分布
+    const api_url = `${get_base_url()}/Survey/GetEverCerealAvg`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'GET',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            // 'Authorization': token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+
+        // body: JSON.stringify({
+           
+
+        // })
+    }).then(response => {
+        return response.json()
+    });
+}
+export function fetch_AvgPublicSleepAvgScore() { //睡眠時間平均記憶指數無排序
+    const api_url = `${get_base_url()}/Survey/AvgPublicSleepAvgScoreOrderby`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'GET',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            // 'Authorization': token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+
+        // body: JSON.stringify({
+           
+
+        // })
+    }).then(response => {
+        return response.json()
+    });
+}
+export function fetch_AvgPublicSleepAvgScoreOrderby() { //睡眠時間平均記憶指數排序
+    const api_url = `${get_base_url()}/Survey/AvgPublicSleepAvgScoreNoOrderby`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'GET',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            // 'Authorization': token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+
+        // body: JSON.stringify({
+           
+
+        // })
+    }).then(response => {
+        return response.json()
+    });
+}
+export function fetch_AvgPublicMemeryOrderBy() { //每日時段平均記憶指數排序
+    const api_url = `${get_base_url()}/Survey/AvgPublicMemeryOrderBy`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'GET',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            // 'Authorization': token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+
+        // body: JSON.stringify({
+           
+
+        // })
+    }).then(response => {
+        return response.json()
+    });
+}
+export function fetch_AvgPublicMemeryNoOrderBy() { //每日時段平均記憶指數折線圖
+    const api_url = `${get_base_url()}/Survey/AvgPublicMemeryNoOrderBy`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'GET',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            // 'Authorization': token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+
+        // body: JSON.stringify({
+           
+
+        // })
+    }).then(response => {
+        return response.json()
+    });
+}
