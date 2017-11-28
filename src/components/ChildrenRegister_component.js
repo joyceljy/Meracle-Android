@@ -7,7 +7,8 @@ import {
     StyleSheet,
     Image,
     TouchableOpacity,
-    TouchableHighlight
+    TouchableHighlight,
+    Dimensions
 
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
@@ -17,7 +18,7 @@ import RegisterTopBar from '../containers/RegisterTopBar_container';
 //import CustomMultiPicker from "react-native-multiple-select-list";
 import { SinglePickerMaterialDialog, MultiPickerMaterialDialog } from 'react-native-material-dialog';
 var ImagePicker = require('react-native-image-picker');
-
+var {height, width} = Dimensions.get('window');
 
 
 const Q1List = [
@@ -145,6 +146,7 @@ class Memory extends Component {
     }
 
     time() {
+        this.props.ChildListActionClick(this.props.login_account,this.props.login_token);
         var count = 0;
         this.timer = setInterval(
             () => {
@@ -218,7 +220,7 @@ class Memory extends Component {
 
 
                         {/*Gender*/}
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'row', alignSelf:'center',}}>
                             <TouchableHighlight style={[styles.genderView, this.state.genderSelected === 0 ? { backgroundColor: 'rgba(255,255,255,0.25)' } : { backgroundColor: 'rgba(255,255,255,0)' }]}
 
                                 onPress={() => {
@@ -238,7 +240,7 @@ class Memory extends Component {
 
                             </TouchableHighlight>
 
-                            <TouchableHighlight style={[styles.genderView, this.state.genderSelected === 1 ? { backgroundColor: 'rgba(255,255,255,0.25)' } : { backgroundColor: 'rgba(255,255,255,0)' }]}
+                            <TouchableHighlight style={[styles.genderView, {marginLeft:width*0.041},this.state.genderSelected === 1 ? { backgroundColor: 'rgba(255,255,255,0.25)' } : { backgroundColor: 'rgba(255,255,255,0)' }]}
 
                                 onPress={() => {
                                     this.setState({
@@ -560,7 +562,8 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0.6, height: 8, },
         shadowColor: 'rgba(0,0,0,0.20)',
         shadowOpacity: 0,
-        marginLeft: 56,
+        //marginLeft: 56,
+        alignSelf:'center',
         elevation: 2,
     },
     nextButtonText: {
@@ -577,9 +580,11 @@ const styles = StyleSheet.create({
         width: 304,
         height: 48,
         marginTop: 16,
-        marginLeft: 40,
+        //marginLeft: 40,
+        alignSelf:'center',
     },
     InputtextText: {
+        marginTop:3,
         width: 250,
         marginLeft: 16,
         fontSize: 16,
@@ -588,6 +593,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     InputtextPlaceholder: {
+        marginTop:3,
         fontSize: 16,
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',
@@ -602,7 +608,8 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',
         marginTop: 40,
-        marginLeft: 117,
+        //marginLeft: 117,
+        alignSelf:'center',
         marginBottom: 16,
         color: '#FFFFFF',
     },
@@ -611,7 +618,8 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',
         marginTop: 40,
-        marginLeft: 134,
+        //marginLeft: 134,
+        alignSelf:'center',
         color: '#FFFFFF',
     },
     genderImage: {
@@ -626,7 +634,8 @@ const styles = StyleSheet.create({
         width: 133,
         height: 48,
         marginTop: 32,
-        marginLeft: 51,
+        //marginLeft: 51,
+       
     },
     genderView2: {
         flexDirection: 'row',
@@ -635,7 +644,8 @@ const styles = StyleSheet.create({
         width: 133,
         height: 48,
         marginTop: 32,
-        marginLeft: 16,
+        //marginLeft: 16,
+      
     },
     genderText: {
         fontSize: 18,
@@ -650,8 +660,9 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',
         marginTop: 40,
-        marginLeft: 116.5,
+        //marginLeft: 116.5,
         color: '#FFFFFF',
+        alignSelf:'center',
     },
     imageView: {
         backgroundColor: '#FFFFFF',
@@ -664,17 +675,20 @@ const styles = StyleSheet.create({
         borderColor: '#9ACBD9',
     },
     avatar: {
+        alignSelf:'center',
         marginTop: 16,
-        marginLeft: 8,
-        width:100,
-        height:85,
+        //marginLeft: 8,
+        width:80,
+        height:80,
+        borderRadius: 100,
     },
     otherImagetitle: {
         fontSize: 16,
         lineHeight: 24,
         fontFamily: 'PingFangTC-Regular',
         marginTop: 48,
-        marginLeft: 100,
+        //marginLeft: 100,
+        alignSelf:'center',
         color: '#FFFFFF',
     },
     uploadImageView: {
@@ -695,7 +709,8 @@ const styles = StyleSheet.create({
         marginTop: 18,
     },
     qTitle: {
-        marginLeft: 100,
+        //marginLeft: 100,
+        alignSelf:'center',
         marginTop: 40,
         fontSize: 16,
         fontFamily: 'Roboto-Regular',
@@ -703,7 +718,8 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
     qSubtitle: {
-        marginLeft: 48,
+        //marginLeft: 48,
+        alignSelf:'center',
         marginTop: 16,
         fontSize: 12,
         fontFamily: 'Roboto-Light',
@@ -722,7 +738,8 @@ const styles = StyleSheet.create({
         color: '#1D1D26',
     },
     finishTitle: {
-        marginLeft: 108.5,
+        //marginLeft: 108.5,
+        alignSelf:'center',
         marginTop: 40,
         fontSize: 16,
         fontFamily: 'PingFangTC-Regular',
@@ -735,11 +752,13 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         shadowOpacity: 6,
         marginTop: 40,
-        marginLeft: 92,
+       // marginLeft: 92,
+       alignSelf:'center',
         elevation:6,
     },
     finishName: {
-        marginLeft: 72,
+        //marginLeft: 72,
+        alignSelf:'center',
         marginTop: 16,
         fontSize: 18,
         fontFamily: 'Roboto-Medium',
@@ -747,7 +766,8 @@ const styles = StyleSheet.create({
         lineHeight: 24,
     },
     finishBirth: {
-        marginLeft: 52,
+        //marginLeft: 52,
+        alignSelf:'center',
         marginTop: 8,
         fontSize: 18,
         fontFamily: 'Roboto-Medium',

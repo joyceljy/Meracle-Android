@@ -6,9 +6,10 @@ import {
     Button,
     StyleSheet,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions
 } from 'react-native';
-
+var {height, width} = Dimensions.get('window');
 
 class Memory extends Component {
     constructor(props) {
@@ -139,9 +140,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     backIcon: {
-        marginLeft: 16,
+        marginLeft: width*0.041,
         marginTop: 16,
-        marginRight: 16,
+        marginRight: width*0.0625-width*0.0208,
         width: 24,
         height: 24,
     },
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
     rectangle: {
         width: 80,
         height: 8,
-        marginLeft: 8,
+        marginLeft: width*0.0208,
         marginTop: 24,
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
         borderRadius: 100,
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
     rectangleLight: {
         width: 80,
         height: 8,
-        marginLeft: 8,
+        marginLeft: width*0.0208,
         marginTop: 24,
         borderRadius: 100,
         backgroundColor: '#009688',

@@ -20,6 +20,7 @@ import esense_reducer from './esense_reducer';
 import CheckMemAccount_reducer from './CheckMemAccount_reducer';
 import CheckChildName_reducer from './CheckChildName_reducer';
 import ChildList_reducer from './ChildList_reducer';
+<<<<<<< HEAD
 import AllPublicBody_reducer from './AllPublicBody_reducer';
 import PublicBodyTotal_reducer from './PublicBodyTotal_reducer';
 import PublicBodyTotalset_reducer from './PublicBodyTotalset_reducer';
@@ -32,6 +33,10 @@ import AllPublicSleepTotalset_reducer from "./AllPublicSleepTotalset_reducer";
 import AllPublicMemeryOrderBy_reducer from './AllPublicMemeryOrderBy_reducer';
 import AllPublicMemery_reducer from './AllPublicMemery_reducer';
 import AllPublicMemoryTotalset_reducer from './AllPublicMemoryTotalset_reducer'
+=======
+import MemoryPoint_reducer from './MemoryPoint_reducer';
+import SaveMemoryPoint_reducer from './SaveMemoryPoint_reducer';
+>>>>>>> d28668998b92c3f40a8b186ae0513c70de343220
 const root_reducers = combineReducers({
 
     //login
@@ -96,10 +101,9 @@ const root_reducers = combineReducers({
     PublicMemoryTotalset:AllPublicMemoryTotalset_reducer,
 
 
-
-
-
-
+    //記憶分數
+    quizPointArray:MemoryPoint_reducer,
+    quizSaved:SaveMemoryPoint_reducer,
 });
 
 export default root_reducers;

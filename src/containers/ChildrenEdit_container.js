@@ -60,7 +60,7 @@ class ChildrenEditContainer extends ChildrenEditComponent {
             birthdate: this.props.child_data.child_data.Birthday,
             Name: this.props.child_data.child_data.CdName,
             gender: this.props.child_data.child_data.Gender,
-            imageurl: this.props.child_data.child_data.Imageurl
+            imageurl: this.props.child_data.child_data.Imageurl.trim()
         });
         if (this.props.child_data.child_data.Gender.trim() == '男') {
             this.setState({ genderSelected: 0 })

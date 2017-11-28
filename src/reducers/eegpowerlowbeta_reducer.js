@@ -13,7 +13,15 @@ export default (state = {
                 highBeta: action.highBeta, lowGamma: action.lowGamma
             };
             case 'Logout_SUCCESS':
-            return "";
+            return {
+                lowBeta: null, midGamma: null,
+                highBeta: null, lowGamma: null
+            };
+            case 'CLEAR_MEMORY':
+            return {
+                lowBeta: null, midGamma: null,
+                highBeta: null, lowGamma: null
+            };
         default:
             return state;
     }

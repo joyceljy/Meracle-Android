@@ -4,7 +4,9 @@ export default (state = { poorSignal: null }, action) => {
             // console.log(action.mindwaveTimer)
             return { poorSignal: action.poorSignal }
             case 'Logout_SUCCESS':
-            return "";
+            return { poorSignal: null }
+            case 'CLEAR_MEMORY':
+            return { poorSignal: null }
         default:
             return state;
     }

@@ -12,6 +12,9 @@ const mapDispatchToProps = (dispatch) => ({
 
     ForgetButtonClick: (account) => {
         dispatch(ForgetPasswordAction(account));
+        setTimeout(() => {
+            Actions.MemberLogin();
+        }, 1000);
     },
     BackButtonClick: () => {
         Actions.pop();

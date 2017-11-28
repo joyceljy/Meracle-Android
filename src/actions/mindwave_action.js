@@ -1,9 +1,9 @@
-export const on_eeg_power_delta = (delta, highAlpha, lowAplpha, theta, mindwaveTimer) => {
+export const on_eeg_power_delta = (delta, highAlpha, lowAlpha, theta, mindwaveTimer) => {
     return (dispatch, getState) => {
         dispatch({
             type: 'ON_EEG_POWER_DELTA',
             delta: delta, highAlpha: highAlpha,
-            lowAplpha: lowAplpha, theta: theta, mindwaveTimer: mindwaveTimer
+            lowAlpha: lowAlpha, theta: theta, mindwaveTimer: mindwaveTimer
         })
     };
 };

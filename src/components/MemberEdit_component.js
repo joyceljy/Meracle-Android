@@ -294,10 +294,8 @@ const styles = StyleSheet.create({
        borderColor: '#9ACBD9',
     },
     avatar: {
-        marginTop: 18,
-        marginLeft:18,
-        width: 80,
-        height: 80,
+        width: 115,
+        height:115,
         borderRadius: 100,
        
         // justifyContent: 'center',
@@ -313,6 +311,7 @@ const styles = StyleSheet.create({
         marginLeft: 40,
     },
     InputtextText: {
+        marginTop:3,
         width: 250,
         marginLeft: 16,
         fontSize: 16,
@@ -321,6 +320,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     InputtextPlaceholder: {
+        marginTop:3,
         fontSize: 16,
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',

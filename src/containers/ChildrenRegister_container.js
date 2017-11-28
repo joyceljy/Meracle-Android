@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import { ChildrenRegisterAction, RegisterSurveyAction, CheckChildNameAction, ChildImageAction } from '../actions/ChildrenRegister_action';
 import { changeRegisterStep } from '../actions/ChangeStep_action';
 import signalr from 'react-native-signalr';
+import { ChildrenListAction, GetChildrenData } from '../actions/ChildrenData_action';
 
 const mapStateToProps = (state) => ({
     child_reg_status: state.child_reg_status,
@@ -12,38 +13,39 @@ const mapStateToProps = (state) => ({
     childRegStep: state.childRegStep,
     checkChildName_status: state.checkChildName_status,
     login_token: state.login_token,
-
+    childList: state.childList,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     //新增小孩資料
-    ChildRegisterButton: (account, name, birth, gender,login_token) => {
-        dispatch(ChildrenRegisterAction(account, name, birth, gender,login_token));
+    ChildRegisterButton: (account, name, birth, gender, login_token) => {
+        dispatch(ChildrenRegisterAction(account, name, birth, gender, login_token));
     },
     //變換步驟
     changeRegisterStep: (step) => {
         dispatch(changeRegisterStep(step));
     },
     //檢查小孩名稱重複
-    checkChildButton: (account, name,login_token) => {
-        dispatch(CheckChildNameAction(account, name,login_token));
+    checkChildButton: (account, name, login_token) => {
+        dispatch(CheckChildNameAction(account, name, login_token));
     },
     //新增小孩照片
-    saveChildpicButton: (account, name, pic64,login_token) => {
-        dispatch(ChildImageAction(account, name, pic64,login_token));
+    saveChildpicButton: (account, name, pic64, login_token) => {
+        dispatch(ChildImageAction(account, name, pic64, login_token));
     },
     //儲存問卷
-    saveQButton: (account, name, problem, sleep, fruit, veg, cereal, meat, milk,login_token) => {
-        dispatch(RegisterSurveyAction(account, name, problem, sleep, fruit, veg, cereal, meat, milk,login_token));
+    saveQButton: (account, name, problem, sleep, fruit, veg, cereal, meat, milk, login_token) => {
+        dispatch(RegisterSurveyAction(account, name, problem, sleep, fruit, veg, cereal, meat, milk, login_token));
     },
     //自動跳轉
     skipMemberButton: () => {
         //Actions.pop();
         Actions.Member({ type: "reset" });
     },
-    MindWave: () => {
-        Actions.MindwaveTest();
+    ChildListActionClick: (account, login_token) => {
+        dispatch(ChildrenListAction(account, login_token));
     },
+
 }
 );
 
@@ -95,6 +97,7 @@ class ChildrenRegisterContainer extends ChildrenRegisterComponent {
         const { child_reg_status } = nextProps;
         const { childRegStep } = nextProps;
         const { checkChildName_status } = nextProps;
+        const { childList } = nextProps;
 
         if (previous_childRegStep != childRegStep) {
             this.setState({ RegisterStep: childRegStep })
@@ -105,7 +108,7 @@ class ChildrenRegisterContainer extends ChildrenRegisterComponent {
         if (previous_checkChildName != checkChildName_status) {
             this.setState({ nameCheck: checkChildName_status })
         }
-        
+
     }
 
 }
