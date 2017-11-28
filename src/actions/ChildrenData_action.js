@@ -78,6 +78,7 @@ export const ChildrenListAction = (account, login_token) => {
     return (dispatch, getState, { api }) => {
         api.fetch_getCdList(account, login_token)
             .then(data => {
+                console.log(data);
                 if (account != null && account != "") {
                     dispatch({
                         type: 'ChildrenList_SUCCESS', childList: data

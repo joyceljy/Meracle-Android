@@ -113,17 +113,7 @@ class Memory extends Component {
                     style={styles.logo}
                     source={require('../images/Logo.png')}
                 />
-                <Modal
-                    //animationType={"slide"}
-                    transparent={false}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => { alert("Modal has been closed.") }}
-                >
-                    <ListView
-                        dataSource={this.state.dataSource}
-                        renderRow={(rowData) => <Text>{rowData}</Text>}
-                    />
-                </Modal>
+           
             </View>
 
         );
@@ -133,7 +123,6 @@ class Memory extends Component {
 let styles = StyleSheet.create({
     Viewstyle: {
         flex: 1,
-        resizeMode: 'cover',
         backgroundColor: '#FFFFFF'
     },
     personInfo: {

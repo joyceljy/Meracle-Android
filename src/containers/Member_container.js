@@ -24,6 +24,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
     GetMemberData: (login_account, token) => {
         dispatch(GetMemberData(login_account, token));
+        
     },
     goAddChild: () => {
         Actions.ChildrenRegister();
@@ -52,8 +53,7 @@ class MemberContainer extends MemberComponent {
     }
 
     componentDidMount() {
-        let account = this.props.login_account;
-        this.props.GetMemberData(this.props.login_account, this.props.login_token);
+      // this.props.GetMemberData(this.props.login_account, this.props.login_token);
 
         //取得會員資料
         this.setState({
@@ -67,6 +67,7 @@ class MemberContainer extends MemberComponent {
     };
 
     componentWillReceiveProps(nextProps) {
+      
         //取得會員資料
         const { member_data } = nextProps;
         this.setState({

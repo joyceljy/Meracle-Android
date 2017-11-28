@@ -94,7 +94,7 @@ class Memory extends Component {
         let kidlistaft = [];
         for (let key in kidlistpre) {
             for (let i = 0; i < kidlistpre[key].length; i++) {
-                let imgurl = 'https://www.meracle.me/home/Filefolder/' + kidlistpre[key][i].Imageurl;
+                //let imgurl = 'https://www.meracle.me/home/Filefolder/' + kidlistpre[key][i].Imageurl;
                 //console.log(kidlistpre[key][i].Imageurl);
                 if (kidlistpre[key][i].Gender === "男" && kidlistpre[key][i].Imageurl === "DefaultImg.png") {
                     kidlistaft.push(
@@ -142,55 +142,8 @@ class Memory extends Component {
                         </View>
                     )
                 }
-                else if (kidlistpre[key][i].Gender === "男" && kidlistpre[key][i].Imageurl != "DefaultImg.png") {
-                    console.log(imgurl);
-                    kidlistaft.push(
-                        <View style={styles.cardsize}>
-                            <Card style={{
-                                elevation: 0.8,
-                                borderRadius: 4,
-                            }}>
-                                <CardItem button onPress={() => this.props.ChildEdit(this.props.login_account, kidlistpre[key][i].CdName, this.props.login_token)}>
-                                    <Body style={{ flexDirection: 'row', }}>
-                                        <View style={this.kidlist(i)}>
-                                            <Image source={{ uri: 'http://www.meracle.me/home/Filefolder/' + kidlistpre[key][i].Imageurl }} style={{ marginTop: 5, marginLeft: 5,width:30,height:30,borderRadius:100 }}></Image>
-                                            
-                                        </View>
-                                        <Text style={styles.kidcardname}>
-                                            {kidlistpre[key][i].CdName}
-                                        </Text>
-
-                                    </Body>
-                                    <Image source={require('../images/edit.png')} style={{ marginBottom: 25, marginRight: -5 }}></Image>
-                                </CardItem>
-                            </Card>
-                        </View>
-                    )
-                }
-
-                else if (kidlistpre[key][i].Gender === "女" && kidlistpre[key][i].Imageurl != "DefaultImg.png") {
-                    kidlistaft.push(
-                        <View style={styles.cardsize}>
-                            <Card style={{
-                                elevation: 0.8,
-                                borderRadius: 4,
-                            }}>
-                                <CardItem button onPress={() => this.props.ChildEdit(this.props.login_account, kidlistpre[key][i].CdName, this.props.login_token)}>
-                                    <Body style={{ flexDirection: 'row', }}>
-                                        <View style={this.kidlist(i)}>
-                                        <Image source={{ uri: 'http://www.meracle.me/home/Filefolder/' + kidlistpre[key][i].Imageurl }} style={{ marginTop: 5, marginLeft:5,width:30,height:30,borderRadius:100 }}></Image>
-                                        </View>
-                                        <Text style={styles.kidcardname}>
-                                            {kidlistpre[key][i].CdName}
-                                        </Text>
-
-                                    </Body>
-                                    <Image source={require('../images/edit.png')} style={{ marginBottom: 25, marginRight: -5 }}></Image>
-                                </CardItem>
-                            </Card>
-                        </View>
-                    )
-                }
+              
+               
             };
         }
         console.log(kidlistaft);

@@ -15,12 +15,12 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 
     BackButton: () => {
-        Actions.Member({ type: "reset" });
+        Actions.Member();
     },
-    // GetMemberData: (login_account, token) => {
-    //     dispatch(GetMemberData(login_account, token));
-    // }
-    // ,
+    GetMemberData: (login_account, token) => {
+        dispatch(GetMemberData(login_account, token));
+    }
+    ,
     SaveButtonClick: (account, name, address, birthdate, gender, token) => {
 
         dispatch(SaveMemberData(account, name, address, birthdate, gender, token));
@@ -88,7 +88,7 @@ class MemberEditContainer extends MemberEditComponent {
 
         //成功則
         if (savememberdata_status === true) {
-
+            this.props.GetMemberData(this.props.login_account, this.props.login_token);
         }
 
 

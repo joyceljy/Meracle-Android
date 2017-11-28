@@ -16,7 +16,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     BackButton: () => {
         dispatch(ClearChildrenData());
-        Actions.Member({ type: "reset" });
+        Actions.Member();
     },
     // GetChildrenData: (login_account, childname, token) => {
     //     dispatch(GetChildrenData(login_account, childname, token));
@@ -55,7 +55,7 @@ class ChildrenEditContainer extends ChildrenEditComponent {
     }
 
     componentDidMount() {
-        let account = this.props.login_account;
+       
         this.setState({
             birthdate: this.props.child_data.child_data.Birthday,
             Name: this.props.child_data.child_data.CdName,
