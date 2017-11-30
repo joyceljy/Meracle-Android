@@ -400,6 +400,63 @@ export function fetch_get_memory_point(mindwaveData,login_token,login_account,ch
 }
 
 
+//取得記憶分數（POST）
+export function fetch_get_memory_point2(mindwaveData,childname) {
+    const api_url = `${get_base_url()}/Point/SaveTestWave`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            //'Authorization': login_token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+
+           
+            "Name":childname,
+            "deltaBig":mindwaveData.deltaBig,
+            "deltaSmall":mindwaveData.deltaSmall,
+            "deltaAverage":mindwaveData.deltaAverage,
+            "deltaSD":mindwaveData.deltaSD,
+            "thetaBig":mindwaveData.thetaBig,
+            "thetaSmall":mindwaveData.thetaSmall,
+            "thetaAverage":mindwaveData.thetaAverage,
+            "thetaSD":mindwaveData.thetaSD,
+            "lowAlphaBig":mindwaveData.lowAlphaBig,
+            "lowAlphaSmall":mindwaveData.lowAlphaSmall,
+            "lowAlphaAverage":mindwaveData.lowAlphaAverage,
+            "highAlphaBig":mindwaveData.highAlphaBig,
+            "highAlphaSmall":mindwaveData.highAlphaSmall,
+            "highAlphaAverage":mindwaveData.highAlphaAverage,
+            "highAlphaSD":mindwaveData.highAlphaSD,
+            "lowBetaBig":mindwaveData.lowBetaBig,
+            "lowBetaSmall":mindwaveData.lowBetaSmall,
+            "lowBetaAverage":mindwaveData.lowBetaAverage,
+            "lowBetaSD":mindwaveData.lowBetaSD,
+            "highBetaBig":mindwaveData.highBetaBig,
+            "highBetaSmall":mindwaveData.highBetaSmall,
+            "highBetaAverage":mindwaveData.highBetaAverage,
+            "highBetaSD":mindwaveData.highBetaSD,
+            "lowGammaBig":mindwaveData.lowGammaBig,
+            "lowGammaSmall":mindwaveData.lowGammaSmall,
+            "lowGammaAverage":mindwaveData.lowGammaAverage,
+            "midGammaBig":mindwaveData.midGammaBig,
+            "midGammaSmall":mindwaveData.midGammaSmall,
+            "midGammaAverage":mindwaveData.midGammaAverage,
+            "midGammaSD":mindwaveData.midGammaSD,
+
+            //記憶力用
+            "lowGammaSD":mindwaveData.lowGammaSD,
+            "lowAlphaSD":mindwaveData.lowAlphaSD,
+
+        })
+    }).then(response => {
+        return response.json()
+    });
+}
+
 //儲存記憶分數（POST）
 export function fetch_save_memory_point(login_account, login_token, cdName, finalScore, statusSelected) {
     const api_url = `${get_base_url()}/Point/SaveCdScore`;
@@ -504,7 +561,7 @@ export function fetch_AllPublicCereal() { //飲食習慣分布
     });
 }
 export function fetch_AvgPublicSleepAvgScore() { //睡眠時間平均記憶指數無排序
-    const api_url = `${get_base_url()}/Survey/AvgPublicSleepAvgScoreOrderby`;
+    const api_url = `${get_base_url()}/Survey/AvgPublicSleepAvgScoreNoOrderby`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
         method: 'GET',
@@ -524,7 +581,7 @@ export function fetch_AvgPublicSleepAvgScore() { //睡眠時間平均記憶指�
     });
 }
 export function fetch_AvgPublicSleepAvgScoreOrderby() { //睡眠時間平均記憶指數排序
-    const api_url = `${get_base_url()}/Survey/AvgPublicSleepAvgScoreNoOrderby`;
+    const api_url = `${get_base_url()}/Survey/AvgPublicSleepAvgScoreOrderby`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
         method: 'GET',

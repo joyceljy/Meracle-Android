@@ -96,7 +96,6 @@ class Memory extends Component {
             for (let i = 0; i < kidlistpre[key].length; i++) {
                 //let imgurl = 'https://www.meracle.me/home/Filefolder/' + kidlistpre[key][i].Imageurl;
                 //console.log(kidlistpre[key][i].Imageurl);
-                if (kidlistpre[key][i].Gender === "男" && kidlistpre[key][i].Imageurl === "DefaultImg.png") {
                     kidlistaft.push(
                         <View style={styles.cardsize}>
                             <Card style={{
@@ -118,31 +117,7 @@ class Memory extends Component {
                             </Card>
                         </View>
                     )
-                }
-                else if (kidlistpre[key][i].Gender === "女" && kidlistpre[key][i].Imageurl === "DefaultImg.png") {
-                    kidlistaft.push(
-                        <View style={styles.cardsize}>
-                            <Card style={{
-                                elevation: 0.8,
-                                borderRadius: 4,
-                            }}>
-                                <CardItem button onPress={() => this.props.ChildEdit(this.props.login_account, kidlistpre[key][i].CdName, this.props.login_token)}>
-                                    <Body style={{ flexDirection: 'row', }}>
-                                        <View style={this.kidlist(i)}>
-                                            <Image source={require('../images/avatar_boy.png')} style={{ marginTop: 4, marginLeft: 2, }}></Image>
-                                        </View>
-                                        <Text style={styles.kidcardname}>
-                                            {kidlistpre[key][i].CdName}
-                                        </Text>
-
-                                    </Body>
-                                    <Image source={require('../images/edit.png')} style={{ marginBottom: 25, marginRight: -5 }}></Image>
-                                </CardItem>
-                            </Card>
-                        </View>
-                    )
-                }
-              
+                
                
             };
         }

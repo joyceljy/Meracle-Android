@@ -15,7 +15,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 
     BackButton: () => {
-        Actions.Member();
+        Actions.pop();
     },
     GetMemberData: (login_account, token) => {
         dispatch(GetMemberData(login_account, token));

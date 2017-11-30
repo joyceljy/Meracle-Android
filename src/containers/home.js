@@ -53,6 +53,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     GetAvgPublicMemery: () => {//每日記憶力折線圖
         dispatch(AvgPublicMemeryAction());
+    },
+    testonly: () => {//每日記憶力折線圖
+       Actions.TestMindwave();
     }
 }
 

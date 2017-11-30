@@ -15,8 +15,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     BackButton: () => {
-        dispatch(ClearChildrenData());
-        Actions.Member();
+        //dispatch(ClearChildrenData());
+        Actions.pop();
     },
     // GetChildrenData: (login_account, childname, token) => {
     //     dispatch(GetChildrenData(login_account, childname, token));

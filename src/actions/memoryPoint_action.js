@@ -50,6 +50,21 @@ export const save_memory_point = (login_account, login_token, cdName, finalScore
     };
 };
 
+
+export const get_memory_point2 = (mindwaveData, childname) => {
+    return (dispatch, getState, { api }) => {
+       
+            api.fetch_get_memory_point2(mindwaveData, childname)
+                .then(data => {
+                   
+                })
+                .catch(err => console.log(err));
+        
+
+
+    };
+};
+
 export const clear_memory = () => {
     return (dispatch, getState) => {
         dispatch({

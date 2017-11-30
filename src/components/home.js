@@ -220,7 +220,7 @@ class Memory extends Component {
                                 <Image source={require('../images/menu.png')} ></Image>
                             </TouchableOpacity>
                             <Text style={styles.title}>腦波測量結果</Text>
-                            <TouchableOpacity style={styles.settingIcon}>
+                            <TouchableOpacity  onPress={() => this.props.testonly()} style={styles.settingIcon} >
                                 <Image source={require('../images/reload.png')} />
                             </TouchableOpacity>
                         </View>
