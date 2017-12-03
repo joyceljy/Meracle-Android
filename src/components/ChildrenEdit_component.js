@@ -7,7 +7,8 @@ import {
     StyleSheet,
     Image,
     TouchableOpacity,
-    TouchableHighlight
+    TouchableHighlight,
+    KeyboardAvoidingView
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -90,7 +91,7 @@ class Memory extends Component {
 
 
         return (
-
+            <KeyboardAvoidingView behavior="position" >
             <View style={styles.Viewstyle}>
                 <View style={styles.topbarView}>
                     <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
@@ -228,7 +229,7 @@ class Memory extends Component {
 
 
             </View>
-
+            </KeyboardAvoidingView>
 
         );
     }

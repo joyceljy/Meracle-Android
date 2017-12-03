@@ -7,7 +7,10 @@ import {
     StyleSheet,
     Image,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    Keyboard
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
 import Toast from 'react-native-root-toast';
@@ -22,8 +25,10 @@ class Memory extends Component {
     render() {
 
         return (
-            //backgroundimage
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            
             <Image source={require('../images/Bg.png')} style={styles.backgroundImage} resizeMode="cover" >
+            <KeyboardAvoidingView behavior="position" >
 
                 <View style={styles.logoView}>
                     <Image source={require('../images/Logo.png')} style={styles.logoImage} />
@@ -33,6 +38,7 @@ class Memory extends Component {
                     {/*Account*/}
                     <View style={[styles.Inputtextview, { marginTop: 73 }]}>
                         <Image source={require('../images/email.png')} style={styles.InputtextIcon} />
+                        
                         <TextInput
                             style={styles.InputtextText}
                             onChangeText={(text) => this.setState({ Account: text })}
@@ -43,9 +49,12 @@ class Memory extends Component {
                             autoCorrect={false}
                             underlineColorAndroid='transparent'
                         />
+                       
                     </View>
 
                     {/*Password*/}
+                    
+                    
                     <View style={[styles.Inputtextview, { marginTop: 8 }]}>
                         <Image source={require('../images/password.png')} style={styles.InputtextIcon} />
                         <TextInput
@@ -59,7 +68,9 @@ class Memory extends Component {
                             underlineColorAndroid='transparent'
                             secureTextEntry={true}
                         />
+                        
                     </View>
+                   
                     <Text style={style = styles.forgetText} onPress={() => this.props.Forgetpw()}>忘記密碼？</Text>
 
 
@@ -113,8 +124,9 @@ class Memory extends Component {
                     animation={false}
                     hideOnPress={true}
                 >帳號或密碼不能為空！</Toast>
+                </KeyboardAvoidingView>
             </Image>
-
+            </TouchableWithoutFeedback>
 
         );
     }
@@ -235,6 +247,10 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         textDecorationLine: 'underline'
     },
+    keyboard:{
+        paddingHorizontal: 20,
+        //paddingTop: 20,
+    }
 
 
 

@@ -8,7 +8,8 @@ import {
     Image,
     TouchableOpacity,
     TouchableHighlight,
-    Dimensions
+    Dimensions,
+    KeyboardAvoidingView
 
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
@@ -167,10 +168,12 @@ class Memory extends Component {
     }
 
     render() {
+       
         //第一頁
         if (this.state.RegisterStep == '1') {
             return (
-                //backgroundimage
+                <KeyboardAvoidingView behavior="position" >
+                
 
                 <View style={styles.Viewstyle}>
 
@@ -297,7 +300,7 @@ class Memory extends Component {
                     >欄位不能為空！</Toast>
 
                 </View>
-
+                </KeyboardAvoidingView>
             );
         }
         //第二頁
@@ -340,9 +343,10 @@ class Memory extends Component {
         }
 
         //第三頁
+        
         if (this.state.RegisterStep == '3') {
             return (
-
+                <KeyboardAvoidingView behavior="position" >
                 <View style={styles.Viewstyle}>
 
                     {/*registerTopBar */}
@@ -511,7 +515,7 @@ class Memory extends Component {
                     >有題目未選擇！</Toast>
 
                 </View>
-
+                </KeyboardAvoidingView>
             );
         }
 

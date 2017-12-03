@@ -6,7 +6,8 @@ import {
     Button,
     StyleSheet,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    KeyboardAvoidingView
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
 import { Kohana } from 'react-native-textinput-effects';
@@ -32,6 +33,7 @@ class Memory extends Component {
     render() {
 
         return (
+            <KeyboardAvoidingView behavior="position" >
             <View style={styles.Viewstyle}>
                 <View style={styles.topbarView}>
                     <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
@@ -131,6 +133,7 @@ class Memory extends Component {
                     hideOnPress={true}
                 >新密碼與確認新密碼不一致！</Toast>
             </View>
+            </KeyboardAvoidingView>
         );
     }
 }

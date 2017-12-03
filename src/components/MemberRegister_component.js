@@ -8,7 +8,8 @@ import {
     Image,
     TouchableOpacity,
     TouchableHighlight,
-    Dimensions
+    Dimensions,
+    KeyboardAvoidingView
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -56,8 +57,11 @@ class Memory extends Component {
     render() {
         if (this.state.step == '1') {
             return (
-                //backgroundimage
+                
+               
                 <Image source={require('../images/Bg.png')} style={styles.backgroundImage} resizeMode="cover" >
+                
+                <KeyboardAvoidingView behavior="position" >
                     <View style={styles.logoView}>
                         <Image source={require('../images/Logo.png')} style={styles.logoImage} />
                     </View>
@@ -171,8 +175,9 @@ class Memory extends Component {
                         animation={false}
                         hideOnPress={true}
                     >兩次密碼輸入不一致！</Toast>
-
+                    </KeyboardAvoidingView>
                 </Image>
+           
 
             );
         }

@@ -6,7 +6,8 @@ import {
     Button,
     StyleSheet,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    KeyboardAvoidingView
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
 import Toast from 'react-native-root-toast';
@@ -23,8 +24,9 @@ class Memory extends Component {
     render() {
         return (
 
-
+            <KeyboardAvoidingView behavior="position" >
             <View style={styles.Viewstyle}>
+           
                 <View style={styles.topbarView}>
                     <TouchableOpacity onPress={() => {  this.props.BackButtonClick(); }}>
                         <Image source={require('../images/back.png')} style={styles.topbarIcon} />
@@ -97,7 +99,7 @@ class Memory extends Component {
                     hideOnPress={true}
                 >輸入有誤！</Toast>
             </View>
-
+            </KeyboardAvoidingView>
         );
     }
 }

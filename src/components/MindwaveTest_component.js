@@ -1186,7 +1186,7 @@ const styles = StyleSheet.create({
     deviceItem: {
         width:312,
         height:48,
-        backgroundColor: 'rgba(255,255,255,0.75)',
+        backgroundColor: 'rgba(255,255,255,0.25)',
         borderRadius: 4,
         marginTop: 4,
     },
