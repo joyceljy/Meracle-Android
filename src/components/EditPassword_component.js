@@ -33,8 +33,9 @@ class Memory extends Component {
     render() {
 
         return (
-            <KeyboardAvoidingView behavior="position" >
+            
             <View style={styles.Viewstyle}>
+            <KeyboardAvoidingView behavior="position" >
                 <View style={styles.topbarView}>
                     <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
                         <Image source={require('../images/back.png')} style={styles.topbarIcon} />
@@ -132,8 +133,9 @@ class Memory extends Component {
                     animation={false}
                     hideOnPress={true}
                 >新密碼與確認新密碼不一致！</Toast>
+                </KeyboardAvoidingView>
             </View>
-            </KeyboardAvoidingView>
+            
         );
     }
 }

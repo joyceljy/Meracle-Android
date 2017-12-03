@@ -93,8 +93,9 @@ class Memory extends Component {
 
         const member_imageurl = this.props.member_imageurl;
         return (
-            <KeyboardAvoidingView behavior="position" >
+            
             <View style={styles.Viewstyle}>
+            <KeyboardAvoidingView behavior="position" >
                 <View style={styles.topbarView}>
                     <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
                         <Image source={require('../images/back.png')} style={styles.topbarIcon} />
@@ -240,11 +241,11 @@ class Memory extends Component {
                     hideOnPress={true}
                 >修改成功！</Toast>
 
-
+                </KeyboardAvoidingView>
+                
 
             </View>
-            </KeyboardAvoidingView>
-
+           
         );
     }
 }

@@ -172,10 +172,11 @@ class Memory extends Component {
         //第一頁
         if (this.state.RegisterStep == '1') {
             return (
-                <KeyboardAvoidingView behavior="position" >
+                
                 
 
                 <View style={styles.Viewstyle}>
+                <KeyboardAvoidingView behavior="position" >
 
                     {/*registerTopBar */}
                     <View><RegisterTopBar /></View>
@@ -298,9 +299,9 @@ class Memory extends Component {
                         hideOnPress={true}
                         textColor={'255,255,255,0.8'}
                     >欄位不能為空！</Toast>
-
+                    </KeyboardAvoidingView>
                 </View>
-                </KeyboardAvoidingView>
+                
             );
         }
         //第二頁
@@ -346,9 +347,9 @@ class Memory extends Component {
         
         if (this.state.RegisterStep == '3') {
             return (
-                <KeyboardAvoidingView behavior="position" >
+                
                 <View style={styles.Viewstyle}>
-
+                <KeyboardAvoidingView behavior="position" >
                     {/*registerTopBar */}
                     <View><RegisterTopBar /></View>
 
@@ -513,9 +514,9 @@ class Memory extends Component {
                         hideOnPress={true}
                         textColor={'rgba(255,255,255,0.8)'}
                     >有題目未選擇！</Toast>
-
+                    </KeyboardAvoidingView>
                 </View>
-                </KeyboardAvoidingView>
+               
             );
         }
 

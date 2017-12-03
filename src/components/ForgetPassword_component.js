@@ -24,9 +24,9 @@ class Memory extends Component {
     render() {
         return (
 
-            <KeyboardAvoidingView behavior="position" >
+            
             <View style={styles.Viewstyle}>
-           
+            <KeyboardAvoidingView behavior="position" >
                 <View style={styles.topbarView}>
                     <TouchableOpacity onPress={() => {  this.props.BackButtonClick(); }}>
                         <Image source={require('../images/back.png')} style={styles.topbarIcon} />
@@ -98,8 +98,9 @@ class Memory extends Component {
                     animation={false}
                     hideOnPress={true}
                 >輸入有誤！</Toast>
+                </KeyboardAvoidingView>
             </View>
-            </KeyboardAvoidingView>
+            
         );
     }
 }
