@@ -10,7 +10,7 @@ import {
     ScrollView,
     Dimensions
 } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Body } from 'native-base';
+// import { Container, Header, Content, Card, CardItem, Body } from 'native-base';
 import ActionButton from 'react-native-action-button';
 import Drawer from 'react-native-drawer';
 import SideBarContent from '../containers/SideBarContent';
@@ -32,46 +32,56 @@ class Memory extends Component {
     kidlist = function (options) {
         if (options === 0) {
             return {
-                marginTop: -7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
+                // bottom: 10,
+                marginLeft: 10,
+                marginTop: 8,
                 backgroundColor: '#9ACBD9'
             }
         }
         else if (options === 1) {
             return {
-                marginTop: -7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
+                // bottom: 10,
+                marginLeft: 10,
+                marginTop: 8,
                 backgroundColor: '#F5808B'
             }
         }
         else if (options === 2) {
             return {
-                marginTop: - 7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
+                // bottom: 10,
+                marginLeft: 10,
+                marginTop: 8,
                 backgroundColor: '#F2992E'
             }
         }
         else if (options === 3) {
             return {
-                marginTop: - 7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
+                // bottom: 10,
+                marginLeft: 10,
+                marginTop: 8,
                 backgroundColor: '#2F9A9E'
             }
         }
         else if (options === 4) {
             return {
-                marginTop: - 7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
+                // bottom: 10,
+                marginLeft: 10,
+                marginTop: 8,
                 backgroundColor: '#A77DC2'
             }
         }
@@ -90,38 +100,57 @@ class Memory extends Component {
             drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
             main: { paddingLeft: 0 }
         }
-        kidlistpre = this.props.childList;
         let kidlistaft = [];
-        for (let key in kidlistpre) {
-            for (let i = 0; i < kidlistpre[key].length; i++) {
-                //let imgurl = 'https://www.meracle.me/home/Filefolder/' + kidlistpre[key][i].Imageurl;
-                //console.log(kidlistpre[key][i].Imageurl);
-                    kidlistaft.push(
-                        <View style={styles.cardsize}>
-                            <Card style={{
-                                elevation: 0.8,
-                                borderRadius: 4,
-                            }}>
-                                <CardItem button onPress={() => this.props.ChildEdit(this.props.login_account, kidlistpre[key][i].CdName, this.props.login_token)}>
-                                    <Body style={{ flexDirection: 'row', }}>
-                                        <View style={this.kidlist(i)}>
-                                            <Image source={require('../images/avatar_boy.png')} style={{ marginTop: 4, marginLeft: 2, }}></Image>
+        if (this.props.login_account != null || this.props.login_account != "") {
+            if (this.props.childList != null || this.props.childList != "") {
+                kidlistpre = this.props.childList;
+                for (let key in kidlistpre) {
+                    for (let i = 0; i < kidlistpre[key].length; i++) {
+                        let imgurl = 'https://www.meracle.me/home/Filefolder/' + kidlistpre[key][i].Imageurl;
+                        //console.log(kidlistpre[key][i].Imageurl);
+                        if (kidlistpre[key][i].Imageurl === "DefaultImg.png") {
+                            kidlistaft.push(
+                                <TouchableOpacity onPress={() => this.props.ChildEdit(this.props.login_account, kidlistpre[key][i].CdName, this.props.login_token)}>
+                                    <View style={styles.cardsize}>
+                                        <View style={{ flexDirection: 'row', }}>
+                                            <View style={this.kidlist(i)}>
+                                                <Image source={require('../images/avatar_boy.png')} style={{ marginTop: 4, marginLeft: 2, }}></Image>
+                                            </View>
+                                            <Text style={styles.kidcardname}>
+                                                {kidlistpre[key][i].CdName}
+                                            </Text>
+                                            <Image source={require('../images/edit.png')} style={{ marginTop: 15, marginLeft: 180 }}></Image>
                                         </View>
-                                        <Text style={styles.kidcardname}>
-                                            {kidlistpre[key][i].CdName}
-                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )
+                        }
 
-                                    </Body>
-                                    <Image source={require('../images/edit.png')} style={{ marginBottom: 25, marginRight: -5 }}></Image>
-                                </CardItem>
-                            </Card>
-                        </View>
-                    )
-                
-               
-            };
+                        else if (kidlistpre[key][i].Imageurl != "DefaultImg.png") {
+                            console.log(imgurl);
+                            kidlistaft.push(
+                                <TouchableOpacity onPress={() => this.props.ChildEdit(this.props.login_account, kidlistpre[key][i].CdName, this.props.login_token)}>
+                                    <View style={styles.cardsize}>
+                                        <View style={{ flexDirection: 'row', }}>
+                                            <View style={this.kidlist(i)}>
+                                                <Image source={{ uri: 'http://www.meracle.me/home/Filefolder/' + kidlistpre[key][i].Imageurl }} style={{ marginTop: 5, marginLeft: 5, width: 30, height: 30, borderRadius: 100 }}></Image>
+                                            </View>
+                                            <Text style={styles.kidcardname}>
+                                                {kidlistpre[key][i].CdName}
+                                            </Text>
+                                            <Image source={require('../images/edit.png')} style={{ marginTop: 15, marginLeft: 153 }}></Image>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                            )
+                        }
+
+                    };
+                }
+
+                console.log(kidlistaft);
+            }
         }
-        console.log(kidlistaft);
         return (
             <Drawer
                 type="displace"
@@ -234,6 +263,7 @@ const styles = StyleSheet.create({
         width: width,
         height: 374,
         backgroundColor: '#F2F2F2',
+        alignItems: 'center',
     },
 
     subTitle: {
@@ -241,9 +271,9 @@ const styles = StyleSheet.create({
         lineHeight: 16,
         fontFamily: 'Roboto-Regular',
         marginTop: 8,
-        marginLeft: 149,
+        // marginLeft: 149,
         color: '#636566',
-        marginBottom: -8,
+        marginBottom: 8,
     },
     avatarView: {
         width: 72,
@@ -285,45 +315,19 @@ const styles = StyleSheet.create({
         marginTop: 4,
 
     },
-    kidname: {
-        justifyContent: 'center',
-        left: 54,
-        top: -12,
-        fontFamily: 'Roboto-Regular',
-        fontSize: 16,
-        color: '#FFFFFF',
-        letterSpacing: 0.5,
-        lineHeight: 24,
-        // width: 50,
-        height: 24,
-        // backgroundColor:'red'
-    },
-    underbar: {
-        // top: 262,
-        width: 384,
-        // height: 300,
-        // marginBottom:10,
-        backgroundColor: '#F2F2F2'
-    },
-    underbartext: {
-        fontSize: 10,
-        letterSpacing: 0.5,
-        lineHeight: 16,
-        color: '#636566',
-        fontFamily: 'PingFangTC-Light',
-        top: 8,
-        left: 133
-    },
     cardsize: {
-        marginLeft: 16,
-        marginRight: 16,
-
-        height: 60,
-        marginTop: 8,
-        borderRadius: 7
+        marginTop: 5,
+        marginLeft: 10,
+        width: 330,
+        height: 55,
+        elevation: 0.8,
+        borderRadius: 4,
+        backgroundColor: "white",
+        
     },
     kidcardname: {
-        marginLeft: 20,
+        marginTop: 15,
+        marginLeft: 30,
         color: '#144669',
         fontSize: 16,
         letterSpacing: 1,
