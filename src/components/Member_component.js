@@ -199,7 +199,11 @@ class Memory extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
-
+                    <View style={styles.addBtn}>
+                    <TouchableOpacity onPress={()=>Actions.ChildrenRegister()}>
+                        <Image style={styles.addBtnIcon} source={require('../images/add.png')} />
+                    </TouchableOpacity>
+                </View>
                     <View style={styles.childView}>
                         <Text style={styles.subTitle}>管理您的小孩</Text>
                         <ScrollView>
@@ -223,11 +227,13 @@ class Memory extends Component {
 const styles = StyleSheet.create({
     Viewstyle: {
         flex: 1,
+        zIndex: 0,
     },
     parentView: {
         width: width,
         height: 194,
         backgroundColor: '#144669',
+        zIndex: 0,
     },
     parentInfoView: {
         width: width,
@@ -260,10 +266,11 @@ const styles = StyleSheet.create({
         marginTop: 16,
     },
     childView: {
-        width: width,
-        height: 374,
+        width:width,
+        height:height,
         backgroundColor: '#F2F2F2',
         alignItems: 'center',
+        zIndex: 0,
     },
 
     subTitle: {
@@ -289,9 +296,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     avatar: {
-        width: 65,
-        height: 65,
-        borderRadius: 100,
+        width: 62,
+        height: 62,
+        borderRadius: 30,
         alignSelf: 'center',
 
     },
@@ -335,7 +342,23 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Regular',
     },
 
+    addBtn: {
+        
+        zIndex: 1,
+        borderRadius: 100,
+        backgroundColor: '#009688',
+        shadowOpacity: 6,
+        shadowColor: 'rgba(0,0,0,0.12)',
+        width: 48,
+        height: 48,
+        marginTop: -30,
+        marginLeft: width - 60,
 
+    },
+    addBtnIcon: {
+        marginLeft: 12,
+        marginTop: 12,
+    }
 });
 
 export default Memory;
