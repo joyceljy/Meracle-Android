@@ -14,6 +14,7 @@ import {
 import ActionButton from 'react-native-action-button';
 import Drawer from 'react-native-drawer';
 import SideBarContent from '../containers/SideBarContent';
+import { Actions } from 'react-native-router-flux';
 var { height, width } = Dimensions.get('window');
 
 class Memory extends Component {
@@ -119,7 +120,7 @@ class Memory extends Component {
                                             <Text style={styles.kidcardname}>
                                                 {kidlistpre[key][i].CdName}
                                             </Text>
-                                            <Image source={require('../images/edit.png')} style={{ marginTop: 15, marginLeft: 180 }}></Image>
+                                            <Image source={require('../images/edit.png')} style={{ marginTop: 15 }}></Image>
                                         </View>
                                     </View>
                                 </TouchableOpacity>
@@ -138,7 +139,7 @@ class Memory extends Component {
                                             <Text style={styles.kidcardname}>
                                                 {kidlistpre[key][i].CdName}
                                             </Text>
-                                            <Image source={require('../images/edit.png')} style={{ marginTop: 15, marginLeft: 153 }}></Image>
+                                            <Image source={require('../images/edit.png')} style={{ marginTop: 15 }}></Image>
                                         </View>
                                     </View>
                                 </TouchableOpacity>
@@ -213,10 +214,7 @@ class Memory extends Component {
                             <View style={{ marginBottom: 12 }}></View>
                         </ScrollView>
                     </View>
-                    <ActionButton
-                        buttonColor="#009688"
-                        onPress={() => { this.props.goAddChild() }}>
-                    </ActionButton>
+                   
 
                 </View>
             </Drawer>
@@ -340,6 +338,7 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',
+        width:200,
     },
 
     addBtn: {
