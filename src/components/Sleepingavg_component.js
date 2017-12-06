@@ -8,7 +8,8 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
-    processColor
+    processColor,
+    Dimensions
 } from 'react-native';
 import Svg, {
     Line,
@@ -16,6 +17,7 @@ import Svg, {
 import { Container, Header, Content, Card, CardItem, Body } from 'native-base';
 import ActionButton from 'react-native-action-button';
 import { LineChart } from 'react-native-charts-wrapper';
+var { height, width } = Dimensions.get('window');
 class Memory extends Component {
     constructor(props) {
         super(props);
@@ -27,7 +29,7 @@ class Memory extends Component {
 
             case "6小時以下":
                 return {
-                    marginLeft: 120,
+                    marginLeft: 0.81*width-191,
                     marginTop: 10,
                     fontSize: 16,
                     color: '#6D7084',
@@ -35,7 +37,7 @@ class Memory extends Component {
                 };
             case "10小時以上":
                 return {
-                    marginLeft: 111,
+                    marginLeft: 0.81*width-200,
                     marginTop: 10,
                     fontSize: 16,
                     color: '#6D7084',
@@ -43,7 +45,7 @@ class Memory extends Component {
                 };
             default:
                 return {
-                    marginLeft: 138,
+                    marginLeft: 0.81*width-173,
                     marginTop: 10,
                     fontSize: 16,
                     color: '#6D7084',
@@ -59,54 +61,56 @@ class Memory extends Component {
             drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
             main: { paddingLeft: 0 }
         }
-        let PublicSleepSortt = []
-        this.PublicSleepSortt = this.props.PublicSleepOrderby
-        console.log(this.PublicSleepSortt)
-        let Sleep = [], Score = [], c = 1
-        for (let i = 0; i < 5; i++) {
-            Sleep.push(this.PublicSleepSortt[i].Avg_SleepName)
-            Score.push(this.PublicSleepSortt[i].AvgScore)
+        if (this.props.PublicSleepOrderby != "" || this.props.PublicSleepOrderby != null) {
+            let PublicSleepSortt = []
+            this.PublicSleepSortt = this.props.PublicSleepOrderby
+            console.log(this.PublicSleepSortt)
+            let Sleep = [], Score = [], c = 1
+            for (let i = 0; i < 5; i++) {
+                Sleep.push(this.PublicSleepSortt[i].Avg_SleepName)
+                Score.push(this.PublicSleepSortt[i].AvgScore)
+            }
+            for (let i = 0; i < 5; i++) {
+                if (c != 5) {
+                    this.state.PublicSleepSort.push(//this.wordlength(Problem[i])
+                        <View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ marginLeft: 5, marginTop: 10, fontSize: 14, opacity: 0.5, color: '#6D7084', fontFamily: "Roboto-Light" }}>{c}</Text>
+                                <Text style={{ marginLeft: 20, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: "Roboto-Light" }}>{Sleep[i]}</Text>
+                                <Text style={
+                                    this.wordlength(Sleep[i])
+                                }>{Score[i]}</Text>
+
+                            </View>
+                            <View
+                                style={{
+                                    borderBottomColor: '#D4D4D4',
+                                    borderBottomWidth: 1,
+                                    width: '100%',
+                                    opacity: 0.2,
+                                    marginTop: 16
+                                }}
+                            />
+                        </View>
+                    )
+                }
+                else {
+                    this.state.PublicSleepSort.push(
+                        <View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ marginLeft: 5, marginTop: 10, fontSize: 14, opacity: 0.5, color: '#6D7084', fontFamily: "Roboto-Light" }}>{c}</Text>
+                                <Text style={{ marginLeft: 20, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: "Roboto-Light" }}>{Sleep[i]}</Text>
+                                <Text style={
+                                    this.wordlength(Sleep[i])
+                                }>{Score[i]}</Text>
+
+                            </View>
+                        </View>
+                    )
+                }
+                c++;
+            };
         }
-        for (let i = 0; i < 5; i++) {
-            if (c != 5) {
-                this.state.PublicSleepSort.push(//this.wordlength(Problem[i])
-                    <View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginLeft: 5, marginTop: 10, fontSize: 14, opacity: 0.5, color: '#6D7084', fontFamily: "Roboto-Light" }}>{c}</Text>
-                            <Text style={{ marginLeft: 20, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: "Roboto-Light" }}>{Sleep[i]}</Text>
-                            <Text style={
-                                this.wordlength(Sleep[i])
-                            }>{Score[i]}</Text>
-
-                        </View>
-                        <View
-                            style={{
-                                borderBottomColor: '#D4D4D4',
-                                borderBottomWidth: 1,
-                                width: '100%',
-                                opacity: 0.2,
-                                marginTop: 16
-                            }}
-                        />
-                    </View>
-                )
-            }
-            else {
-                this.state.PublicSleepSort.push(
-                    <View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginLeft: 5, marginTop: 10, fontSize: 14, opacity: 0.5, color: '#6D7084', fontFamily: "Roboto-Light" }}>{c}</Text>
-                            <Text style={{ marginLeft: 20, marginTop: 10, fontSize: 16, color: '#6D7084', fontFamily: "Roboto-Light" }}>{Sleep[i]}</Text>
-                            <Text style={
-                                this.wordlength(Sleep[i])
-                            }>{Score[i]}</Text>
-
-                        </View>
-                    </View>
-                )
-            }
-            c++;
-        };
         return (
 
             <View style={styles.Viewstyle}>
@@ -134,37 +138,44 @@ class Memory extends Component {
                                 drawValueAboveBar={true}
                                 drawLabels={false}
                                 drawHighlightArrow={false}
+                                chartDescription={{
+                                    text: '',
+                                    textColor: processColor('#999'),
+                                    textSize: 12,
+                                    fontFamily: '微软雅黑'
+                                }}
                             />
                         </View>
                     </View>
-{
-                    // <View style={styles.statueView}>
+                    {
+                        // <View style={styles.statueView}>
 
-                    //     <View>
-                    //         <Text style={styles.statuetxtfirst}>6小時以下</Text>
-                    //     </View>
-                    //     <View>
-                    //         <Text style={styles.statuetxt1}>6-7小時</Text>
-                    //     </View>
-                    //     <View>
-                    //         <Text style={styles.statuetxt2}>7-8小時</Text>
-                    //     </View>
-                    //     <View>
-                    //         <Text style={styles.statuetxt3}>8-9小時</Text>
-                    //     </View>
-                    //     <View>
-                    //         <Text style={styles.statuetxt4}>9-10小時</Text>
-                    //     </View>
-                    //     <View>
-                    //         <Text style={styles.statuetxt5}>10小時以上</Text>
-                    //     </View>
-                    //     <View>
+                        //     <View>
+                        //         <Text style={styles.statuetxtfirst}>6小時以下</Text>
+                        //     </View>
+                        //     <View>
+                        //         <Text style={styles.statuetxt1}>6-7小時</Text>
+                        //     </View>
+                        //     <View>
+                        //         <Text style={styles.statuetxt2}>7-8小時</Text>
+                        //     </View>
+                        //     <View>
+                        //         <Text style={styles.statuetxt3}>8-9小時</Text>
+                        //     </View>
+                        //     <View>
+                        //         <Text style={styles.statuetxt4}>9-10小時</Text>
+                        //     </View>
+                        //     <View>
+                        //         <Text style={styles.statuetxt5}>10小時以上</Text>
+                        //     </View>
+                        //     <View>
 
-                    //     </View>
-                    // </View>
-        }
+                        //     </View>
+                        // </View>
+                    }
+                    
                     <ScrollView>
-                        <View>
+                        <View style={{justifyContent:'center'}}>
                             <View style={styles.cardsize}>
                                 <Card style={{
                                     elevation: 0.8,
@@ -172,7 +183,7 @@ class Memory extends Component {
                                 }}>
                                     <CardItem>
                                         <Body style={{
-                                            flexDirection: 'column', justifyContent: 'flex-start',
+                                            flexDirection: 'column'
 
                                         }}>
                                             <Text style={styles.subTitle}>各睡眠時間平均記憶指數</Text>
@@ -245,8 +256,8 @@ const styles = StyleSheet.create({
         color: 'rgba(255,255,255,0.8)'
     },
     chart: {
-        width: 300,
-        height: 250,
+        width: 0.78*width,
+        height: 0.66*width,
         marginBottom: 10,
         // backgroundColor: 'rgba(221, 221, 255, 0.5)',
 
@@ -292,9 +303,10 @@ const styles = StyleSheet.create({
     },
 
     cardsize: {
-        marginLeft: 30,
-        width: 312,
+        marginLeft: 0.104*width,
+        width: 0.81*width,
         height: 284,
+        justifyContent: 'center',
     },
 });
 

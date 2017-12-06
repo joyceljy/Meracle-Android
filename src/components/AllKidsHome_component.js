@@ -8,7 +8,8 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
-    processColor
+    processColor,
+    Dimensions
 } from 'react-native';
 import Svg, {
     Line,
@@ -18,6 +19,8 @@ import ActionButton from 'react-native-action-button';
 import Drawer from 'react-native-drawer';
 import SideBarContent from '../containers/SideBarContent';
 import { BarChart } from 'react-native-charts-wrapper';
+var { height, width } = Dimensions.get('window');
+
 class Memory extends Component {
     constructor(props) {
         super(props);
@@ -241,53 +244,18 @@ class Memory extends Component {
         );
     }
 }
-
 const styles = StyleSheet.create({
     Viewstyle: {
         flex: 1,
-        marginTop: -10,
+        marginTop: -5,
         backgroundColor: '#F2F2F2',
     },
     parentView: {
-        marginTop:10,
         width: '100%',
         height: 50,
         zIndex: 0,
         backgroundColor: '#144669',
         marginBottom: -5
-    },
-    statueView: {
-        marginTop: -15,
-        backgroundColor: '#144669',
-        justifyContent: 'flex-start',
-        flexDirection: 'row',
-    },
-    statueimgfirst: {
-        marginLeft: 28,
-    },
-    statueimgafter: {
-        marginLeft: 20,
-    },
-    statuetxtfirst: {
-        marginLeft: 34,
-        fontSize: 9,
-        color: 'rgba(255,255,255,0.8)'
-    },
-    statuetxt: {
-        marginLeft: 24,
-        fontSize: 9,
-        color: 'rgba(255,255,255,0.8)'
-    },
-    chart: {
-        width: '100%',
-        height: 150,
-        // backgroundColor: 'rgba(221, 221, 255, 0.5)',
-
-    },
-    toptext: {
-        color: 'rgb(255,255,255)',
-        fontSize: 14,
-
     },
     parentInfoView: {
         marginTop: -50,
@@ -295,16 +263,6 @@ const styles = StyleSheet.create({
         width: '100%',
         zIndex: -1,
 
-        // height: 300,
-        // backgroundColor: '#144669',
-        // marginTop: 16,
-        // alignItems: "stretch",
-    },
-    conView: {
-        marginTop: 35,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     menuIcon: {
         marginLeft: 18,
@@ -318,226 +276,26 @@ const styles = StyleSheet.create({
         height: 24,
         fontSize: 16,
         lineHeight: 24,
-        fontFamily: 'Roboto-Regular',
+        fontFamily:'Roboto-Regular',
         marginTop: 14,
         marginLeft: 32,
     },
-    settingIcon: {
-        width: 24,
-        height: 24,
-        marginLeft: 182,
-        marginTop: 16,
-    },
+    
     childView: {
         zIndex: 1,
         width: '100%',
         height: 250,
         backgroundColor: '#F2F2F2',
-    },
-    newwave: {
-        marginTop: 5,
-        fontFamily: 'Roboto-Light',
-        fontSize: 14,
-        color: '#555555',
-    },
-    newwavevalue: {
-
-        fontFamily: 'Roboto-Light',
-        fontSize: 18,
-        color: '#555555',
-    },
-    datetime: {
-        marginTop: 3,
-        fontFamily: 'Roboto-Light',
-        fontSize: 12,
-        color: 'rgba(109,112,132,0.8)',
-    },
-    statuesvalue: {
-        marginTop: 3,
-        marginLeft: 8,
-        fontFamily: 'Roboto-Light',
-        fontSize: 12,
-        color: 'rgba(109,112,132,0.8)',
-    },
-    subTitle: {
-        fontSize: 10,
-        lineHeight: 16,
-        fontFamily: 'Roboto-Regular',
-        marginTop: 8,
-        marginLeft: 149,
-        color: '#636566',
-        marginBottom: -8,
-    },
-    avatarView: {
-        width: 72,
-        height: 72,
-        borderWidth: 5,
-        borderColor: '#9ACBD9',
-        borderRadius: 100,
-        //backgroundColor: 'transparent',
-        //overflow: 'hidden',
-        opacity: 0.1,
-        zIndex: 1,
-        backgroundColor: '#FFFFFF',
-        marginTop: 15,
-        marginLeft: 48,
-    },
-    avatar: {
-        width: 45.8,
-        height: 45.8,
-        borderRadius: 100
-    },
-    besttimeview: {
-        marginLeft: 5,
-        marginTop: 5,
-        width: 48,
-        height: 20,
-        backgroundColor: 'rgba(0,0,0,0.1)',
-        borderRadius: 4,
-        justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'row',
-
     },
-    besttimevalue: {
-        marginLeft: 5,
-        marginTop: -5,
-        opacity: 0.8,
-        fontFamily: 'Roboto-Light',
-        fontSize: 14,
-        color: '#6D7084',
-        letterSpacing: 0.91,
-        justifyContent: 'center',
-        alignItems: 'center',
-        lineHeight: 24,
-    },
-    helloText: {
-
-        fontSize: 16,
-        lineHeight: 24,
-        fontFamily: 'Roboto-Regular',
-        color: '#FFFFFF',
-        marginLeft: 152,
-        marginTop: -65,
-
-
-    },
-    editText: {
-        fontSize: 14,
-        lineHeight: 22,
-        fontFamily: 'PingFangTC-Light',
-        color: '#FFFFFF',
-        marginLeft: 152,
-        marginTop: 4,
-
-    },
-    kidname: {
-        justifyContent: 'center',
-        left: 54,
-        top: -12,
-        fontFamily: 'Roboto-Regular',
-        fontSize: 16,
-        color: '#FFFFFF',
-        letterSpacing: 0.5,
-        lineHeight: 24,
-        // width: 50,
-        height: 24,
-        // backgroundColor:'red'
-    },
-    underbar: {
-        // top: 262,
-        width: 384,
-        // height: 300,
-        // marginBottom:10,
-        backgroundColor: '#F2F2F2'
-    },
-    underbartext: {
-        fontSize: 10,
-        letterSpacing: 0.5,
-        lineHeight: 16,
-        color: '#636566',
-        fontFamily: 'PingFangTC-Light',
-        top: 8,
-        left: 133
-    },
-    // cardsize: {
-    //     marginLeft: 16,
-    //     marginRight: 16,
-    //     // width: '100%',
-    //     height: 60,
-    //     marginTop: 8,
-    //     borderRadius: 7
-    // },
-    // kidcardname: {
-    //     marginLeft: 20,
-    //     color: '#144669',
-    //     fontSize: 16,
-    //     letterSpacing: 1,
-    //     lineHeight: 24,
-    //     fontFamily: 'Roboto-Regular',
-    // },
-    //以下是假的
     cardsize: {
         zIndex: 1,
         marginTop: 5,
-        marginLeft: 10,
-        width: 360,
+        width: 0.9*width,
         height: 80,
+        justifyContent:'center'
     },
-    kidcardname: {
-        marginTop: -6,
-        marginLeft: 4,
-        color: '#6D7084',
-        fontSize: 9,
-        letterSpacing: 1,
-        lineHeight: 24,
-        bottom: 5,
-        fontFamily: 'Roboto-Regular',
-    },
-    kidcardimgstyle: {
-        width: 40,
-        height: 40,
-        borderRadius: 50,
-
-        // top: 10,
-        // bottom: 10,
-        // justifyContent: 'center',
-        marginLeft: -6,
-        backgroundColor: '#9ACBD9'
-
-    },
-    kid2cardimgstyle: {
-        width: 40,
-        height: 40,
-        borderRadius: 50,
-        // bottom: 10,
-        marginLeft: -6,
-        backgroundColor: '#F5808B'
-    },
-    kid3cardimgstyle: {
-        width: 40,
-        height: 40,
-        borderRadius: 50,
-        // bottom: 10,
-        marginLeft: -6,
-        backgroundColor: '#F2992E'
-    },
-    kid4cardimgstyle: {
-        width: 40,
-        height: 40,
-        borderRadius: 50,
-        bottom: 10,
-        marginLeft: -10,
-        backgroundColor: '#2F9A9E'
-    },
-    kid5cardimgstyle: {
-        width: 40,
-        height: 40,
-        borderRadius: 50,
-        // bottom: 10,
-        marginLeft: -10,
-        backgroundColor: '#A77DC2'
-    },
+    
 
 });
 

@@ -14,12 +14,18 @@ import {
     AvgPublicMemeryOrderByAction,
     AvgPublicMemeryAction
 } from '../actions/AllKidschart_action';
-
+import { CdNewScoreRecord, SetChildNameBG, SetChildBestStatus, SetCdDayOfBestScoreByTimer } from '../actions/Home_action';
 const mapStateToProps = (state) => ({
     login_account: state.login_account,
     child_account: state.child_account,
     login_token: state.login_token,
     member_data: state.member_data,
+    CdNewScoreRecordData: state.CdNewScoreRecordData,
+    ChildNameBGData: state.ChildNameBGData,
+    ChildBestStatus: state.ChildBestStatus,
+    CdDayOfBestScoreByTimer: state.CdDayOfBestScoreByTimer,
+    AvgCdEventStatusScore: state.AvgCdEventStatusScore
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -54,9 +60,21 @@ const mapDispatchToProps = (dispatch) => ({
     GetAvgPublicMemery: () => {//每日記憶力折線圖
         dispatch(AvgPublicMemeryAction());
     },
-    testonly: () => {//每日記憶力折線圖
-       Actions.TestMindwave();
-    }
+    GetCdNewScoreRecord: (login_account, token) => { //取得最新資料
+        dispatch(CdNewScoreRecord(login_account, token));
+    },
+    GetChildNameBGcolor: (login_account, cdname, color, login_token) => { //取得點擊列表的小孩名字、背景顏色 並取得詳細資料
+        dispatch(SetChildNameBG(login_account, cdname, color, login_token))
+
+    },
+    GetSetChildBestStatus: (login_account, cdname, login_token) => {
+        dispatch(SetChildBestStatus(login_account, cdname, login_token)) //取得小孩最佳狀態
+    },
+    GetSetCdDayOfBestScoreByTimer: (login_account, cdname, login_token) => {
+        dispatch(SetCdDayOfBestScoreByTimer(login_account, cdname, login_token)) //取得小孩最佳時段
+    },
+
+
 }
 
 );
@@ -64,101 +82,9 @@ const mapDispatchToProps = (dispatch) => ({
 class HomeContainer extends HomeComponent {
     constructor(props) {
         super(props);
-        this.state = {
-            scene: 'home',
-            kidlistpre: [],
-            legend: {
-                enabled: false,
-                textSize: 14,
-                form: "SQUARE",
-                formSize: 14,
-                xEntrySpace: 10,
-                yEntrySpace: 5,
-                wordWrapEnabled: true
-            },
-            data: {
-                dataSets: [{
-                    values: [5, 40, 77, 81, 43, 20],
-                    label: 'Company B',
-                    config: {
-                        drawValues: false,
-                        colors: [processColor('#9ACBD9')],
-                    }
-                }, {
-                    values: [40, 5, 50, 23, 79, 30],
-                    label: 'Company C',
-                    config: {
-                        drawValues: false,
-                        colors: [processColor('#F5808B')],
-                    }
-                }, {
-                    values: [10, 55, 35, 90, 82, 60],
-                    label: 'Company D',
-                    config: {
-                        drawValues: false,
-                        colors: [processColor('#F2992E')],
-                    }
-                },
-                    // {
-                    //     values: [90, 53, 82,10 ,35,88 ],
-                    //     label: 'Company E',
-                    //     config: {
-                    //       drawValues: false,
-                    //       colors: [processColor('#2F9A9E')],
-                    //     }
-                    //   },
-                    //   {
-                    //     values: [87, 66, 44, 55, 90,64],//小孩各狀態腦波
-                    //     label: 'Company F',//小孩姓名
-                    //     config: {
-                    //       drawValues: false,
-                    //       colors: [processColor('#A77DC2')],
-                    //     }
-                    //   }
-                ],
-                config: {
-                    barWidth: 0.2,//5個小孩0.1
-                    group: {
-                        fromX: 0,
-                        groupSpace: 0.4,//5個小孩0.5
-                        barSpace: 0,
-                    },
-                }
-            },
-            xline: {
-                drawLabels: true,
-                valueFormatter: ['', '', '', '', '', ''],
-                textColor: processColor('rgba(255,255,255,0.8)'),
-                textSize: 9,
-                position: 'BOTTOM',
-                granularity: 1,
-                axisMaximum: 6,
-                axisMinimum: 0,
-                centerAxisLabels: true,
-                drawGridLines: false,
-                // drawAxisLine: false,
-                gridDashedLine: { spaceLength: 10 }
-            },
-            yline:
-            {
-                left: {
-                    textColor: processColor('#B4DAE5'), textSize: 10,
-                    drawAxisLine: false,
-                    gridDashedLine: {
-                        lineLength: 10,
-                        spaceLength: 8
-                    },
-                },
-                right: { drawLabels: false, drawAxisLine: false },
-
-
-            },
-
-
-        };
+        
     }
-
-    componentWillMount() {
+    componentDidMount() {
         this.props.GetAllKidsProblemData();
         this.props.GetAllKidsProblemDataOrderby();
         this.props.GetAllKidsMealDataOrderby();
@@ -167,15 +93,29 @@ class HomeContainer extends HomeComponent {
         this.props.GetAllKidsSleepAvgScoreDataOrderby();
         this.props.GetAvgPublicMemeryOrderBy();
         this.props.GetAvgPublicMemery();
-    }
 
+    }
+    componentWillMount() {
+
+    }
     componentWillReceiveProps(nextProps) {
         //取得會員資料
         const { member_data } = nextProps;
+        //取得最新資料
+        // const { CdNewScore_Record: previous_CdNewScoreRecord } = this.props
+        const { CdNewScoreRecordData } = nextProps
+
+        const { ChildNameBGData: pre_ChildNameBGData } = this.props;
+        const { ChildNameBGData } = nextProps;
+
+        if (pre_ChildNameBGData != ChildNameBGData) {
+            this.props.kidwavepageClick()
+        }
+
     }
 
 
-   
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

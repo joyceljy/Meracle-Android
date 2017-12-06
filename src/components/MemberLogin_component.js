@@ -7,10 +7,7 @@ import {
     StyleSheet,
     Image,
     TouchableOpacity,
-    Dimensions,
-    TouchableWithoutFeedback,
-    Keyboard,
-    KeyboardAvoidingView
+    Dimensions
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
 import Toast from 'react-native-root-toast';
@@ -26,10 +23,8 @@ class Memory extends Component {
 
         return (
             //backgroundimage
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-           
             <Image source={require('../images/Bg.png')} style={styles.backgroundImage} resizeMode="cover" >
-            <KeyboardAvoidingView behavior="position">
+
                 <View style={styles.logoView}>
                     <Image source={require('../images/Logo.png')} style={styles.logoImage} />
                 </View>
@@ -118,10 +113,8 @@ class Memory extends Component {
                     animation={false}
                     hideOnPress={true}
                 >帳號或密碼不能為空！</Toast>
-                </KeyboardAvoidingView>
             </Image>
-           
-            </TouchableWithoutFeedback>
+
 
         );
     }

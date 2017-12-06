@@ -34,6 +34,12 @@ import AllPublicMemery_reducer from './AllPublicMemery_reducer';
 import AllPublicMemoryTotalset_reducer from './AllPublicMemoryTotalset_reducer'
 import MemoryPoint_reducer from './MemoryPoint_reducer';
 import SaveMemoryPoint_reducer from './SaveMemoryPoint_reducer';
+import CdNewScoreRecord_reducer from './CdNewScoreRecord_reducer';
+import ChildNameBG_reducer from './ChildNameBG_reducer';
+import ChildNameBGcolor_reducer from './ChildNameBGcolor_reducer';
+import ChildBestStatus_reducer from './ChildBestStatus_reducer';
+import CdDayOfBestScoreByTimer_reducer from './CdDayOfBestScoreByTimer_reducer';
+import AvgCdEventStatusScore_reducer from './AvgCdEventStatusScore_reducer';
 const root_reducers = combineReducers({
 
     //login
@@ -91,16 +97,26 @@ const root_reducers = combineReducers({
     //大眾孩童睡眠時間
     PublicSleep: AllPublicSleepAvgScore_reducer,
     PublicSleepOrderby: AllPublicSleepAvgScoreOrderby_reducer,
-    PublicSleepTotalset:AllPublicSleepTotalset_reducer,
+    PublicSleepTotalset: AllPublicSleepTotalset_reducer,
     //大眾孩童每日記憶力表現
-    PublicMemeryOrderBy:AllPublicMemeryOrderBy_reducer,
-    PublicMemery:AllPublicMemery_reducer,
-    PublicMemoryTotalset:AllPublicMemoryTotalset_reducer,
+    PublicMemeryOrderBy: AllPublicMemeryOrderBy_reducer,
+    PublicMemery: AllPublicMemery_reducer,
+    PublicMemoryTotalset: AllPublicMemoryTotalset_reducer,
 
 
     //記憶分數
-    quizPointArray:MemoryPoint_reducer,
-    quizSaved:SaveMemoryPoint_reducer,
+    quizPointArray: MemoryPoint_reducer,
+    quizSaved: SaveMemoryPoint_reducer,
+
+    //首頁
+    CdNewScoreRecordData: CdNewScoreRecord_reducer,//列表
+    
+    //小孩詳細數據頁面
+    ChildNameBGData: ChildNameBG_reducer,
+    ChildNameBGColor: ChildNameBGcolor_reducer,
+    ChildBestStatus:ChildBestStatus_reducer, //最佳狀態
+    CdDayOfBestScoreByTimer:CdDayOfBestScoreByTimer_reducer,//最佳時段
+    AvgCdEventStatusScore:AvgCdEventStatusScore_reducer//首頁
 });
 
 export default root_reducers;

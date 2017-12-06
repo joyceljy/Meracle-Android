@@ -343,7 +343,7 @@ export function fetch_savechildrendata(login_account, childname, birthdate, gend
 }
 
 //取得記憶分數（POST）
-export function fetch_get_memory_point(mindwaveData,login_token,login_account,childname) {
+export function fetch_get_memory_point(mindwaveData, login_token, login_account, childname) {
     const api_url = `${get_base_url()}/Point/GetPoint`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
@@ -356,42 +356,42 @@ export function fetch_get_memory_point(mindwaveData,login_token,login_account,ch
         },
         body: JSON.stringify({
 
-            "Account":login_account,
-            "CdName":childname,
-            "deltaBig":mindwaveData.deltaBig	,
-            "deltaSmall":mindwaveData.deltaSmall,
-            "deltaAverage":mindwaveData.deltaAverage,
-            "deltaSD":mindwaveData.deltaSD,
-            "thetaBig":mindwaveData.thetaBig,
-            "thetaSmall":mindwaveData.thetaSmall,
-            "thetaAverage":mindwaveData.thetaAverage,
-            "thetaSD":mindwaveData.thetaSD,
-            "lowAlphaBig":mindwaveData.lowAlphaBig,
-            "lowAlphaSmall":mindwaveData.lowAlphaSmall,
-            "lowAlphaAverage":mindwaveData.lowAlphaAverage,
-            "highAlphaBig":mindwaveData.highAlphaBig,
-            "highAlphaSmall":mindwaveData.highAlphaSmall,
-            "highAlphaAverage":mindwaveData.highAlphaAverage,
-            "highAlphaSD":mindwaveData.highAlphaSD,
-            "lowBetaBig":mindwaveData.lowBetaBig,
-            "lowBetaSmall":mindwaveData.lowBetaSmall,
-            "lowBetaAverage":mindwaveData.lowBetaAverage,
-            "lowBetaSD":mindwaveData.lowBetaSD,
-            "highBetaBig":mindwaveData.highBetaBig,
-            "highBetaSmall":mindwaveData.highBetaSmall,
-            "highBetaAverage":mindwaveData.highBetaAverage,
-            "highBetaSD":mindwaveData.highBetaSD,
-            "lowGammaBig":mindwaveData.lowGammaBig,
-            "lowGammaSmall":mindwaveData.lowGammaSmall,
-            "lowGammaAverage":mindwaveData.lowGammaAverage,
-            "midGammaBig":mindwaveData.midGammaBig,
-            "midGammaSmall":mindwaveData.midGammaSmall,
-            "midGammaAverage":mindwaveData.midGammaAverage,
-            "midGammaSD":mindwaveData.midGammaSD,
+            "Account": login_account,
+            "CdName": childname,
+            "deltaBig": mindwaveData.deltaBig,
+            "deltaSmall": mindwaveData.deltaSmall,
+            "deltaAverage": mindwaveData.deltaAverage,
+            "deltaSD": mindwaveData.deltaSD,
+            "thetaBig": mindwaveData.thetaBig,
+            "thetaSmall": mindwaveData.thetaSmall,
+            "thetaAverage": mindwaveData.thetaAverage,
+            "thetaSD": mindwaveData.thetaSD,
+            "lowAlphaBig": mindwaveData.lowAlphaBig,
+            "lowAlphaSmall": mindwaveData.lowAlphaSmall,
+            "lowAlphaAverage": mindwaveData.lowAlphaAverage,
+            "highAlphaBig": mindwaveData.highAlphaBig,
+            "highAlphaSmall": mindwaveData.highAlphaSmall,
+            "highAlphaAverage": mindwaveData.highAlphaAverage,
+            "highAlphaSD": mindwaveData.highAlphaSD,
+            "lowBetaBig": mindwaveData.lowBetaBig,
+            "lowBetaSmall": mindwaveData.lowBetaSmall,
+            "lowBetaAverage": mindwaveData.lowBetaAverage,
+            "lowBetaSD": mindwaveData.lowBetaSD,
+            "highBetaBig": mindwaveData.highBetaBig,
+            "highBetaSmall": mindwaveData.highBetaSmall,
+            "highBetaAverage": mindwaveData.highBetaAverage,
+            "highBetaSD": mindwaveData.highBetaSD,
+            "lowGammaBig": mindwaveData.lowGammaBig,
+            "lowGammaSmall": mindwaveData.lowGammaSmall,
+            "lowGammaAverage": mindwaveData.lowGammaAverage,
+            "midGammaBig": mindwaveData.midGammaBig,
+            "midGammaSmall": mindwaveData.midGammaSmall,
+            "midGammaAverage": mindwaveData.midGammaAverage,
+            "midGammaSD": mindwaveData.midGammaSD,
 
             //記憶力用
-            "lowGammaSD":mindwaveData.lowGammaSD,
-            "lowAlphaSD":mindwaveData.lowAlphaSD,
+            "lowGammaSD": mindwaveData.lowGammaSD,
+            "lowAlphaSD": mindwaveData.lowAlphaSD,
 
         })
     }).then(response => {
@@ -399,63 +399,6 @@ export function fetch_get_memory_point(mindwaveData,login_token,login_account,ch
     });
 }
 
-
-//取得記憶分數（POST）
-export function fetch_get_memory_point2(mindwaveData,childname) {
-    const api_url = `${get_base_url()}/Point/SaveTestWave`;
-    // TODO deal with json decode error situation
-    return fetch(api_url, {
-        method: 'POST',
-        headers: {
-            //'Content-Type': 'application/x-www-form-urlencoded',
-            //'Authorization': login_token,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-
-           
-            "Name":childname,
-            "deltaBig":mindwaveData.deltaBig,
-            "deltaSmall":mindwaveData.deltaSmall,
-            "deltaAverage":mindwaveData.deltaAverage,
-            "deltaSD":mindwaveData.deltaSD,
-            "thetaBig":mindwaveData.thetaBig,
-            "thetaSmall":mindwaveData.thetaSmall,
-            "thetaAverage":mindwaveData.thetaAverage,
-            "thetaSD":mindwaveData.thetaSD,
-            "lowAlphaBig":mindwaveData.lowAlphaBig,
-            "lowAlphaSmall":mindwaveData.lowAlphaSmall,
-            "lowAlphaAverage":mindwaveData.lowAlphaAverage,
-            "highAlphaBig":mindwaveData.highAlphaBig,
-            "highAlphaSmall":mindwaveData.highAlphaSmall,
-            "highAlphaAverage":mindwaveData.highAlphaAverage,
-            "highAlphaSD":mindwaveData.highAlphaSD,
-            "lowBetaBig":mindwaveData.lowBetaBig,
-            "lowBetaSmall":mindwaveData.lowBetaSmall,
-            "lowBetaAverage":mindwaveData.lowBetaAverage,
-            "lowBetaSD":mindwaveData.lowBetaSD,
-            "highBetaBig":mindwaveData.highBetaBig,
-            "highBetaSmall":mindwaveData.highBetaSmall,
-            "highBetaAverage":mindwaveData.highBetaAverage,
-            "highBetaSD":mindwaveData.highBetaSD,
-            "lowGammaBig":mindwaveData.lowGammaBig,
-            "lowGammaSmall":mindwaveData.lowGammaSmall,
-            "lowGammaAverage":mindwaveData.lowGammaAverage,
-            "midGammaBig":mindwaveData.midGammaBig,
-            "midGammaSmall":mindwaveData.midGammaSmall,
-            "midGammaAverage":mindwaveData.midGammaAverage,
-            "midGammaSD":mindwaveData.midGammaSD,
-
-            //記憶力用
-            "lowGammaSD":mindwaveData.lowGammaSD,
-            "lowAlphaSD":mindwaveData.lowAlphaSD,
-
-        })
-    }).then(response => {
-        return response.json()
-    });
-}
 
 //儲存記憶分數（POST）
 export function fetch_save_memory_point(login_account, login_token, cdName, finalScore, statusSelected) {
@@ -470,10 +413,10 @@ export function fetch_save_memory_point(login_account, login_token, cdName, fina
             //'Authorization': login_token,
         },
         body: JSON.stringify({
-            "Account":login_account,
-            "CdName":cdName,
-            "Score":parseInt(finalScore),
-            "Status":statusSelected
+            "Account": login_account,
+            "CdName": cdName,
+            "Score": finalScore,
+            "Status": statusSelected
         })
     }).then(response => {
         return response.json()
@@ -493,7 +436,7 @@ export function fetch_AvgPublicBodyOrderBy() { //生理狀況平均記憶指數�
         },
 
         // body: JSON.stringify({
-           
+
 
         // })
     }).then(response => {
@@ -513,7 +456,7 @@ export function fetch_AvgPublicBodyNoOrderBy() { //生理狀況分布
         },
 
         // body: JSON.stringify({
-           
+
 
         // })
     }).then(response => {
@@ -533,7 +476,7 @@ export function fetch_AvgPublicCerealOrderBy() { //飲食習慣平均記憶指�
         },
 
         // body: JSON.stringify({
-           
+
 
         // })
     }).then(response => {
@@ -553,7 +496,7 @@ export function fetch_AllPublicCereal() { //飲食習慣分布
         },
 
         // body: JSON.stringify({
-           
+
 
         // })
     }).then(response => {
@@ -573,7 +516,7 @@ export function fetch_AvgPublicSleepAvgScore() { //睡眠時間平均記憶指�
         },
 
         // body: JSON.stringify({
-           
+
 
         // })
     }).then(response => {
@@ -593,7 +536,7 @@ export function fetch_AvgPublicSleepAvgScoreOrderby() { //睡眠時間平均記�
         },
 
         // body: JSON.stringify({
-           
+
 
         // })
     }).then(response => {
@@ -601,7 +544,7 @@ export function fetch_AvgPublicSleepAvgScoreOrderby() { //睡眠時間平均記�
     });
 }
 export function fetch_AvgPublicMemeryOrderBy() { //每日時段平均記憶指數排序
-    const api_url = `${get_base_url()}/Survey/AvgPublicMemeryOrderBy`;
+    const api_url = `${get_base_url()}/Survey/AvgPublicStatusScoreAllMemeryOrderby`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
         method: 'GET',
@@ -613,7 +556,7 @@ export function fetch_AvgPublicMemeryOrderBy() { //每日時段平均記憶指�
         },
 
         // body: JSON.stringify({
-           
+
 
         // })
     }).then(response => {
@@ -621,7 +564,7 @@ export function fetch_AvgPublicMemeryOrderBy() { //每日時段平均記憶指�
     });
 }
 export function fetch_AvgPublicMemeryNoOrderBy() { //每日時段平均記憶指數折線圖
-    const api_url = `${get_base_url()}/Survey/AvgPublicMemeryNoOrderBy`;
+    const api_url = `${get_base_url()}/Survey/AvgPublicStatusScoreAllMemeryNoOrderby`;
     // TODO deal with json decode error situation
     return fetch(api_url, {
         method: 'GET',
@@ -633,9 +576,113 @@ export function fetch_AvgPublicMemeryNoOrderBy() { //每日時段平均記憶指
         },
 
         // body: JSON.stringify({
-           
+
 
         // })
+    }).then(response => {
+        return response.json()
+    });
+}
+//POST 首頁列表
+export function fetch_CdNewScoreTable(login_account, login_token) {
+    const api_url = `${get_base_url()}/Survey/EveryCdNewScoreTable`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': login_token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify({
+            "Account": login_account,
+
+        })
+    }).then(response => {
+        return response.json()
+    });
+}
+//POST 小孩詳細頁面
+export function fetch_CdTable(login_account, cdname, login_token) {
+    const api_url = `${get_base_url()}/Survey/GetCdAllTestStatusData`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': login_token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify({
+            "Account": login_account,
+            "CdName": cdname
+        })
+    }).then(response => {
+        return response.json()
+    });
+}
+//POST 小孩詳細頁面-最佳狀態
+export function fetch_CdBestStatus(login_account, cdname, login_token) {
+    const api_url = `${get_base_url()}/Survey/GetCdBestTestData`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': login_token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify({
+            "Account": login_account,
+            "CdName": cdname
+        })
+    }).then(response => {
+        return response.json()
+    });
+}
+//POST 小孩詳細頁面-最佳時段
+export function fetch_CdDayOfBestScoreByTimer(login_account, cdname, login_token) {
+    const api_url = `${get_base_url()}/Survey/CdDayOfBestScoreByTimer`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': login_token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify({
+            "Account": login_account,
+            "CdName": cdname
+        })
+    }).then(response => {
+        return response.json()
+    });
+}
+//POST 首頁圖表
+export function fetch_AvgCdEventStatusScore(login_account, login_token) {
+    const api_url = `${get_base_url()}/Survey/AvgCdEventStatusScoreNew`;
+    // TODO deal with json decode error situation
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': login_token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify({
+            "Account": login_account,
+        })
     }).then(response => {
         return response.json()
     });

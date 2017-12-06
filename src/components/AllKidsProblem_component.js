@@ -8,7 +8,8 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
-    processColor
+    processColor,
+    Dimensions
 } from 'react-native';
 import Svg, {
     Line,
@@ -16,6 +17,7 @@ import Svg, {
 import { Container, Header, Content, Card, CardItem, Body } from 'native-base';
 import ActionButton from 'react-native-action-button';
 import { PieChart } from 'react-native-charts-wrapper';
+var { height, width } = Dimensions.get('window');
 class Memory extends Component {
     constructor(props) {
         super(props);
@@ -29,7 +31,7 @@ class Memory extends Component {
 
             case 6:
                 return {
-                    marginLeft: 91,
+                    marginLeft: 0.81*width-220,
                     marginTop: 10,
                     fontSize: 16,
                     color: '#6D7084',
@@ -37,7 +39,7 @@ class Memory extends Component {
                 };
             case 4:
                 return {
-                    marginLeft: 122,
+                    marginLeft: 0.81*width-189,
                     marginTop: 10,
                     fontSize: 16,
                     color: '#6D7084',
@@ -45,7 +47,7 @@ class Memory extends Component {
                 };
             case 2:
                 return {
-                    marginLeft: 155,
+                    marginLeft: 0.81*width-156,
                     marginTop: 10,
                     fontSize: 16,
                     color: '#6D7084',
@@ -124,6 +126,7 @@ class Memory extends Component {
             drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
             main: { paddingLeft: 0 }
         }
+        if (this.props.PublicBody != "" || this.props.PublicBody != null) {
         let ProblemSorttt = []
         this.ProblemSorttt = this.props.PublicBody
         let Problem = [], Percentage = [], c = 1
@@ -170,7 +173,7 @@ class Memory extends Component {
             }
             c++;
         };
-
+    }
         return (
             <View style={styles.Viewstyle}>
                 <Image source={require('../images/bg_darkBlue1.png')} style={{ width: '100%', height: '100%' }} >
@@ -217,6 +220,12 @@ class Memory extends Component {
                                     transparentCircleRadius={45}
                                     transparentCircleColor={processColor('#f0f0f088')}
                                     maxAngle={360}
+                                    chartDescription={{
+                                        text: '',
+                                        textColor: processColor('#999'),
+                                        textSize: 12,
+                                        fontFamily: '微软雅黑'
+                                        }}
                                 />
                             </View>
                         </View>
@@ -235,7 +244,7 @@ class Memory extends Component {
                                 }}>
                                     <CardItem>
                                         <Body style={{
-                                            flexDirection: 'column', justifyContent: 'flex-start',
+                                            flexDirection: 'column',
 
                                         }}>
                                         <Text style={styles.subTitle}>各狀況平均記憶指數</Text>
@@ -266,8 +275,8 @@ const styles = StyleSheet.create({
         position: 'absolute'
     },
     magnifyingGlassCircle: {
-        width: 245,
-        height: 245,
+        width: 0.63*width,
+        height: 0.63*width,
         borderRadius: 150,
         borderWidth: 8,
         borderColor: 'white'
@@ -290,8 +299,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     chart: {
-        width: 256,
-        height: 256,
+        width: 0.66*width,
+        height: 0.66*width,
 
         // backgroundColor: 'rgba(221, 221, 255, 0.5)',
 
@@ -322,23 +331,24 @@ const styles = StyleSheet.create({
         height: 24,
         fontSize: 16,
         lineHeight: 24,
-        fontFamily: 'Roboto-Regular',
+        fontFamily:'Roboto-Regular',
         marginTop: 14,
         marginLeft: 32,
     },
     subTitle: {
         fontSize: 10,
         lineHeight: 16,
-        fontFamily: 'Roboto-Regular',
+        fontFamily:'Roboto-Regular',
         marginLeft: 95,
         color: '#636566',
         marginBottom: 5,
     },
     
     cardsize: {
-        marginLeft: 30,
-        width: 312,
-        height: 330,
+        marginLeft: 0.09*width,
+        width: 0.83*width,
+        height: 326,
+        justifyContent: 'center',
     },
 });
 

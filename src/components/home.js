@@ -8,7 +8,8 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
-    processColor
+    processColor,
+    Dimensions
 } from 'react-native';
 import Svg, {
     Line,
@@ -18,11 +19,53 @@ import ActionButton from 'react-native-action-button';
 import Drawer from 'react-native-drawer';
 import SideBarContent from '../containers/SideBarContent';
 import { BarChart } from 'react-native-charts-wrapper';
+var { height, width } = Dimensions.get('window');
 class Memory extends Component {
     constructor(props) {
         super(props);
         this.closeControlPanel = this.closeControlPanel.bind(this);
         this.openControlPanel = this.openControlPanel.bind(this);
+        this.state = {
+            scene: 'home',
+            kidlistpre: [],
+            legend: {
+                enabled: false,
+                textSize: 14,
+                form: "SQUARE",
+                formSize: 14,
+                xEntrySpace: 10,
+                yEntrySpace: 5,
+                wordWrapEnabled: true
+            },
+            xline: {
+                drawLabels: true,
+                valueFormatter: ['', '', '', '', '', ''],
+                textColor: processColor('rgba(255,255,255,0.8)'),
+                textSize: 9,
+                position: 'BOTTOM',
+                granularity: 1,
+                axisMaximum: 6,
+                axisMinimum: 0,
+                centerAxisLabels: true,
+                drawGridLines: false,
+                // drawAxisLine: false,
+                gridDashedLine: { spaceLength: 10 }
+            },
+            yline:
+            {
+                left: {
+                    textColor: processColor('#B4DAE5'), textSize: 10,
+                    drawAxisLine: false,
+                    gridDashedLine: {
+                        lineLength: 10,
+                        spaceLength: 8
+                    },
+                },
+                right: { drawLabels: false, drawAxisLine: false },
+
+
+            },
+        }
     }
 
     closeControlPanel = () => {
@@ -31,166 +74,259 @@ class Memory extends Component {
     openControlPanel = () => {
         this._drawer.open()
     };
-    kidlist = function (options) {
+
+    kidlist(options) {
         if (options === 0) {
             return {
-                marginTop: -7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
+                // bottom: 10,
+                marginLeft: 15,
+                marginTop: 10,
                 backgroundColor: '#9ACBD9'
             }
         }
         else if (options === 1) {
             return {
-                marginTop: -7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
+                // bottom: 10,
+                marginLeft: 15,
+                marginTop: 10,
                 backgroundColor: '#F5808B'
             }
         }
         else if (options === 2) {
             return {
-                marginTop: - 7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
+                // bottom: 10,
+                marginLeft: 15,
+                marginTop: 10,
                 backgroundColor: '#F2992E'
             }
         }
         else if (options === 3) {
             return {
-                marginTop: - 7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
+                // bottom: 10,
+                marginLeft: 15,
+                marginTop: 10,
                 backgroundColor: '#2F9A9E'
             }
         }
         else if (options === 4) {
             return {
-                marginTop: - 7,
                 width: 40,
                 height: 40,
                 borderRadius: 50,
+                // bottom: 10,
+                marginLeft: 15,
+                marginTop: 10,
                 backgroundColor: '#A77DC2'
             }
         }
     }
-    underbarstyle() {
-        arr = this.props.childList;
-        for (let key in arr) {
-            return {
-                width: 384,
-                backgroundColor: '#F2F2F2'
+    timeercut(str) {
+        let strlength = str.length;
+        let newstr = "";
+        newstr = str.substring(0, 10).replace("-", "/").replace("-", "/");
+        return newstr;
+    }
+    statusnum(str) {
+        if (str != null) {
+            switch (str) {
+                case "運動前":
+                    return 0;
+                case "運動後":
+                    return 1;
+                case "吃飯前":
+                    return 2;
+                case "吃飯後":
+                    return 3;
+                case "睡覺前":
+                    return 4;
+                case "剛睡醒":
+                    return 5;
             }
+
         }
+    }
+    statusname(str, value, array) {
+
+        array[this.statusnum(str)] = value;
+        return array
+
+    }
+    differcut(num) {
+        let newnum = (-num * 2) + num
+        return newnum
     }
     render() {
         const drawerStyles = {
             drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
             main: { paddingLeft: 0 }
         }
-        kidlistpre = this.props.childList;
-        let kidlistaft = [];
-        for (let key in kidlistpre) {
-            for (let i = 0; i < kidlistpre[key].length; i++) {
-                let imgurl = "http://meracal.azurewebsites.net/Filefolder/" + kidlistpre[key][i].Imageurl;
-                if (kidlistpre[key][i].Gender === "男" && kidlistpre[key][i].Imageurl === "DefaultImg.png") {
-                    kidlistaft.push(
-                        <View style={styles.cardsize}>
-                            <Card style={{
-                                elevation: 0.8,
-                                borderRadius: 4,
-                            }}>
-                                <CardItem button onPress={() => this.props.ChildEdit(this.props.login_account, kidlistpre[key][i].CdName, this.props.login_token)}>
-                                    <Body style={{ flexDirection: 'row', }}>
-                                        <View style={this.kidlist(i)}>
-                                            <Image source={require('../images/avatar_boy.png')} style={{ marginTop: 4, marginLeft: 2, }}></Image>
-                                        </View>
-                                        <Text style={styles.kidcardname}>
-                                            {kidlistpre[key][i].CdName}
-                                        </Text>
+        let colorarr = ['#9ACBD9', '#F5808B', '#F2992E', '#2F9A9E', '#A77DC2'];
+        let array = [0, 0, 0, 0, 0, 0];
+        let finalarrdata = [];
+        let finalarrname = [];
+        let data = [];
+        let c = 0;
+        let final_data = {}
+        if (this.props.login_account != null || this.props.login_account != "") {
+            let chartpre = this.props.AvgCdEventStatusScore;
 
-                                    </Body>
-                                    <Image source={require('../images/edit.png')} style={{ marginBottom: 25, marginRight: -5 }}></Image>
-                                </CardItem>
-                            </Card>
-                        </View>
+            for (let j = 0; j < chartpre.length; j++) {
+                if (chartpre.length === 1) {
+                    finalarrdata.push(
+                        {
+                            values: chartpre[0].Status,
+                            label: chartpre[0].CdName,
+                            config: {
+                                drawValues: false,
+                                colors: [processColor(colorarr[0])],
+                            }
+                        }
                     )
-                }
-                else if (kidlistpre[key][i].Gender === "女" && kidlistpre[key][i].Imageurl === "DefaultImg.png") {
-                    kidlistaft.push(
-                        <View style={styles.cardsize}>
-                            <Card style={{
-                                elevation: 0.8,
-                                borderRadius: 4,
-                            }}>
-                                <CardItem button onPress={() => this.props.ChildEdit(this.props.login_account, kidlistpre[key][i].CdName, this.props.login_token)}>
-                                    <Body style={{ flexDirection: 'row', }}>
-                                        <View style={this.kidlist(i)}>
-                                            <Image source={require('../images/avatar_boy.png')} style={{ marginTop: 4, marginLeft: 2, }}></Image>
-                                        </View>
-                                        <Text style={styles.kidcardname}>
-                                            {kidlistpre[key][i].CdName}
-                                        </Text>
-
-                                    </Body>
-                                    <Image source={require('../images/edit.png')} style={{ marginBottom: 25, marginRight: -5 }}></Image>
-                                </CardItem>
-                            </Card>
-                        </View>
+                    finalarrdata.push(
+                        {
+                            values: [0, 0, 0, 0, 0, 0],
+                            label: '',
+                            config: {
+                                drawValues: false,
+                                colors: [processColor(colorarr[1])],
+                            }
+                        }
                     )
-                }
-                else if (kidlistpre[key][i].Gender === "男" && kidlistpre[key][i].Imageurl != "DefaultImg.png") {
-                    kidlistaft.push(
-                        <View style={styles.cardsize}>
-                            <Card style={{
-                                elevation: 0.8,
-                                borderRadius: 4,
-                            }}>
-                                <CardItem button onPress={() => this.props.ChildEdit(kidlistpre[key][i].CdName)}>
-                                    <Body style={{ flexDirection: 'row', }}>
-                                        <View style={this.kidlist(i)}>
-                                            <Image source={{ url: imgurl }} style={{ marginTop: 4, marginLeft: 2 }}></Image>
-                                        </View>
-                                        <Text style={styles.kidcardname}>
-                                            {kidlistpre[key][i].CdName}
-                                        </Text>
 
-                                    </Body>
-                                    <Image source={require('../images/edit.png')} style={{ marginBottom: 25, marginRight: -5 }}></Image>
-                                </CardItem>
-                            </Card>
-                        </View>
+                    // this.setState({ chartaft: finalarrdata })
+                    console.log("finalarrdata", finalarrdata)
+                    c++;
+                }
+                else {
+                    finalarrdata.push(
+                        {
+                            values: chartpre[j].Status,
+                            label: chartpre[j].CdName,
+                            config: {
+                                drawValues: false,
+                                colors: [processColor(colorarr[c])],
+                            }
+                        }
                     )
+                    // this.setState({ chartaft: finalarrdata })
+                    console.log("finalarrdata", finalarrdata)
+                    c++;
                 }
+                console.log("final_data", final_data)
 
-                else if (kidlistpre[key][i].Gender === "女" && kidlistpre[key][i].Imageurl != "DefaultImg.png") {
-                    kidlistaft.push(
-                        <View style={styles.cardsize}>
-                            <Card style={{
-                                elevation: 0.8,
-                                borderRadius: 4,
-                            }}>
-                                <CardItem button onPress={() => this.props.ChildEdit(kidlistpre[key][i].CdName)}>
-                                    <Body style={{ flexDirection: 'row', }}>
+
+            }
+
+
+            // final_data = {
+            //     dataSets: finalarrdata,
+            //     config: {
+            //         barWidth: 0.2,//5個小孩0.1
+            //         group: {
+            //             fromX: 0,
+            //             groupSpace: 0.4,//5個小孩0.5
+            //             barSpace: 0,
+            //         }
+            //     }
+            // }
+
+        }
+
+        let CdNewScoreaft = [];
+
+        if (this.props.login_account != null || this.props.login_account != "") {
+            console.log("newrecord", this.props.CdNewScoreRecordData)
+            if (this.props.CdNewScoreRecordData != null || this.props.CdNewScoreRecordData != "") {
+                CdNewScorepre = this.props.CdNewScoreRecordData;
+
+                let updownarr = [];
+                for (let i = 0; i < CdNewScorepre.length; i++) {
+                    let imgurl = 'https://www.meracle.me/home/Filefolder/' + CdNewScorepre[i].Imageurl;
+                    if (CdNewScorepre[i].DifferScore > 0) {
+                        updownarr.push(
+                            <View style={styles.besttimeview}>
+                                <Image source={require('../images/triangle/up.png')} ></Image>
+                                <Text style={styles.besttimevalue}>{CdNewScorepre[i].DifferScore}</Text>
+                            </View>
+
+                        )
+                    }
+                    else if (CdNewScorepre[i].DifferScore < 0) {
+                        updownarr.push(
+                            <View style={styles.besttimeview}>
+                                <Image source={require('../images/triangle/down.png')} ></Image>
+                                <Text style={styles.besttimevalue}>{this.differcut(CdNewScorepre[i].DifferScore)}</Text>
+                            </View>
+
+                        )
+                    }
+                    else if (CdNewScorepre[i].DifferScore === 0) {
+                        updownarr.push(
+                            <View />
+                        )
+                    }
+                    // if (CdNewScorepre[i].Imageurl === "DefaultImg.png" || CdNewScorepre[i].Imageurl == null) {
+                    CdNewScoreaft.push(
+                        <TouchableOpacity onPress={() => {
+                            this.props.GetChildNameBGcolor(this.props.login_account, CdNewScorepre[i].CdName, colorarr[i], this.props.login_token)
+                            this.props.GetSetChildBestStatus(this.props.login_account, CdNewScorepre[i].CdName, this.props.login_token)
+                            this.props.GetSetCdDayOfBestScoreByTimer(this.props.login_account, CdNewScorepre[i].CdName, this.props.login_token)
+                        }}>
+                            <View style={styles.cardsize}>
+                                <View style={{ flexDirection: 'row', }}>
+                                    <View style={{ flexDirection: 'column', }}>
                                         <View style={this.kidlist(i)}>
-                                            <Image source={{ url: imgurl }} style={{ marginTop: 4, marginLeft: 2 }}></Image>
+                                            <Image source={require('../images/avatar_boy.png')} style={{ marginTop: 4, marginLeft: 2 }}></Image>
                                         </View>
-                                        <Text style={styles.kidcardname}>
-                                            {kidlistpre[key][i].CdName}
-                                        </Text>
-
-                                    </Body>
-                                    <Image source={require('../images/edit.png')} style={{ marginBottom: 25, marginRight: -5 }}></Image>
-                                </CardItem>
-                            </Card>
-                        </View>
+                                        <Text style={styles.kidcardname}>{CdNewScorepre[i].CdName}</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'column', marginLeft: 20 }}>
+                                        <Svg
+                                            height="80"
+                                            width="10"
+                                        >
+                                            <Line
+                                                x1="0"
+                                                y1="0"
+                                                x2="0"
+                                                y2="100"
+                                                stroke='rgba(109,112,132,0.1)'
+                                                strokeWidth="2"
+                                            />
+                                        </Svg>
+                                        <View style={{ flexDirection: 'row', marginTop: -65, marginLeft: 20, width: 190 }} >
+                                            <Text style={styles.newwave}>最新分數：</Text>
+                                            <Text style={styles.newwavevalue}>{CdNewScorepre[i].Score}</Text>
+                                            {
+                                                updownarr[i]
+                                            }
+                                        </View>
+                                        <View style={{ flexDirection: 'row', marginLeft: 20 }}>
+                                            <Text style={styles.datetime}>{this.timeercut(CdNewScorepre[i].CreateTime)}</Text>
+                                            <Text style={styles.statuesvalue}>{CdNewScorepre[i].StatusName}</Text>
+                                        </View>
+                                    </View>
+                                    <Image source={require('../images/arrow_gray.png')} style={{ marginTop: 25 }}></Image>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
                     )
+
                 }
-            };
+                console.log("CdNewScoreaft", CdNewScoreaft)
+            }
         }
         return (
             <Drawer
@@ -220,7 +356,7 @@ class Memory extends Component {
                                 <Image source={require('../images/menu.png')} ></Image>
                             </TouchableOpacity>
                             <Text style={styles.title}>腦波測量結果</Text>
-                            <TouchableOpacity  onPress={() => this.props.testonly()} style={styles.settingIcon} >
+                            <TouchableOpacity style={styles.settingIcon}>
                                 <Image source={require('../images/reload.png')} />
                             </TouchableOpacity>
                         </View>
@@ -233,12 +369,28 @@ class Memory extends Component {
                             </View>
                             <BarChart
                                 style={styles.chart}
-                                data={this.state.data}
+                                data={{
+                                    dataSets: finalarrdata,
+                                    config: {
+                                        barWidth: 0.1,//5個小孩0.1
+                                        group: {
+                                            fromX: 0,
+                                            groupSpace: 0.5,//5個小孩0.5
+                                            barSpace: 0,
+                                        }
+                                    }
+                                }}
                                 drawValueAboveBar={false}
                                 drawBarShadow={false}
                                 yAxis={this.state.yline}
                                 xAxis={this.state.xline}
                                 legend={this.state.legend}
+                                chartDescription={{
+                                    text: '',
+                                    textColor: processColor('#999'),
+                                    textSize: 12,
+                                    fontFamily: '微软雅黑'
+                                }}
                             />
                         </View>
 
@@ -279,148 +431,15 @@ class Memory extends Component {
                     <View style={styles.childView}>
                         <ScrollView>
                             <View>
-                                <View style={styles.cardsize}>
-                                    <Card style={{
-                                        elevation: 0.8,
-                                        borderRadius: 4,
-                                    }}>
-                                        <CardItem button onPress={() => this.props.kidwavepageClick()}>
-                                            <Body style={{ flexDirection: 'row', }}>
-                                                <View style={{ flexDirection: 'column', }}>
-                                                    <View style={styles.kidcardimgstyle}>
-                                                        <Image source={require('../images/avatar_boy.png')} style={{ marginTop: 5, marginLeft: 2 }}></Image>
-                                                    </View>
-                                                    <Text style={styles.kidcardname}>
-                                                        andy
-                                                </Text>
 
-                                                </View>
-                                                <View style={{ flexDirection: 'column', marginLeft: 10 }}>
-                                                    <Svg
-                                                        height="50"
-                                                        width="10"
-                                                    >
-                                                        <Line
-                                                            x1="0"
-                                                            y1="0"
-                                                            x2="0"
-                                                            y2="100"
-                                                            stroke='rgba(109,112,132,0.1)'
-                                                            strokeWidth="2"
-                                                        />
-                                                    </Svg>
-                                                    <View style={{ flexDirection: 'row', marginTop: -50, marginLeft: 20 }} >
-                                                        <Text style={styles.newwave}>最新分數：</Text>
-                                                        <Text style={styles.newwavevalue}>75</Text>
-                                                        <View style={styles.besttimeview}>
-                                                            <Image source={require('../images/triangle/up.png')} ></Image>
-                                                            <Text style={styles.besttimevalue}>15</Text>
-                                                        </View>
-
-                                                    </View>
-                                                    <View style={{ flexDirection: 'row', marginLeft: 20 }}>
-                                                        <Text style={styles.datetime}>2017/10/30</Text>
-                                                        <Text style={styles.statuesvalue}>吃飯前</Text>
-                                                    </View>
-                                                </View>
-                                                <Image source={require('../images/arrow_gray.png')} style={{ marginTop: 7, marginLeft: 80 }}></Image>
-                                            </Body>
-                                        </CardItem>
-                                    </Card>
+                                <View style={{ marginTop: 5 }}>
+                                    <View style={{ marginTop: 5 }}></View>
+                                    {
+                                        CdNewScoreaft
+                                    }
+                                    <View style={{ marginBottom: 12 }}></View>
                                 </View>
 
-                                <View style={styles.cardsize}>
-                                    <Card style={{
-                                        elevation: 0.8,
-                                        borderRadius: 4,
-                                    }}>
-                                        <CardItem button>
-                                            <Body style={{ flexDirection: 'row', }}>
-                                                <View style={{ flexDirection: 'column', }}>
-                                                    <View style={styles.kid2cardimgstyle}>
-                                                        <Image source={require('../images/avatar_girl.png')} style={{ marginTop: 4, marginLeft: 1 }}></Image>
-                                                    </View>
-                                                    <Text style={styles.kidcardname}>joy</Text>
-                                                </View>
-                                                <View style={{ flexDirection: 'column', marginLeft: 10 }}>
-                                                    <Svg
-                                                        height="50"
-                                                        width="10"
-                                                    >
-                                                        <Line
-                                                            x1="0"
-                                                            y1="0"
-                                                            x2="0"
-                                                            y2="100"
-                                                            stroke='rgba(109,112,132,0.1)'
-                                                            strokeWidth="2"
-                                                        />
-                                                    </Svg>
-                                                    <View style={{ flexDirection: 'row', marginTop: -50, marginLeft: 20 }} >
-                                                        <Text style={styles.newwave}>最新分數：</Text>
-                                                        <Text style={styles.newwavevalue}>50</Text>
-                                                        <View style={styles.besttimeview}>
-                                                            <Image source={require('../images/triangle/up.png')} ></Image>
-                                                            <Text style={styles.besttimevalue}>13</Text>
-                                                        </View>
-                                                    </View>
-                                                    <View style={{ flexDirection: 'row', marginLeft: 20 }}>
-                                                        <Text style={styles.datetime}>2017/10/29</Text>
-                                                        <Text style={styles.statuesvalue}>吃飯前</Text>
-                                                    </View>
-                                                </View>
-                                                <Image source={require('../images/arrow_gray.png')} style={{ marginTop: 7, marginLeft: 80 }}></Image>
-                                            </Body>
-                                        </CardItem>
-                                    </Card>
-                                </View>
-
-                                <View style={styles.cardsize}>
-                                    <Card style={{
-                                        elevation: 0.8,
-                                        borderRadius: 4,
-                                    }}>
-                                        <CardItem button>
-                                            <Body style={{ flexDirection: 'row', }}>
-                                                <View style={{ flexDirection: 'column', }}>
-                                                    <View style={styles.kid3cardimgstyle}>
-                                                        <Image source={require('../images/avatar_boy.png')} style={{ marginTop: 5, marginLeft: 2 }}></Image></View>
-                                                    <Text style={styles.kidcardname}>
-                                                        may</Text>
-                                                </View>
-                                                <View style={{ flexDirection: 'column', marginLeft: 10 }}>
-                                                    <Svg
-                                                        height="50"
-                                                        width="10"
-                                                    >
-                                                        <Line
-                                                            x1="0"
-                                                            y1="0"
-                                                            x2="0"
-                                                            y2="100"
-                                                            stroke='rgba(109,112,132,0.1)'
-                                                            strokeWidth="2"
-                                                        />
-                                                    </Svg>
-                                                    <View style={{ flexDirection: 'row', marginTop: -50, marginLeft: 20 }} >
-                                                        <Text style={styles.newwave}>最新分數：</Text>
-                                                        <Text style={styles.newwavevalue}>89</Text>
-                                                        <View style={styles.besttimeview}>
-                                                            <Image source={require('../images/triangle/down.png')} ></Image>
-                                                            <Text style={styles.besttimevalue}>5</Text>
-                                                        </View>
-                                                    </View>
-                                                    <View style={{ flexDirection: 'row', marginLeft: 20 }}>
-                                                        <Text style={styles.datetime}>2017/10/27</Text>
-                                                        <Text style={styles.statuesvalue}>睡覺前</Text>
-                                                    </View>
-                                                </View>
-                                                <Image source={require('../images/arrow_gray.png')} style={{ marginTop: 7, marginLeft: 80 }}></Image>
-                                            </Body>
-                                        </CardItem>
-                                    </Card>
-                                </View>
-                                <View style={{ marginBottom: 12 }}></View>
                             </View>
                         </ScrollView>
                     </View>
@@ -443,26 +462,28 @@ const styles = StyleSheet.create({
         backgroundColor: '#144669',
     },
     statueView: {
-        width:350,
-        marginTop: -15,
+        width: 350,
+        marginTop: -13,
         backgroundColor: '#144669',
         justifyContent: 'flex-start',
         flexDirection: 'row',
     },
     statueimgfirst: {
-        marginLeft: 26,
+        marginLeft: 0.068 * width,
     },
     statueimgafter: {
-        marginLeft: 14,
+        marginLeft: 0.036 * width,
     },
     statuetxtfirst: {
-        marginLeft: 34,
+        marginLeft: 0.089 * width,
         fontSize: 9,
+        backgroundColor: "transparent",
         color: 'rgba(255,255,255,0.8)'
     },
     statuetxt: {
-        marginLeft: 22,
+        marginLeft: 0.057 * width,
         fontSize: 9,
+        backgroundColor: "transparent",
         color: 'rgba(255,255,255,0.8)'
     },
     chart: {
@@ -480,7 +501,7 @@ const styles = StyleSheet.create({
 
         flexDirection: 'column',
         width: '100%',
-        height: 300,
+        height: 0.5 * height,
         backgroundColor: '#144669',
         // marginTop: 16,
         // alignItems: "stretch",
@@ -510,43 +531,46 @@ const styles = StyleSheet.create({
     settingIcon: {
         width: 24,
         height: 24,
-        marginLeft:145,
+        marginLeft: width - 210,
         marginTop: 16,
     },
     childView: {
         width: '100%',
-        height: 200,
+        height: 0.52 * width,
         backgroundColor: '#F2F2F2',
+        alignItems: 'center',
     },
     newwave: {
         marginTop: 5,
+        marginLeft: 10,
         fontFamily: 'Roboto-Light',
         fontSize: 14,
         color: '#555555',
     },
     newwavevalue: {
-
+        marginTop: 1,
         fontFamily: 'Roboto-Light',
         fontSize: 18,
         color: '#555555',
     },
     datetime: {
-        marginTop: 3,
+        marginTop: 2,
+        marginLeft: 10,
         fontFamily: 'Roboto-Light',
         fontSize: 12,
         color: 'rgba(109,112,132,0.8)',
     },
     statuesvalue: {
-        marginTop: 3,
+        marginTop: 2,
         marginLeft: 8,
         fontFamily: 'Roboto-Light',
         fontSize: 12,
         color: 'rgba(109,112,132,0.8)',
     },
     besttimeview: {
-        marginLeft: 5,
+        marginLeft: 8,
         marginTop: 5,
-        width: 48,
+        width: 45,
         height: 20,
         backgroundColor: 'rgba(0,0,0,0.1)',
         borderRadius: 4,
@@ -567,32 +591,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         lineHeight: 24,
     },
-    // cardsize: {
-    //     marginLeft: 16,
-    //     marginRight: 16,
-    //     // width: '100%',
-    //     height: 60,
-    //     marginTop: 8,
-    //     borderRadius: 7
-    // },
-    // kidcardname: {
-    //     marginLeft: 20,
-    //     color: '#144669',
-    //     fontSize: 16,
-    //     letterSpacing: 1,
-    //     lineHeight: 24,
-    //     fontFamily: 'Roboto-Regular',
-    // },
-    //以下是假的
     cardsize: {
         marginTop: 5,
         marginLeft: 10,
-        width: 360,
-        height: 80,
+        width: 330,
+        height: 75,
+        elevation: 0.6,
+        borderRadius: 4,
+        backgroundColor: "white"
     },
     kidcardname: {
-        marginTop: -6,
-        marginLeft: 4,
+        marginTop: -5,
+        marginLeft: 24,
         color: '#6D7084',
         fontSize: 9,
         letterSpacing: 1,
@@ -600,32 +610,7 @@ const styles = StyleSheet.create({
         bottom: 5,
         fontFamily: 'Roboto-Regular',
     },
-    kidcardimgstyle: {
-        width: 40,
-        height: 40,
-        borderRadius: 50,
-        // top: 10,
-        // bottom: 10,
-        // justifyContent: 'center',
-        marginLeft: -6,
-        backgroundColor: '#9ACBD9'
-    },
-    kid2cardimgstyle: {
-        width: 40,
-        height: 40,
-        borderRadius: 50,
-        // bottom: 10,
-        marginLeft: -6,
-        backgroundColor: '#F5808B'
-    },
-    kid3cardimgstyle: {
-        width: 40,
-        height: 40,
-        borderRadius: 50,
-        // bottom: 10,
-        marginLeft: -6,
-        backgroundColor: '#F2992E'
-    },
+
 
 });
 

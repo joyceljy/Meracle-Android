@@ -8,7 +8,8 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
-    processColor
+    processColor,
+    Dimensions
 } from 'react-native';
 import Svg, {
     Line,
@@ -16,6 +17,7 @@ import Svg, {
 import { Container, Header, Content, Card, CardItem, Body } from 'native-base';
 import ActionButton from 'react-native-action-button';
 import { LineChart } from 'react-native-charts-wrapper';
+var { height, width } = Dimensions.get('window');
 class Memory extends Component {
     constructor(props) {
         super(props);
@@ -27,7 +29,7 @@ class Memory extends Component {
 
             case 5:
                 return {
-                    marginLeft: 150,
+                    marginLeft: 0.81*width-161,
                     marginTop: 10,
                     fontSize: 16,
                     color: '#6D7084',
@@ -35,7 +37,7 @@ class Memory extends Component {
                 };
             case 7:
                 return {
-                    marginLeft: 130,
+                    marginLeft: 0.81*width-181,
                     marginTop: 10,
                     fontSize: 16,
                     color: '#6D7084',
@@ -43,7 +45,7 @@ class Memory extends Component {
                 };
             default:
                 return {
-                    marginLeft: 140,
+                    marginLeft: 0.81*width-171,
                     marginTop: 10,
                     fontSize: 16,
                     color: '#6D7084',
@@ -59,6 +61,7 @@ class Memory extends Component {
             drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
             main: { paddingLeft: 0 }
         }
+        if(this.props.PublicMemery!="" ||this.props.PublicMemery!=null){
         let PublicMemorySortt = []
         this.PublicMemorySortt = this.props.PublicMemery
         console.log(this.PublicMemorySortt)
@@ -107,6 +110,7 @@ class Memory extends Component {
             }
             c++;
         };
+    }
         return (
 
             <View style={styles.Viewstyle}>
@@ -134,6 +138,12 @@ class Memory extends Component {
                                 drawValueAboveBar={true}
                                 drawLabels={false}
                                 drawHighlightArrow={false}
+                                 chartDescription={{
+                                    text: '',
+                                    textColor: processColor('#999'),
+                                    textSize: 12,
+                                    fontFamily: '微软雅黑'
+                                    }}
                             />
                         </View>
                     </View>
@@ -164,6 +174,7 @@ class Memory extends Component {
                     </View>
                    
                     <ScrollView>
+                    <View style={{justifyContent:'center'}}>
                         <View style={styles.cardsize}>
                             <Card style={{
                                 elevation: 0.8,
@@ -171,7 +182,7 @@ class Memory extends Component {
                             }}>
                                 <CardItem>
                                     <Body style={{
-                                        flexDirection: 'column', justifyContent: 'flex-start',
+                                        flexDirection: 'column', 
 
                                     }}>
                                     <Text style={styles.subTitle}>各時段平均記憶指數</Text>
@@ -181,6 +192,7 @@ class Memory extends Component {
                                     </Body>
                                 </CardItem>
                             </Card>
+                        </View>
                         </View>
                     </ScrollView>
                 </Image>
@@ -208,40 +220,46 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     statuetxtfirst: {
-        left: 30,
+        left: 0.078*width,
         fontSize: 9,
-        color: 'rgba(255,255,255,0.8)'
+        color: 'rgba(255,255,255,0.8)',
+        backgroundColor:"transparent"
     },
    
     
     statuetxt1: {
-        left: 70,
+        left: 0.182*width,
         fontSize: 9,
-        color: 'rgba(255,255,255,0.8)'
+        color: 'rgba(255,255,255,0.8)',
+        backgroundColor:"transparent"
     },
     statuetxt2: {
-        left: 110,
+        left: 0.286*width,
         fontSize: 9,
-        color: 'rgba(255,255,255,0.8)'
+        color: 'rgba(255,255,255,0.8)',
+        backgroundColor:"transparent"
     },
     statuetxt3: {
-        left: 145,
+        left: 0.378*width,
         fontSize: 9,
-        color: 'rgba(255,255,255,0.8)'
+        color: 'rgba(255,255,255,0.8)',
+        backgroundColor:"transparent"
     },
     statuetxt4: {
-        left:180,
+        left:0.467*width,
         fontSize: 9,
-        color: 'rgba(255,255,255,0.8)'
+        color: 'rgba(255,255,255,0.8)',
+        backgroundColor:"transparent"
     },
     statuetxt5: {
-        left: 210,
+        left: 0.545*width,
         fontSize: 9,
-        color: 'rgba(255,255,255,0.8)'
+        color: 'rgba(255,255,255,0.8)',
+        backgroundColor:"transparent"
     },
     chart: {
-        width: 350,
-        height: 250,
+        width: 0.91*width,
+        height: 0.66*width,
         marginBottom: 10,
         // backgroundColor: 'rgba(221, 221, 255, 0.5)',
 
@@ -273,24 +291,25 @@ const styles = StyleSheet.create({
         height: 24,
         fontSize: 16,
         lineHeight: 24,
-        fontFamily: 'Roboto-Regular',
+        fontFamily:'Roboto-Regular',
         marginTop: 14,
         marginLeft: 32,
     },
     subTitle: {
         fontSize: 10,
-        lineHeight: 16,
-        fontFamily: 'Roboto-Regular',
-        marginLeft: 95,
+        lineHeight:16,
+        fontFamily:'Roboto-Regular',
+        marginLeft:95,
         color: '#636566',
         marginBottom: 5,
     },
     
     cardsize: {
         marginTop: 20,
-        marginLeft: 30,
-        width: 312,
+        marginLeft: 0.104*width,
+        width: 0.81*width,
         height: 330,
+        justifyContent: 'center',
     },
 });
 
