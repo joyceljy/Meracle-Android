@@ -9,6 +9,8 @@ import {
     TouchableOpacity,
     TouchableHighlight,
     Dimensions,
+    TouchableWithoutFeedback,
+    Keyboard,
     KeyboardAvoidingView
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
@@ -57,12 +59,12 @@ class Memory extends Component {
     render() {
         if (this.state.step == '1') {
             return (
+                //backgroundimage
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 
-               
                 <Image source={require('../images/Bg.png')} style={styles.backgroundImage} resizeMode="cover" >
-                
-                <KeyboardAvoidingView behavior="position" >
-                    <View style={styles.logoView}>
+                <KeyboardAvoidingView behavior="position">
+                <View style={styles.logoView}>
                         <Image source={require('../images/Logo.png')} style={styles.logoImage} />
                     </View>
                     <View style={styles.mainView}>
@@ -177,8 +179,8 @@ class Memory extends Component {
                     >兩次密碼輸入不一致！</Toast>
                     </KeyboardAvoidingView>
                 </Image>
-           
-
+               
+                </TouchableWithoutFeedback>
             );
         }
 
@@ -186,8 +188,10 @@ class Memory extends Component {
         if (this.state.step == '2') {
             return (
                 //backgroundimage
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <Image source={require('../images/Bg.png')} style={styles.backgroundImage} resizeMode="cover" >
-                    <View style={styles.logoView}>
+                
+                <View style={styles.logoView}>
                         <Image source={require('../images/Logo.png')} style={styles.logoImage} />
                     </View>
                     <View style={styles.mainView}>
@@ -219,6 +223,8 @@ class Memory extends Component {
                                 placeholderTextColor='rgba(20,70,105,0.5)'
                                 autoCorrect={false}
                                 underlineColorAndroid='transparent'
+                                secureTextEntry={false}
+                                
 
                             />
                         </View>
@@ -306,9 +312,9 @@ class Memory extends Component {
                         animation={false}
                         hideOnPress={true}
                     >欄位不能為空！</Toast>
-
+                   
                 </Image>
-
+                </TouchableWithoutFeedback>
             );
         }
 
@@ -323,7 +329,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(255,255,255)',
         borderWidth: 1,
         borderColor: '#E0E5ED',
-        marginLeft: 40,
+        //marginLeft: 40,
+        alignSelf:'center',
         marginTop: -57,
         zIndex: 1,
     },
@@ -345,11 +352,15 @@ const styles = StyleSheet.create({
         height: 120,
         zIndex: 2,
         borderRadius: 100,
-        backgroundColor: 'rgba(255,255,255,0.9)',
+        backgroundColor: 'rgba(255,255,255,1)',
         marginTop: 93,
-        marginLeft: 132,
+        //marginLeft: 132,
+        alignSelf:'center',
         shadowOffset: { width: 0, height: 1, },
         elevation: 6,
+        shadowColor:'rgba(0,0,0,0.10)',
+        shadowOffset:{width: 0,height: 1},
+        shadowOpacity:6,
     },
     logoImage: {
         width: 88,
@@ -368,7 +379,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
     },
     InputtextText: {
-        marginTop:3,
+        marginTop:1,
         width: 250,
         height: 48,
         marginLeft: 16,
@@ -408,13 +419,18 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         fontFamily: 'Roboto-Medium',
         color: '#FFFFFF',
+        backgroundColor:'transparent'
     },
     alreadyText: {
-        marginLeft: 118,
+        alignSelf:'center',
+        //marginLeft: 118,
+        marginLeft: width -240,
+        alignItems:'center',
         marginTop: 16,
         fontSize: 14,
         fontFamily: 'PingFangTC-Light',
         color: '#FFFFFF',
+        backgroundColor:'transparent'
     },
     loginText: {
         marginLeft: 4,
@@ -422,7 +438,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: 'PingFangTC-Medium',
         color: '#FFFFFF',
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        backgroundColor:'transparent'
     },
     genderView: {
         marginLeft: 4,
@@ -435,14 +452,14 @@ const styles = StyleSheet.create({
     genderImage: {
         marginTop: 8,
         marginLeft: 35,
-        borderRadius: 100,
-        shadowColor: 'rgba(0,0,0,0.1)',
+        //borderRadius: 100,
+        //shadowColor: 'rgba(0,0,0,0.1)',
     },
     genderText: {
         fontSize: 14,
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',
-        marginTop: 4,
+        marginTop: 8,
         marginLeft: 8,
         color: '#144669',
     },

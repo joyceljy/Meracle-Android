@@ -155,8 +155,8 @@ class Memory extends Component {
 
                             <Image style={{ marginTop: 100, zIndex: 1 }} source={require('../images/AllKids_logo.png')} >
                             </Image>
-                            <Text style={{ fontFamily: "PingFangTC-Regular", fontSize: 14, color: 'white', zIndex: 1 }}>我們為您統計出</Text>
-                            <Text style={{ fontFamily: "PingFangTC-Regular", fontSize: 14, color: 'white', zIndex: 1 }}>最新的大眾孩童數據</Text>
+                            <Text style={{ fontFamily: "PingFangTC-Regular", fontSize: 14, color: 'white', zIndex: 1 ,backgroundColor:'transparent'}}>我們為您統計出</Text>
+                            <Text style={{ fontFamily: "PingFangTC-Regular", fontSize: 14, color: 'white', zIndex: 1 ,backgroundColor:'transparent'}}>最新的大眾孩童數據</Text>
 
                         </Image>
 
@@ -176,7 +176,7 @@ class Memory extends Component {
                                                 flexDirection: 'row', justifyContent: 'center',
                                                 alignItems: 'center',
                                             }}>
-                                                <Text style={{ marginTop: 10, fontSize: 16, color: '#555555', fontFamily: " Roboto-Regula" }}>生理狀況</Text>
+                                                <Text style={{ marginTop: 10, fontSize: 16, color: '#555555', fontFamily: "Roboto-Regular" }}>生理狀況</Text>
                                                 <Image source={require('../images/arrow_gray.png')} style={{ marginTop: 10, marginLeft: 220 }}></Image>
                                             </Body>
                                         </CardItem>
@@ -192,7 +192,7 @@ class Memory extends Component {
                                                 flexDirection: 'row', justifyContent: 'center',
                                                 alignItems: 'center',
                                             }}>
-                                                <Text style={{ marginTop: 10, fontSize: 16, color: '#555555', fontFamily: " Roboto-Regula" }}>睡眠時間</Text>
+                                                <Text style={{ marginTop: 10, fontSize: 16, color: '#555555', fontFamily: "Roboto-Regular" }}>睡眠時間</Text>
                                                 <Image source={require('../images/arrow_gray.png')} style={{ marginTop: 10, marginLeft: 220 }}></Image>
                                             </Body>
                                         </CardItem>
@@ -208,7 +208,7 @@ class Memory extends Component {
                                                 flexDirection: 'row', justifyContent: 'center',
                                                 alignItems: 'center',
                                             }}>
-                                                <Text style={{ marginTop: 10, marginLeft: -2, fontSize: 16, color: '#555555', fontFamily: " Roboto-Regula" }}>飲食攝取狀況</Text>
+                                                <Text style={{ marginTop: 10, marginLeft: -2, fontSize: 16, color: '#555555', fontFamily: "Roboto-Regular" }}>飲食攝取狀況</Text>
                                                 <Image source={require('../images/arrow_gray.png')} style={{ marginTop: 10, marginLeft: 180 }}></Image>
                                             </Body>
                                         </CardItem>
@@ -224,7 +224,7 @@ class Memory extends Component {
                                                 flexDirection: 'row', justifyContent: 'center',
                                                 alignItems: 'center',
                                             }}>
-                                                <Text style={{ marginTop: 10, marginLeft: 5, fontSize: 16, color: '#555555', fontFamily: " Roboto-Regula" }}>每日記憶力表現</Text>
+                                                <Text style={{ marginTop: 10, marginLeft: 5, fontSize: 16, color: '#555555', fontFamily: "Roboto-Regular" }}>每日記憶力表現</Text>
                                                 <Image source={require('../images/arrow_gray.png')} style={{ marginTop: 10, marginLeft: 170 }}></Image>
                                             </Body>
                                         </CardItem>
@@ -245,10 +245,11 @@ class Memory extends Component {
 const styles = StyleSheet.create({
     Viewstyle: {
         flex: 1,
-        marginTop: -5,
+        marginTop: -10,
         backgroundColor: '#F2F2F2',
     },
     parentView: {
+        marginTop:10,
         width: '100%',
         height: 50,
         zIndex: 0,

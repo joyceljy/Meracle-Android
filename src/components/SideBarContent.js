@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, Alert, Modal, ListView, Text, TouchableHighlight } from 'react-native';
+import { View, Image, StyleSheet, Alert, Modal, ListView, Text, TouchableHighlight,Dimensions } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import Toast from 'react-native-root-toast';
-
+//import { width } from 'window-size';
+var {height, width} = Dimensions.get('window');
 class Memory extends Component {
     constructor(props) {
         super(props);
@@ -126,7 +127,7 @@ let styles = StyleSheet.create({
         backgroundColor: '#FFFFFF'
     },
     personInfo: {
-        width: 296,
+        width: 314,
         height: 192,
         flexDirection: 'row',
     },
@@ -135,7 +136,8 @@ let styles = StyleSheet.create({
         width: 80,
         height: 80,
         marginTop: 72,
-        marginLeft: 32,
+        //marginLeft: 32,
+        marginLeft:width*0.08,
         borderRadius: 100,
         // shadowColor: 'rgba(255,255,255,0.2)',
         // shadowRadius: 8,
@@ -143,18 +145,19 @@ let styles = StyleSheet.create({
         borderColor: '#9ACBD9',
     },
     avatar: {
-        width: 68,
-        height: 68,
-        borderRadius: 100,
+        width: 66,
+        height: 66,
+        borderRadius: 30,
     },
     helloText: {
         marginTop: 87,
-        marginLeft: 32,
+        marginLeft: width*0.04,
         fontSize: 14,
         lineHeight: 26,
         fontFamily: 'Roboto-Regular',
         color: '#FFFFFF',
-        letterSpacing: 0.93
+        letterSpacing: 0.93,
+        backgroundColor:'transparent'
     },
     nameText: {
         marginTop: 90,
@@ -163,24 +166,26 @@ let styles = StyleSheet.create({
         lineHeight: 26,
         fontFamily: 'PingFangTC-Regular',
         color: '#FFFFFF',
-        letterSpacing: 1.2
+        letterSpacing: 1.2,
+        backgroundColor:'transparent'
     },
     icon: {
         opacity: 0.8,
-        marginLeft: 40,
+        //marginLeft: 40,
+        marginLeft:width*0.09,
         marginTop: 16,
         width:24,
         height:24,
         resizeMode: 'stretch',
     },
     menuView: {
-        width: 296,
+        width: 314,
         height: 56,
         backgroundColor: 'rgba(255,255,255,0.7)',
         flexDirection: 'row',
     },
     menuViewPress: {
-        width: 296,
+        width: 314,
         height: 56,
         backgroundColor: 'rgba(20,70,105,0.95)',
         flexDirection: 'row',

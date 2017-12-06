@@ -120,7 +120,7 @@ class Memory extends Component {
                                             <Text style={styles.kidcardname}>
                                                 {kidlistpre[key][i].CdName}
                                             </Text>
-                                            <Image source={require('../images/edit.png')} style={{ marginTop: 15 }}></Image>
+                                            <Image source={require('../images/edit.png')} style={{ marginTop: 15}}></Image>
                                         </View>
                                     </View>
                                 </TouchableOpacity>
@@ -134,7 +134,7 @@ class Memory extends Component {
                                     <View style={styles.cardsize}>
                                         <View style={{ flexDirection: 'row', }}>
                                             <View style={this.kidlist(i)}>
-                                                <Image source={{ uri: 'http://www.meracle.me/home/Filefolder/' + kidlistpre[key][i].Imageurl }} style={{ marginTop: 5, marginLeft: 5, width: 30, height: 30, borderRadius: 100 }}></Image>
+                                                <Image source={{ uri: 'http://www.meracle.me/home/Filefolder/' + kidlistpre[key][i].Imageurl }} style={{ marginTop: 5, marginLeft: 5, width: 30, height: 30,borderRadius:100 }}></Image>
                                             </View>
                                             <Text style={styles.kidcardname}>
                                                 {kidlistpre[key][i].CdName}
@@ -214,7 +214,7 @@ class Memory extends Component {
                             <View style={{ marginBottom: 12 }}></View>
                         </ScrollView>
                     </View>
-                   
+                    
 
                 </View>
             </Drawer>
@@ -226,12 +226,14 @@ const styles = StyleSheet.create({
     Viewstyle: {
         flex: 1,
         zIndex: 0,
+        backgroundColor: '#144669',
     },
     parentView: {
         width: width,
         height: 194,
         backgroundColor: '#144669',
         zIndex: 0,
+        marginTop:10,
     },
     parentInfoView: {
         width: width,
@@ -289,7 +291,8 @@ const styles = StyleSheet.create({
         zIndex: 1,
         backgroundColor: 'rgba(255,255,255,0.9)',
         marginTop: 15,
-        marginLeft: 48,
+        //marginLeft: 48,
+        marginLeft:width*0.11,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -306,7 +309,7 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',
         color: '#FFFFFF',
-        marginLeft: 152,
+        marginLeft: width*0.42,
         marginTop: -65,
 
 
@@ -337,12 +340,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         letterSpacing: 1,
         lineHeight: 24,
-        fontFamily: 'Roboto-Regular',
         width:200,
+        fontFamily: 'Roboto-Regular',
     },
 
     addBtn: {
-        
+       
         zIndex: 1,
         borderRadius: 100,
         backgroundColor: '#009688',
@@ -350,7 +353,7 @@ const styles = StyleSheet.create({
         shadowColor: 'rgba(0,0,0,0.12)',
         width: 48,
         height: 48,
-        marginTop: -30,
+        marginTop: -40,
         marginLeft: width - 60,
 
     },

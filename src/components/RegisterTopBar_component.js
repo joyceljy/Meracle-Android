@@ -33,9 +33,9 @@ class Memory extends Component {
             return (
 
                 <View style={styles.viewStyle}>
-                    <TouchableOpacity onPress={() => {
-                        this.props.goMember();
-                    }}>
+                    <TouchableOpacity onPress={() => 
+                        this.props.goMember()
+                    }>
                         <Image style={styles.backIcon}
                             source={require('../images/back.png')}
                         />
@@ -45,7 +45,7 @@ class Memory extends Component {
                     <View style={styles.rectangle}></View>
                     <View style={styles.checkIconView}>
                         <Image style={styles.checkIcon}
-                            onPress
+                           
                             source={require('../images/check.png')}
                         />
                     </View>
@@ -59,9 +59,9 @@ class Memory extends Component {
             return (
 
                 <View style={styles.viewStyle}>
-                    <TouchableOpacity onPress={() => {
-                        this.props.changeRegisterStep('1');
-                    }}>
+                    <TouchableOpacity onPress={() => 
+                        this.props.changeRegisterStep('1')
+                    }>
                         <Image style={styles.backIcon}
                             source={require('../images/back.png')}
                         />
@@ -84,9 +84,9 @@ class Memory extends Component {
             return (
 
                 <View style={styles.viewStyle}>
-                    <TouchableOpacity onPress={() => {
-                        this.props.changeRegisterStep('2');
-                    }}>
+                    <TouchableOpacity onPress={() => 
+                        this.props.changeRegisterStep('2')
+                    }>
                         <Image style={styles.backIcon}
                             source={require('../images/back.png')}
                         />
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     backIcon: {
         marginLeft: width*0.041,
         marginTop: 16,
-        marginRight: width*0.0625-width*0.0208,
+        //marginRight: width*0.0625,
         width: 24,
         height: 24,
     },
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
         height: 20,
     },
     checkIconView: {
-        marginLeft: 16,
+        marginLeft: width*0.021,
         marginTop: 16,
         backgroundColor: 'rgba(255,255,255,0.50)',
         width: 24,
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
     },
     checkIconViewLight: {
-        marginLeft: 16,
+        marginLeft: width*0.021,
         marginTop: 16,
         backgroundColor: '#009688',
         width: 24,

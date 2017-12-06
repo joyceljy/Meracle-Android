@@ -8,13 +8,16 @@ import {
     Image,
     TouchableOpacity,
     TouchableHighlight,
+    Dimensions,
+    TouchableWithoutFeedback,
+    Keyboard,
     KeyboardAvoidingView
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import Toast from 'react-native-root-toast';
 import Icon from 'react-native-vector-icons/Entypo';
-
+var {height, width} = Dimensions.get('window');
 
 
 
@@ -91,9 +94,10 @@ class Memory extends Component {
 
 
         return (
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             
             <View style={styles.Viewstyle}>
-            <KeyboardAvoidingView behavior="position" >
+            <KeyboardAvoidingView behavior="position">
                 <View style={styles.topbarView}>
                     <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
                         <Image source={require('../images/back.png')} style={styles.topbarIcon} />
@@ -101,7 +105,7 @@ class Memory extends Component {
                     <Text style={styles.topbarText}>編輯孩童資料 </Text>
 
                 </View>
-                <View style={[styles.imageView, { marginLeft: 128 }]}>
+                <View style={[styles.imageView, { alignItems:'center',alignSelf:'center' }]}>
                     {(this.state.avatarSource === null) ? (
                         <Image style={styles.avatar} source={{ uri: 'https://www.meracle.me/home/Filefolder/' + this.state.imageurl }} />
                     ) : (
@@ -150,7 +154,7 @@ class Memory extends Component {
                     onCancel={this._hideDateTimePicker}
                 />
 
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row' ,alignItems:'center',alignSelf:'center'}}>
                     <TouchableHighlight style={[styles.genderView, this.state.genderSelected === 0 ? { backgroundColor: 'rgba(255,255,255,0.25)' } : { backgroundColor: 'rgba(255,255,255,0)' }]}
 
                         onPress={() => {
@@ -227,10 +231,10 @@ class Memory extends Component {
                     hideOnPress={true}
                 >修改成功！</Toast>
 
-
                 </KeyboardAvoidingView>
             </View>
            
+            </TouchableWithoutFeedback>
 
         );
     }
@@ -280,16 +284,17 @@ const styles = StyleSheet.create({
         borderColor: '#9ACBD9',
     },
     avatar: {
-        width: 115,
-        height:115,
-        borderRadius: 100,
+        width: 114,
+        height:114,
+        borderRadius: 55,
 
     },
     Inputtextview: {
         flexDirection: 'row',
         backgroundColor: 'rgba(255,255,255,0.25)',
         borderRadius: 100,
-        width: 304,
+        //width: 304,
+        width:width*0.8,
         height: 48,
         marginTop: 8,
         marginLeft: 40,
@@ -304,7 +309,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     InputtextPlaceholder: {
-        marginTop: 3,
+        marginTop: 1,
         fontSize: 16,
         lineHeight: 24,
         fontFamily: 'Roboto-Regular',
@@ -315,7 +320,7 @@ const styles = StyleSheet.create({
 
     },
     genderImage: {
-        marginTop: 8,
+        marginTop: 6,
         marginLeft: 16,
     },
 
@@ -326,13 +331,15 @@ const styles = StyleSheet.create({
         width: 133,
         height: 48,
         marginTop: 8,
-        marginLeft: 40,
+        //marginLeft: 40,
+        alignItems:'center',
+        alignSelf:'center'
     },
     genderText: {
         fontSize: 18,
         lineHeight: 24,
         fontFamily: 'PingFangTC-Medium',
-        marginTop: 12,
+        marginTop: 10,
         marginLeft: 16,
         color: '#FFFFFF',
     },
@@ -343,11 +350,13 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         shadowOffset: { width: 0.6, height: 8, },
         shadowColor: 'rgba(0,0,0,0.20)',
-        shadowRadius: 8,
-        shadowOpacity: 0,
-        marginLeft: 56,
+        //shadowRadius: 8,
+        shadowOpacity: 8,
+        //marginLeft: 56,
+        alignSelf:'center',
         marginTop: 40,
         elevation: 2,
+        
     },
     editButtonText: {
         marginTop: 16,
@@ -356,6 +365,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Medium',
         color: '#FFFFFF',
         marginLeft: 97,
+        backgroundColor:'transparent'
     },
     uploadImageView: {
         backgroundColor: 'rgb(255,255,255)',
@@ -367,7 +377,7 @@ const styles = StyleSheet.create({
         marginTop: -48,
         marginLeft: 216,
         zIndex: 2,
-        elevation: 6,
+        shadowOpacity: 6,
     },
     uploadImage: {
         marginLeft: 12.4,

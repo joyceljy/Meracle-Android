@@ -8,6 +8,9 @@ import {
     Image,
     TouchableOpacity,
     TouchableHighlight,
+    Dimensions,
+    TouchableWithoutFeedback,
+    Keyboard,
     KeyboardAvoidingView
 } from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
@@ -18,6 +21,8 @@ import Toast from 'react-native-root-toast';
 import Icon from 'react-native-vector-icons/Entypo';
 import Drawer from 'react-native-drawer';
 import SideBarContent from '../containers/SideBarContent';
+//import { width } from 'window-size';
+var {height, width} = Dimensions.get('window');
 
 
 
@@ -93,9 +98,10 @@ class Memory extends Component {
 
         const member_imageurl = this.props.member_imageurl;
         return (
-            
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+           
             <View style={styles.Viewstyle}>
-            <KeyboardAvoidingView behavior="position" >
+            <KeyboardAvoidingView behavior="position">
                 <View style={styles.topbarView}>
                     <TouchableOpacity onPress={() => { this.props.BackButton(); }}>
                         <Image source={require('../images/back.png')} style={styles.topbarIcon} />
@@ -108,7 +114,7 @@ class Memory extends Component {
                         source={require('../images/upload.png')}
                     />
                 </TouchableOpacity>
-                <View style={[styles.imageView, { marginLeft: 128 }]}>
+                <View style={[styles.imageView, { alignSelf:'center',alignItems:'center' }]}>
                     {(this.state.avatarSource === null) ? (
                         <Image style={styles.avatar} source={{ uri: 'https://www.meracle.me/home/Filefolder/' + this.state.imageurl }} />
                     ) : (
@@ -164,7 +170,7 @@ class Memory extends Component {
 
                     />
                 </View>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row',alignSelf:'center' }}>
                     <TouchableHighlight style={[styles.genderView, this.state.genderSelected === 0 ? { backgroundColor: 'rgba(255,255,255,0.25)' } : { backgroundColor: 'rgba(255,255,255,0)' }]}
 
                         onPress={() => {
@@ -242,10 +248,10 @@ class Memory extends Component {
                 >修改成功！</Toast>
 
                 </KeyboardAvoidingView>
-                
 
             </View>
            
+            </TouchableWithoutFeedback>
         );
     }
 }
@@ -290,30 +296,28 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         shadowColor: 'rgba(255,255,255,0.2)',
         shadowRadius: 8,
-       // elevation: 8,
+        elevation: 8,
        zIndex: 1,
        borderWidth: 7,
        borderColor: '#9ACBD9',
     },
     avatar: {
-        width: 115,
-        height:115,
-        borderRadius: 100,
-       
-        // justifyContent: 'center',
-        // alignItems: 'center',
+        width: 114,
+        height:114,
+        borderRadius: 55,
+
     },
     Inputtextview: {
         flexDirection: 'row',
         backgroundColor: 'rgba(255,255,255,0.25)',
         borderRadius: 100,
-        width: 304,
+        width: width*0.8,
         height: 48,
         marginTop: 8,
         marginLeft: 40,
     },
     InputtextText: {
-        marginTop:3,
+        marginTop:1,
         width: 250,
         marginLeft: 16,
         fontSize: 16,
@@ -364,8 +368,10 @@ const styles = StyleSheet.create({
         shadowColor: 'rgba(0,0,0,0.20)',
         shadowRadius: 8,
         shadowOpacity: 0,
-        marginLeft: 56,
+        //marginLeft: 56,
         marginTop: 40,
+        alignItems:'center',
+        alignSelf:'center',
     },
     editButtonText: {
         marginTop: 16,
@@ -373,7 +379,9 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         fontFamily: 'Roboto-Medium',
         color: '#FFFFFF',
-        marginLeft: 97,
+        //marginLeft: 97,
+        alignSelf:'center',
+        backgroundColor:'transparent'
     },
     uploadImageView: {
         backgroundColor: 'rgb(255,255,255)',
@@ -381,11 +389,11 @@ const styles = StyleSheet.create({
         height: 48,
         borderRadius: 100,
         shadowColor: 'rgba(0,0,0,0.12)',
-        shadowRadius: 6,
-        //marginTop: -100,
+        shadowOpacity: 6,
+        marginTop: 0,
         position:'absolute',
         top:165,
-        marginLeft: 216,
+        marginLeft: width*0.5625,
         zIndex: 3,
         elevation:6,
        

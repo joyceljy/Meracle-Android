@@ -31,7 +31,7 @@ class Memory extends Component {
                     marginTop: 10,
                     fontSize: 16,
                     color: '#6D7084',
-                    fontFamily: " Roboto-Regular"
+                    fontFamily: "Roboto-Regular"
                 };
             case 7:
                 return {
@@ -39,7 +39,7 @@ class Memory extends Component {
                     marginTop: 10,
                     fontSize: 16,
                     color: '#6D7084',
-                    fontFamily: " Roboto-Regular"
+                    fontFamily: "Roboto-Regular"
                 };
             default:
                 return {
@@ -47,7 +47,7 @@ class Memory extends Component {
                     marginTop: 10,
                     fontSize: 16,
                     color: '#6D7084',
-                    fontFamily: " Roboto-Regular"
+                    fontFamily: "Roboto-Regular"
                 };
 
         }

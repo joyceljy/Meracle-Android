@@ -185,8 +185,8 @@ class Memory extends Component {
 
     handleConnect = ({ success }) => {
         //alert(`連結 ${success ? '成功' : '失敗'}`);
-        ToastAndroid.show(`連結 ${success ? '成功' : '失敗'}`, ToastAndroid.SHORT);
-        if (success === true && this.state.willConnect) {
+        //ToastAndroid.show(`連結 ${success ? '成功' : '失敗'}`, ToastAndroid.SHORT);
+        if (success && this.state.willConnect) {
             this.changeConnectedState(this.state.willConnect, true);
             this.setState({
                 Connected: true,
@@ -199,7 +199,7 @@ class Memory extends Component {
     handleDisconnect = ({ success }) => {
         //alert(`移除連結 ${success ? '成功' : '失敗'}`);
         //ToastAndroid.show(`移除連結 ${success ? '成功' : '失敗'}`, ToastAndroid.SHORT);
-        if (success === true && !this.state.mindwaveConnected) {
+        if (success && !this.state.mindwaveConnected) {
             this.setState({
                 Connected: false,
             });
@@ -547,7 +547,10 @@ class Memory extends Component {
                     timerCounter: 0,
                 })
                 console.log('要推進陣列的記憶值', nextProps.quizPointArray);
-                this.state.PointArray.push(nextProps.quizPointArray);
+                if(nextProps.quizPointArray!=0||nextProps.quizPointArray!="0"){
+                    this.state.PointArray.push(nextProps.quizPointArray);
+                }
+                
             }
 
         }
@@ -688,7 +691,7 @@ class Memory extends Component {
                         <View style={styles.contentView2}>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={styles.endDate}>{date}</Text>
-                                <Text style={styles.endScore}>{'     '}測量結果為 {this.state.finalScore} 分</Text>
+                                <Text style={styles.endScore}>{'     '}測量結果為 {parseInt(this.state.finalScore)} 分</Text>
                             </View>
                             {/*<Text style={[styles.endTitle, { marginTop: 32 }]}>選擇測量孩童</Text>
                             <View style={styles.chooseChildView}>
@@ -912,12 +915,11 @@ const styles = StyleSheet.create({
     },
     topbarText: {
         marginTop: 16,
-        marginLeft: width - 48,
+        marginLeft: width - 55,
         fontSize: 16,
         lineHeight: 24,
         letterSpacing: 0.5,
         fontFamily: 'Roboto-Regular',
-        letterSpacing: 16,
         color: '#FFFFFF',
     },
     contentView: {
@@ -930,7 +932,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         lineHeight: 28,
         fontFamily: 'Roboto-Regular',
-        letterSpacing: 16,
+        letterSpacing: 1,
         color: '#FFFFFF',
     },
 
@@ -1070,6 +1072,8 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         elevation: 8,
         marginTop: 32,
+        alignSelf:'center'
+        
     },
     finishButtonText: {
         alignItems: 'center',
@@ -1180,13 +1184,23 @@ const styles = StyleSheet.create({
         height: 247,
         backgroundColor: 'rgba(216,216,216,0.00)',
         alignSelf: 'center',
-        alignItems: 'center',
+        //alignItems: 'center',
+
+    },
+    deviceList: {
+        width: 360,
+        height: 247,
+        backgroundColor: 'rgba(216,216,216,0.00)',
+        alignSelf: 'center',
+        //alignItems: 'center',
+        marginLeft:width*0.27,
 
     },
     deviceItem: {
-        width:312,
+        width:width*0.86,
+        //width:312,
         height:48,
-        backgroundColor: 'rgba(255,255,255,0.25)',
+        backgroundColor: 'rgba(255,255,255,0.75)',
         borderRadius: 4,
         marginTop: 4,
     },
@@ -1207,6 +1221,7 @@ const styles = StyleSheet.create({
         letterSpacing: 0.8,
         color: 'rgba(255,255,255,0.8)',
         lineHeight: 18,
+        
     }
 });
 

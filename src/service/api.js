@@ -472,7 +472,7 @@ export function fetch_save_memory_point(login_account, login_token, cdName, fina
         body: JSON.stringify({
             "Account":login_account,
             "CdName":cdName,
-            "Score":finalScore,
+            "Score":parseInt(finalScore),
             "Status":statusSelected
         })
     }).then(response => {
