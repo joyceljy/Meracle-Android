@@ -14,7 +14,7 @@ import {
     AvgPublicMemeryOrderByAction,
     AvgPublicMemeryAction
 } from '../actions/AllKidschart_action';
-import { CdNewScoreRecord, SetChildNameBG, SetChildBestStatus, SetCdDayOfBestScoreByTimer } from '../actions/Home_action';
+import { CdNewScoreRecord, SetChildNameBG, SetChildBestStatus, SetCdDayOfBestScoreByTimer, SetAvgCdEventStatusScore } from '../actions/Home_action';
 const mapStateToProps = (state) => ({
     login_account: state.login_account,
     child_account: state.child_account,
@@ -73,8 +73,10 @@ const mapDispatchToProps = (dispatch) => ({
     GetSetCdDayOfBestScoreByTimer: (login_account, cdname, login_token) => {
         dispatch(SetCdDayOfBestScoreByTimer(login_account, cdname, login_token)) //取得小孩最佳時段
     },
-
-
+    GetSetAvgCdEventStatusScore: (login_account, login_token) => { //首頁圖表
+        dispatch(SetAvgCdEventStatusScore(login_account, login_token))
+    }
+   
 }
 
 );
@@ -82,7 +84,7 @@ const mapDispatchToProps = (dispatch) => ({
 class HomeContainer extends HomeComponent {
     constructor(props) {
         super(props);
-        
+
     }
     componentDidMount() {
         this.props.GetAllKidsProblemData();
@@ -104,6 +106,8 @@ class HomeContainer extends HomeComponent {
         //取得最新資料
         // const { CdNewScore_Record: previous_CdNewScoreRecord } = this.props
         const { CdNewScoreRecordData } = nextProps
+        const { CdNewScoreRecordData: previous_CdNewScoreRecordData } = this.props;
+        const { AvgCdEventStatusScore: pre_AvgCdEventStatusScore } = this.props;
 
         const { ChildNameBGData: pre_ChildNameBGData } = this.props;
         const { ChildNameBGData } = nextProps;
@@ -111,7 +115,14 @@ class HomeContainer extends HomeComponent {
         if (pre_ChildNameBGData != ChildNameBGData) {
             this.props.kidwavepageClick()
         }
-
+        this.props.GetCdNewScoreRecord(login_account, login_token);
+        this.props.GetSetAvgCdEventStatusScore(login_account, login_token);
+        // const { CdNewScoreRecordData } = nextProps;
+        // const { AvgCdEventStatusScore } = nextProps;
+        // if (previous_CdNewScoreRecordData != CdNewScoreRecordData || pre_AvgCdEventStatusScore != AvgCdEventStatusScore) {
+        //     this.props.GetCdNewScoreRecord(login_account, login_token);
+        //     this.props.GetSetAvgCdEventStatusScore(login_account, login_token);
+        // }
     }
 
 

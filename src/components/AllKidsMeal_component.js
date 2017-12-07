@@ -57,7 +57,7 @@ class Memory extends Component {
 
             case "Eat_Cereal":
                 return {
-                    marginLeft: 0.81*width-291,
+                    marginLeft: 0.78*width-291,
                     marginTop: 18,
                     width: 10,
                     height: 10,
@@ -66,7 +66,7 @@ class Memory extends Component {
                 };
             case "Eat_Meat":
                 return {
-                    marginLeft:  0.81*width-291,
+                    marginLeft:  0.78*width-291,
                     marginTop: 18,
                     width: 10,
                     height: 10,
@@ -75,7 +75,7 @@ class Memory extends Component {
                 };
             case "Eat_Milk":
                 return {
-                    marginLeft:  0.81*width-291,
+                    marginLeft:  0.78*width-291,
                     marginTop: 18,
                     width: 10,
                     height: 10,
@@ -84,7 +84,7 @@ class Memory extends Component {
                 };
             case "Eat_Veg":
                 return {
-                    marginLeft:  0.81*width-291,
+                    marginLeft:  0.78*width-291,
                     marginTop: 18,
                     width: 10,
                     height: 10,
@@ -93,7 +93,7 @@ class Memory extends Component {
                 };
             case "Eat_Fruit":
                 return {
-                    marginLeft:  0.81*width-291,
+                    marginLeft:  0.78*width-291,
                     marginTop: 18,
                     width: 10,
                     height: 10,

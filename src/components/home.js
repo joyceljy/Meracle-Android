@@ -167,6 +167,10 @@ class Memory extends Component {
         let newnum = (-num * 2) + num
         return newnum
     }
+    mutifunction(){
+        this.props.GetCdNewScoreRecord();
+        this.props.GetSetAvgCdEventStatusScore();
+    }
     render() {
         const drawerStyles = {
             drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
@@ -356,7 +360,7 @@ class Memory extends Component {
                                 <Image source={require('../images/menu.png')} ></Image>
                             </TouchableOpacity>
                             <Text style={styles.title}>腦波測量結果</Text>
-                            <TouchableOpacity style={styles.settingIcon}>
+                            <TouchableOpacity style={styles.settingIcon} onPress={this.mutifunction.bind(this)}>
                                 <Image source={require('../images/reload.png')} />
                             </TouchableOpacity>
                         </View>
@@ -469,10 +473,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     statueimgfirst: {
-        marginLeft: 0.068 * width,
+        marginLeft: 0.072 * width,
     },
     statueimgafter: {
-        marginLeft: 0.036 * width,
+        marginLeft: 0.03* width,
     },
     statuetxtfirst: {
         marginLeft: 0.089 * width,
