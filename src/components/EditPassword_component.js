@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
     },
     InputtextText: {
-        marginTop:3,
+        marginTop:1,
         width: 250,
         height: 48,
         marginLeft: 16,
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
         shadowColor: 'rgba(0,0,0,0.20)',
         shadowRadius: 8,
         shadowOpacity: 0,
-        marginLeft: 56,
+        //marginLeft: 56,
         marginTop: 32,
         elevation: 2,
         alignSelf:'center'
