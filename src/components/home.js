@@ -168,8 +168,8 @@ class Memory extends Component {
         return newnum
     }
     mutifunction(){
-        this.props.GetCdNewScoreRecord();
-        this.props.GetSetAvgCdEventStatusScore();
+        this.props.GetCdNewScoreRecord(this.props.login_account,this.props.login_token);
+        this.props.GetSetAvgCdEventStatusScore(this.props.login_account,this.props.login_token);
     }
     render() {
         const drawerStyles = {
