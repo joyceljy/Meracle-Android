@@ -61,6 +61,7 @@ class Memory extends Component {
             drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
             main: { paddingLeft: 0 }
         }
+        if (this.props.login_account != null || this.props.login_account != "" ||this.props.login_account != undefined) {
         if(this.props.PublicMemery!="" ||this.props.PublicMemery!=null){
         let PublicMemorySortt = []
         this.PublicMemorySortt = this.props.PublicMemery
@@ -111,6 +112,7 @@ class Memory extends Component {
             c++;
         };
     }
+}
         return (
 
             <View style={styles.Viewstyle}>

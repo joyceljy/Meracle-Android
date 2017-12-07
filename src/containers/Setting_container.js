@@ -18,6 +18,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
     LogoutClick: (account) => {
         dispatch(LogoutAction());
+        Actions.MemberLogin({ type: "reset" });
     },
 }
 );
@@ -35,10 +36,10 @@ class SettingContainer extends SettingComponent {
 
     }
     componentWillReceiveProps(nextProps) {
-        const { login_account } = nextProps;
-        if (login_account === "") {
-            Actions.MemberLogin({ type: "reset" });
-        }
+        // const { login_account } = nextProps;
+        // if (login_account === "") {
+        //     Actions.MemberLogin({ type: "reset" });
+        // }
     }
 
 

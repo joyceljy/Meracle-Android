@@ -126,6 +126,7 @@ class Memory extends Component {
             drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
             main: { paddingLeft: 0 }
         }
+        if (this.props.login_account != null || this.props.login_account != "" ||this.props.login_account != undefined) {
         if (this.props.PublicBody != "" || this.props.PublicBody != null) {
         let ProblemSorttt = []
         this.ProblemSorttt = this.props.PublicBody
@@ -174,6 +175,7 @@ class Memory extends Component {
             c++;
         };
     }
+}
         return (
             <View style={styles.Viewstyle}>
                 <Image source={require('../images/bg_darkBlue1.png')} style={{ width: '100%', height: '100%' }} >

@@ -94,7 +94,16 @@ class Memory extends Component {
     openControlPanel = () => {
         this._drawer.open()
     };
-
+    clickfunction() {
+        this.props.SaveMemoryPoint(this.props.login_account, this.props.login_token, this.state.cdName, this.state.finalScore, this.state.statusSelected);
+        this.props.GetCdNewScoreRecord(this.props.login_account, this.props.login_token);
+        this.props.GetSetAvgCdEventStatusScore(this.props.login_account, this.props.login_token);
+    }
+    // clickend() {
+    //     this.props.goBack();
+    //     this.props.GetCdNewScoreRecord(this.props.login_account, this.props.login_token);
+    //     this.props.GetSetAvgCdEventStatusScore(this.props.login_account, this.props.login_token);
+    // }
     //----腦波運算function----
     //取得最大值（傳入四個值,回傳最大值）
     _getMax(data1, data2, data3, data4) {
@@ -360,7 +369,7 @@ class Memory extends Component {
                 }, 116000);
             } else if (message1 != 'canStart') {
                 this.setState({ cdName: message1 });
-               // alert(message1);
+                // alert(message1);
             }
         });
 
@@ -386,7 +395,7 @@ class Memory extends Component {
         //console.log('poorSignal', poorSignal);
         if (poorSignal == 0 && !this.state.poorSignalChecked && this.state.Connected) {
             this.setState({ canShowToast: true })
-            
+
             //counter累加
             Settlecounter++;
 
@@ -399,7 +408,7 @@ class Memory extends Component {
             if (Settlecounter == 10) {
                 this.setState({ poorSignalChecked: true });
 
-               
+
 
                 //訊號穩定 可以開始遊戲
                 const connection = signalr.hubConnection('https://www.meracle.me/signalrpj/');
@@ -547,10 +556,10 @@ class Memory extends Component {
                     timerCounter: 0,
                 })
                 console.log('要推進陣列的記憶值', nextProps.quizPointArray);
-                if(nextProps.quizPointArray!=0||nextProps.quizPointArray!="0"){
+                if (nextProps.quizPointArray != 0 || nextProps.quizPointArray != "0") {
                     this.state.PointArray.push(nextProps.quizPointArray);
                 }
-                
+
             }
 
         }
@@ -792,9 +801,7 @@ class Memory extends Component {
 
                             </View>
 
-                            <TouchableOpacity style={styles.finishButton} onPress={() => {
-                                this.props.SaveMemoryPoint(this.props.login_account, this.props.login_token, this.state.cdName, this.state.finalScore, this.state.statusSelected);
-                            }}>
+                            <TouchableOpacity style={styles.finishButton} onPress={this.clickfunction}>
                                 <Text style={styles.finishButtonText}>完成</Text>
                             </TouchableOpacity>
                         </View>
@@ -1072,8 +1079,8 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         elevation: 8,
         marginTop: 32,
-        alignSelf:'center'
-        
+        alignSelf: 'center'
+
     },
     finishButtonText: {
         alignItems: 'center',
@@ -1193,13 +1200,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(216,216,216,0.00)',
         alignSelf: 'center',
         //alignItems: 'center',
-        marginLeft:width*0.27,
+        marginLeft: width * 0.27,
 
     },
     deviceItem: {
-        width:width*0.86,
+        width: width * 0.86,
         //width:312,
-        height:48,
+        height: 48,
         backgroundColor: 'rgba(255,255,255,0.75)',
         borderRadius: 4,
         marginTop: 4,
@@ -1221,7 +1228,7 @@ const styles = StyleSheet.create({
         letterSpacing: 0.8,
         color: 'rgba(255,255,255,0.8)',
         lineHeight: 18,
-        
+
     }
 });
 

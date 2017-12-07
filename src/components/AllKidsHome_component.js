@@ -40,11 +40,12 @@ class Memory extends Component {
             drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
             main: { paddingLeft: 0 }
         }
+        if (this.props.login_account != null || this.props.login_account != "" ||this.props.login_account != undefined) {
+            if(this.props.TotalPublicBody!= null || this.props.TotalPublicBody != ""){
         //生理狀況
         let api_TotalPublicBody = []
         api_TotalPublicBody = this.props.TotalPublicBody
         let TotalPublicBodyText = [], TotalPublicBodyValue = [], i = 0, j = 0
-
         for (this.i = 0; this.i < 6; this.i++) {
             TotalPublicBodyText.push(api_TotalPublicBody[this.i].Problem)
             TotalPublicBodyValue.push(api_TotalPublicBody[this.i].percentage)
@@ -64,7 +65,7 @@ class Memory extends Component {
         }
         console.log('obj', obj)
         this.props.Problemaction(obj)//dataset處直接接obj----dataSets:obj
-
+    }
         // 飲食習慣
         let api_TotalPublicMeal = []
         api_TotalPublicMeal = this.props.TotalPublicMeal
@@ -115,7 +116,7 @@ class Memory extends Component {
         console.log('PublicMemoryValue', PublicMemoryValue)
 
         this.props.Memoryaction(PublicMemoryValue)
-
+    }
         return (
             <Drawer
                 type="displace"

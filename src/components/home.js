@@ -183,7 +183,7 @@ class Memory extends Component {
         let data = [];
         let c = 0;
         let final_data = {}
-        if (this.props.login_account != null || this.props.login_account != "") {
+        if (this.props.login_account != null || this.props.login_account != "" ||this.props.login_account != undefined) {
             let chartpre = this.props.AvgCdEventStatusScore;
 
             for (let j = 0; j < chartpre.length; j++) {

@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import MindWaveMobile from 'react-native-mindwave-mobile';
 import { on_eeg_power_delta, on_eeg_power_low_beta, on_esense } from '../actions/mindwave_action';
 import { get_memory_point, save_memory_point,clear_memory } from '../actions/memoryPoint_action';
-
+import { CdNewScoreRecord,  SetAvgCdEventStatusScore } from '../actions/Home_action';
 const mwm = new MindWaveMobile()
 const mapStateToProps = (state) => ({
     //腦波部分
@@ -25,6 +25,8 @@ const mapStateToProps = (state) => ({
     login_account: state.login_account,
     child_account: state.child_account,
     login_token: state.login_token,
+    CdNewScoreRecordData: state.CdNewScoreRecordData,
+    AvgCdEventStatusScore: state.AvgCdEventStatusScore
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -39,6 +41,12 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getMemoryPoint: (mindwaveData, login_token, login_account, childname) => {
         dispatch(get_memory_point(mindwaveData, login_token, login_account, childname));
+    },
+    GetSetAvgCdEventStatusScore: (login_account, login_token) => { //首頁圖表
+        dispatch(SetAvgCdEventStatusScore(login_account, login_token))
+    },
+    GetCdNewScoreRecord: (login_account, token) => { //取得最新資料
+        dispatch(CdNewScoreRecord(login_account, token));
     },
     SaveMemoryPoint: (login_account, login_token, cdName, finalScore, statusSelected) => {
         dispatch(save_memory_point(login_account, login_token, cdName, finalScore, statusSelected));

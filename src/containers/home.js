@@ -76,7 +76,7 @@ const mapDispatchToProps = (dispatch) => ({
     GetSetAvgCdEventStatusScore: (login_account, login_token) => { //首頁圖表
         dispatch(SetAvgCdEventStatusScore(login_account, login_token))
     }
-   
+
 }
 
 );
@@ -106,23 +106,14 @@ class HomeContainer extends HomeComponent {
         //取得最新資料
         // const { CdNewScore_Record: previous_CdNewScoreRecord } = this.props
         const { CdNewScoreRecordData } = nextProps
-        const { CdNewScoreRecordData: previous_CdNewScoreRecordData } = this.props;
-        const { AvgCdEventStatusScore: pre_AvgCdEventStatusScore } = this.props;
 
         const { ChildNameBGData: pre_ChildNameBGData } = this.props;
-        const { ChildNameBGData } = nextProps;
-
+        const { AvgCdEventStatusScore } = nextProps;
+        const { ChildNameBGData } = nextProps
         if (pre_ChildNameBGData != ChildNameBGData) {
             this.props.kidwavepageClick()
         }
-        this.props.GetCdNewScoreRecord(login_account, login_token);
-        this.props.GetSetAvgCdEventStatusScore(login_account, login_token);
-        // const { CdNewScoreRecordData } = nextProps;
-        // const { AvgCdEventStatusScore } = nextProps;
-        // if (previous_CdNewScoreRecordData != CdNewScoreRecordData || pre_AvgCdEventStatusScore != AvgCdEventStatusScore) {
-        //     this.props.GetCdNewScoreRecord(login_account, login_token);
-        //     this.props.GetSetAvgCdEventStatusScore(login_account, login_token);
-        // }
+       
     }
 
 
