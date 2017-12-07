@@ -19,7 +19,9 @@ import AllKidsHome from './AllKidsHome_scene';
 import Sleepingavg from './Sleepingavg_scene';
 import AllKidsProblem from './AllKidsProblem_scene';
 import AllKidsMeal from './AllKidsMeal_scene';
-import AllKidsAvgScore from './AllKidsAvgScoreADay_scene'
+import AllKidsAvgScore from './AllKidsAvgScoreADay_scene';
+import AllkidsRecord from "./AllkidsRecord_scene";
+// import AllNewRecord from "./AllNewRecord_scene";
 // import waveavgpage from './waveavg_scene';
 const scenes = Actions.create(
     <Scene key="root" >
@@ -32,6 +34,7 @@ const scenes = Actions.create(
         <Scene key="AllKidsHome" component={AllKidsHome} hideNavBar={true} />
         <Scene key="AllKidsProblem" component={AllKidsProblem} hideNavBar={true} />
         <Scene key="AllKidsMeal" component={AllKidsMeal} hideNavBar={true} />
+        <Scene key="AllkidsRecord" component={AllkidsRecord} hideNavBar={true} />
         <Scene key="kidwavepage" component={kidwavepage} hideNavBar={true} />
         <Scene key="Sleepingavg" component={Sleepingavg} hideNavBar={true} />
         <Scene key="AllKidsAvgScore" component={AllKidsAvgScore} hideNavBar={true} />

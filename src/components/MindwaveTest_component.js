@@ -801,8 +801,8 @@ class Memory extends Component {
 
                             <TouchableOpacity style={styles.finishButton} onPress={()=>{
                                 this.props.SaveMemoryPoint(this.props.login_account, this.props.login_token, this.state.cdName, this.state.finalScore, this.state.statusSelected);
-                                this.props.GetCdNewScoreRecord(this.props.login_account, this.props.login_token);
-                                this.props.GetSetAvgCdEventStatusScore(this.props.login_account, this.props.login_token);
+                                // this.props.GetCdNewScoreRecord(this.props.login_account, this.props.login_token);
+                                // this.props.GetSetAvgCdEventStatusScore(this.props.login_account, this.props.login_token);
                             }}>
                                 <Text style={styles.finishButtonText}>完成</Text>
                             </TouchableOpacity>

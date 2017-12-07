@@ -15,6 +15,7 @@ import Svg, {
     Line,
 } from 'react-native-svg';
 import { Container, Header, Content, Card, CardItem, Body } from 'native-base';
+import AllkidsRecordContent from '../containers/AllkidsRecord_container';
 import Drawer from 'react-native-drawer';
 import SideBarContent from '../containers/SideBarContent';
 import { BarChart } from 'react-native-charts-wrapper';
@@ -124,12 +125,246 @@ class Memory extends Component {
             drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
             main: { paddingLeft: 0 }
         }
-        //詳細紀錄和小孩姓名
-        ChildNameBGDatapre = this.props.ChildNameBGData;
-        let ChildNameBGDataaft = [];
-        let Childname = [];
+        // //詳細紀錄和小孩姓名
+        // ChildNameBGDatapre = this.props.ChildNameBGData;
+        // let ChildNameBGDataaft = [];
+        // let Childname = [];
 
-        // this.props.SetChildNameBGColor
+        // // this.props.SetChildNameBGColor
+        // if (ChildNameBGDatapre != null || ChildNameBGDatapre != "") {
+        //     for (let key in ChildNameBGDatapre) {
+        //         for (let i = 0; i < ChildNameBGDatapre[key].length; i++) {
+        //             if (i === 0) {
+        //                 Childname.push(
+        //                     <View style={{ flexDirection: 'row' }}>
+        //                         <TouchableOpacity onPress={() => this.props.BackButton()} style={styles.menuIcon}>
+        //                             <Image source={require('../images/back.png')} ></Image>
+        //                         </TouchableOpacity>
+        //                         <Text style={styles.title}>{ChildNameBGDatapre[key][i].CdName} 的詳細資訊</Text>
+        //                     </View>
+        //                 )
+        //                 ChildNameBGDataaft.push(
+        //                     <View>
+        //                         <View style={{ backgroundColor: '#EEEEEE', height: 28, width: '100%', justifyContent: 'center', marginLeft: 5 }}>
+        //                             <Text style={styles.datetimestyle}>{this.timeercut(ChildNameBGDatapre[key][i].CreateTime)}</Text>
+        //                         </View>
+        //                         <View>
+        //                             <View style={{ flexDirection: 'row', }}>
+        //                                 <Text style={{ marginLeft: 8, marginTop: 8, fontSize: 12, color: '#6D7084', opacity: 0.8 }}>{ChildNameBGDatapre[key][i].Time}</Text>
+        //                                 <View style={{ marginLeft: 20 }}>
+
+        //                                     <Svg
+        //                                         height="70"
+        //                                         width="10"
+        //                                     >
+        //                                         <Line
+        //                                             x1="0"
+        //                                             y1="0"
+        //                                             x2="0"
+        //                                             y2="100"
+        //                                             stroke='rgba(109,112,132,0.1)'
+        //                                             strokeWidth="2"
+
+        //                                         />
+        //                                     </Svg>
+
+        //                                 </View>
+        //                                 {
+        //                                     //card旁的顏色條
+        //                                 }
+        //                                 <Image style={{ marginLeft: 21, marginTop: 20, marginRight: -3, zIndex: 2 }} source={this.colorpicset(this.props.SetChildNameBGColor)}></Image>
+        //                                 <View style={styles.cardsize}>
+
+        //                                     <View style={{ flexDirection: 'row', }}>
+
+        //                                         <View style={{ flexDirection: 'row', marginLeft: 20 }}>
+        //                                             {
+        //                                                 //狀態照片
+        //                                             }
+        //                                             <Image style={{ marginTop: 20 }} source={this.statuspicset(ChildNameBGDatapre[key][i].StatusName)}></Image>
+        //                                             <Text style={styles.statuesvalue}>{ChildNameBGDatapre[key][i].StatusName}</Text>
+
+        //                                         </View>
+        //                                         <View style={{ marginLeft: 9, marginTop: 15 }}>
+        //                                             <Svg
+        //                                                 height="30"
+        //                                                 width="50"
+        //                                             >
+        //                                                 <Line
+        //                                                     x1="0"
+        //                                                     y1="0"
+        //                                                     x2="0"
+        //                                                     y2="100"
+        //                                                     stroke='rgba(109,112,132,0.1)'
+        //                                                     strokeWidth="2"
+        //                                                 // marginTop="-3"
+        //                                                 />
+        //                                             </Svg>
+        //                                         </View>
+        //                                         <Text style={{
+        //                                             fontFamily: 'Roboto-Light',
+        //                                             fontSize: 30,
+        //                                             color: '#555555',
+        //                                             marginLeft: -0.11*width,
+        //                                             marginTop: 10
+        //                                         }}>{ChildNameBGDatapre[key][i].Score}</Text>
+        //                                     </View>
+        //                                 </View>
+        //                             </View>
+        //                         </View>
+        //                     </View>
+        //                 )
+        //             }
+        //             else {
+        //                 if (this.timeercut(ChildNameBGDatapre[key][i - 1].CreateTime) != this.timeercut(ChildNameBGDatapre[key][i].CreateTime))
+        //                     ChildNameBGDataaft.push(
+        //                         <View>
+        //                             <View style={{ backgroundColor: '#EEEEEE', height: 28, width: '100%', justifyContent: 'center', marginLeft: 5 }}>
+        //                                 <Text style={styles.datetimestyle}>{this.timeercut(ChildNameBGDatapre[key][i].CreateTime)}</Text>
+
+        //                             </View>
+        //                             <View>
+        //                                 <View style={{ flexDirection: 'row', }}>
+        //                                     <Text style={{ marginLeft: 8, marginTop: 8, fontSize: 12, color: '#6D7084', opacity: 0.8 }}>{ChildNameBGDatapre[key][i].Time}</Text>
+        //                                     <View style={{ marginLeft: 20 }}>
+
+        //                                         <Svg
+        //                                             height="70"
+        //                                             width="10"
+        //                                         >
+        //                                             <Line
+        //                                                 x1="0"
+        //                                                 y1="0"
+        //                                                 x2="0"
+        //                                                 y2="100"
+        //                                                 stroke='rgba(109,112,132,0.1)'
+        //                                                 strokeWidth="2"
+
+        //                                             />
+        //                                         </Svg>
+
+        //                                     </View>
+        //                                     {
+        //                                         //card旁的顏色條
+        //                                     }
+        //                                     <Image style={{ marginLeft: 21, marginTop: 20, marginRight: -3, zIndex: 2 }} source={this.colorpicset(this.props.SetChildNameBGColor)}></Image>
+        //                                     <View style={styles.cardsize}>
+
+        //                                         <View style={{ flexDirection: 'row', }}>
+
+        //                                             <View style={{ flexDirection: 'row', marginLeft: 20 }}>
+        //                                                 {
+        //                                                     //狀態照片
+        //                                                 }
+        //                                                 <Image style={{ marginTop: 15 }} source={this.statuspicset(ChildNameBGDatapre[key][i].StatusName)}></Image>
+        //                                                 <Text style={styles.statuesvalue2}>{ChildNameBGDatapre[key][i].StatusName}</Text>
+
+        //                                             </View>
+        //                                             <View style={{ marginLeft: 9, marginTop: 15 }}>
+        //                                                 <Svg
+        //                                                     height="30"
+        //                                                     width="50"
+        //                                                 >
+        //                                                     <Line
+        //                                                         x1="0"
+        //                                                         y1="0"
+        //                                                         x2="0"
+        //                                                         y2="100"
+        //                                                         stroke='rgba(109,112,132,0.1)'
+        //                                                         strokeWidth="2"
+        //                                                     // marginTop="-3"
+        //                                                     />
+        //                                                 </Svg>
+        //                                             </View>
+        //                                             <Text style={{
+        //                                                 fontFamily: 'Roboto-Light',
+        //                                                 fontSize: 30,
+        //                                                 color: '#555555',
+        //                                                 marginLeft: -0.11*width,
+        //                                                 marginTop: 10
+        //                                             }}>{ChildNameBGDatapre[key][i].Score}</Text>
+        //                                         </View>
+        //                                     </View>
+        //                                 </View>
+        //                             </View>
+        //                         </View>
+        //                     )
+        //                 else {
+        //                     ChildNameBGDataaft.push(
+        //                         <View>
+        //                             <View style={{ flexDirection: 'row', }}>
+        //                                 <Text style={{ marginLeft: 8, marginTop: 8, fontSize: 12, color: '#6D7084', opacity: 0.8 }}>{ChildNameBGDatapre[key][i].Time}</Text>
+        //                                 <View style={{ marginLeft: 20 }}>
+
+        //                                     <Svg
+        //                                         height="70"
+        //                                         width="10"
+        //                                     >
+        //                                         <Line
+        //                                             x1="0"
+        //                                             y1="0"
+        //                                             x2="0"
+        //                                             y2="100"
+        //                                             stroke='rgba(109,112,132,0.1)'
+        //                                             strokeWidth="2"
+
+        //                                         />
+        //                                     </Svg>
+
+        //                                 </View>
+        //                                 {
+        //                                     //card旁的顏色條
+        //                                 }
+        //                                 <Image style={{ marginLeft: 21, marginTop: 20, marginRight: -3, zIndex: 2 }} source={this.colorpicset(this.props.SetChildNameBGColor)}></Image>
+        //                                 <View style={styles.cardsize}>
+
+        //                                     <View style={{ flexDirection: 'row', }}>
+
+        //                                         <View style={{ flexDirection: 'row', marginLeft: 20 }}>
+        //                                             {
+        //                                                 //狀態照片
+        //                                             }
+        //                                             <Image style={{ marginTop: 15 }} source={this.statuspicset(ChildNameBGDatapre[key][i].StatusName)}></Image>
+        //                                             <Text style={styles.statuesvalue2}>{ChildNameBGDatapre[key][i].StatusName}</Text>
+
+        //                                         </View>
+        //                                         <View style={{ marginLeft: 9, marginTop: 15 }}>
+        //                                             <Svg
+        //                                                 height="30"
+        //                                                 width="50"
+        //                                             >
+        //                                                 <Line
+        //                                                     x1="0"
+        //                                                     y1="0"
+        //                                                     x2="0"
+        //                                                     y2="100"
+        //                                                     stroke='rgba(109,112,132,0.1)'
+        //                                                     strokeWidth="2"
+        //                                                 // marginTop="-3"
+        //                                                 />
+        //                                             </Svg>
+        //                                         </View>
+        //                                         <Text style={{
+        //                                             fontFamily: 'Roboto-Light',
+        //                                             fontSize: 30,
+        //                                             color: '#555555',
+        //                                             marginLeft: -0.11*width,
+        //                                             marginTop: 10
+        //                                         }}>{ChildNameBGDatapre[key][i].Score}</Text>
+        //                                     </View>
+        //                                 </View>
+        //                             </View>
+        //                         </View>
+        //                     )
+        //                 }
+        //             }
+        //             // console.log("ChildNameBGDatapre", ChildNameBGDatapre[key][i].CreateTime)
+        //         }
+
+        //     }
+        // }
+        let ChildNameBGDatapre = this.props.ChildNameBGData;
+        let Childname = [];
         if (ChildNameBGDatapre != null || ChildNameBGDatapre != "") {
             for (let key in ChildNameBGDatapre) {
                 for (let i = 0; i < ChildNameBGDatapre[key].length; i++) {
@@ -142,224 +377,8 @@ class Memory extends Component {
                                 <Text style={styles.title}>{ChildNameBGDatapre[key][i].CdName} 的詳細資訊</Text>
                             </View>
                         )
-                        ChildNameBGDataaft.push(
-                            <View>
-                                <View style={{ backgroundColor: '#EEEEEE', height: 28, width: '100%', justifyContent: 'center', marginLeft: 5 }}>
-                                    <Text style={styles.datetimestyle}>{this.timeercut(ChildNameBGDatapre[key][i].CreateTime)}</Text>
-                                </View>
-                                <View>
-                                    <View style={{ flexDirection: 'row', }}>
-                                        <Text style={{ marginLeft: 8, marginTop: 8, fontSize: 12, color: '#6D7084', opacity: 0.8 }}>{ChildNameBGDatapre[key][i].Time}</Text>
-                                        <View style={{ marginLeft: 20 }}>
-
-                                            <Svg
-                                                height="70"
-                                                width="10"
-                                            >
-                                                <Line
-                                                    x1="0"
-                                                    y1="0"
-                                                    x2="0"
-                                                    y2="100"
-                                                    stroke='rgba(109,112,132,0.1)'
-                                                    strokeWidth="2"
-
-                                                />
-                                            </Svg>
-
-                                        </View>
-                                        {
-                                            //card旁的顏色條
-                                        }
-                                        <Image style={{ marginLeft: 21, marginTop: 20, marginRight: -3, zIndex: 2 }} source={this.colorpicset(this.props.SetChildNameBGColor)}></Image>
-                                        <View style={styles.cardsize}>
-
-                                            <View style={{ flexDirection: 'row', }}>
-
-                                                <View style={{ flexDirection: 'row', marginLeft: 20 }}>
-                                                    {
-                                                        //狀態照片
-                                                    }
-                                                    <Image style={{ marginTop: 20 }} source={this.statuspicset(ChildNameBGDatapre[key][i].StatusName)}></Image>
-                                                    <Text style={styles.statuesvalue}>{ChildNameBGDatapre[key][i].StatusName}</Text>
-
-                                                </View>
-                                                <View style={{ marginLeft: 9, marginTop: 15 }}>
-                                                    <Svg
-                                                        height="30"
-                                                        width="50"
-                                                    >
-                                                        <Line
-                                                            x1="0"
-                                                            y1="0"
-                                                            x2="0"
-                                                            y2="100"
-                                                            stroke='rgba(109,112,132,0.1)'
-                                                            strokeWidth="2"
-                                                        // marginTop="-3"
-                                                        />
-                                                    </Svg>
-                                                </View>
-                                                <Text style={{
-                                                    fontFamily: 'Roboto-Light',
-                                                    fontSize: 30,
-                                                    color: '#555555',
-                                                    marginLeft: -0.11*width,
-                                                    marginTop: 10
-                                                }}>{ChildNameBGDatapre[key][i].Score}</Text>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
-                        )
                     }
-                    else {
-                        if (this.timeercut(ChildNameBGDatapre[key][i - 1].CreateTime) != this.timeercut(ChildNameBGDatapre[key][i].CreateTime))
-                            ChildNameBGDataaft.push(
-                                <View>
-                                    <View style={{ backgroundColor: '#EEEEEE', height: 28, width: '100%', justifyContent: 'center', marginLeft: 5 }}>
-                                        <Text style={styles.datetimestyle}>{this.timeercut(ChildNameBGDatapre[key][i].CreateTime)}</Text>
-
-                                    </View>
-                                    <View>
-                                        <View style={{ flexDirection: 'row', }}>
-                                            <Text style={{ marginLeft: 8, marginTop: 8, fontSize: 12, color: '#6D7084', opacity: 0.8 }}>{ChildNameBGDatapre[key][i].Time}</Text>
-                                            <View style={{ marginLeft: 20 }}>
-
-                                                <Svg
-                                                    height="70"
-                                                    width="10"
-                                                >
-                                                    <Line
-                                                        x1="0"
-                                                        y1="0"
-                                                        x2="0"
-                                                        y2="100"
-                                                        stroke='rgba(109,112,132,0.1)'
-                                                        strokeWidth="2"
-
-                                                    />
-                                                </Svg>
-
-                                            </View>
-                                            {
-                                                //card旁的顏色條
-                                            }
-                                            <Image style={{ marginLeft: 21, marginTop: 20, marginRight: -3, zIndex: 2 }} source={this.colorpicset(this.props.SetChildNameBGColor)}></Image>
-                                            <View style={styles.cardsize}>
-
-                                                <View style={{ flexDirection: 'row', }}>
-
-                                                    <View style={{ flexDirection: 'row', marginLeft: 20 }}>
-                                                        {
-                                                            //狀態照片
-                                                        }
-                                                        <Image style={{ marginTop: 15 }} source={this.statuspicset(ChildNameBGDatapre[key][i].StatusName)}></Image>
-                                                        <Text style={styles.statuesvalue2}>{ChildNameBGDatapre[key][i].StatusName}</Text>
-
-                                                    </View>
-                                                    <View style={{ marginLeft: 9, marginTop: 15 }}>
-                                                        <Svg
-                                                            height="30"
-                                                            width="50"
-                                                        >
-                                                            <Line
-                                                                x1="0"
-                                                                y1="0"
-                                                                x2="0"
-                                                                y2="100"
-                                                                stroke='rgba(109,112,132,0.1)'
-                                                                strokeWidth="2"
-                                                            // marginTop="-3"
-                                                            />
-                                                        </Svg>
-                                                    </View>
-                                                    <Text style={{
-                                                        fontFamily: 'Roboto-Light',
-                                                        fontSize: 30,
-                                                        color: '#555555',
-                                                        marginLeft: -0.11*width,
-                                                        marginTop: 10
-                                                    }}>{ChildNameBGDatapre[key][i].Score}</Text>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                            )
-                        else {
-                            ChildNameBGDataaft.push(
-                                <View>
-                                    <View style={{ flexDirection: 'row', }}>
-                                        <Text style={{ marginLeft: 8, marginTop: 8, fontSize: 12, color: '#6D7084', opacity: 0.8 }}>{ChildNameBGDatapre[key][i].Time}</Text>
-                                        <View style={{ marginLeft: 20 }}>
-
-                                            <Svg
-                                                height="70"
-                                                width="10"
-                                            >
-                                                <Line
-                                                    x1="0"
-                                                    y1="0"
-                                                    x2="0"
-                                                    y2="100"
-                                                    stroke='rgba(109,112,132,0.1)'
-                                                    strokeWidth="2"
-
-                                                />
-                                            </Svg>
-
-                                        </View>
-                                        {
-                                            //card旁的顏色條
-                                        }
-                                        <Image style={{ marginLeft: 21, marginTop: 20, marginRight: -3, zIndex: 2 }} source={this.colorpicset(this.props.SetChildNameBGColor)}></Image>
-                                        <View style={styles.cardsize}>
-
-                                            <View style={{ flexDirection: 'row', }}>
-
-                                                <View style={{ flexDirection: 'row', marginLeft: 20 }}>
-                                                    {
-                                                        //狀態照片
-                                                    }
-                                                    <Image style={{ marginTop: 15 }} source={this.statuspicset(ChildNameBGDatapre[key][i].StatusName)}></Image>
-                                                    <Text style={styles.statuesvalue2}>{ChildNameBGDatapre[key][i].StatusName}</Text>
-
-                                                </View>
-                                                <View style={{ marginLeft: 9, marginTop: 15 }}>
-                                                    <Svg
-                                                        height="30"
-                                                        width="50"
-                                                    >
-                                                        <Line
-                                                            x1="0"
-                                                            y1="0"
-                                                            x2="0"
-                                                            y2="100"
-                                                            stroke='rgba(109,112,132,0.1)'
-                                                            strokeWidth="2"
-                                                        // marginTop="-3"
-                                                        />
-                                                    </Svg>
-                                                </View>
-                                                <Text style={{
-                                                    fontFamily: 'Roboto-Light',
-                                                    fontSize: 30,
-                                                    color: '#555555',
-                                                    marginLeft: -0.11*width,
-                                                    marginTop: 10
-                                                }}>{ChildNameBGDatapre[key][i].Score}</Text>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                            )
-                        }
-                    }
-                    // console.log("ChildNameBGDatapre", ChildNameBGDatapre[key][i].CreateTime)
                 }
-
             }
         }
         //最佳狀態
@@ -438,8 +457,9 @@ class Memory extends Component {
                 <ScrollView>
                     <View style={styles.childView}>
                         {
-                            ChildNameBGDataaft
+                            // ChildNameBGDataaft
                         }
+                        <AllkidsRecordContent />
                         <View style={{ marginBottom: 12 }}></View>
                     </View>
                 </ScrollView>
@@ -460,39 +480,13 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: '#144669',
     },
-    statueView: {
-        marginTop: -15,
-        backgroundColor: '#144669',
-        justifyContent: 'flex-start',
-        flexDirection: 'row',
-    },
-    statueimgfirst: {
-        marginLeft: 5,
-    },
-    statueimgafter: {
-        marginLeft: 20,
-    },
-    statuetxtfirst: {
-        marginLeft: 34,
-        fontSize: 9,
-        color: 'rgba(255,255,255,0.8)'
-    },
-    statuetxt: {
-        marginLeft: 24,
-        fontSize: 9,
-        color: 'rgba(255,255,255,0.8)'
-    },
     chart: {
         width: '100%',
         height: 150,
         // backgroundColor: 'rgba(221, 221, 255, 0.5)',
 
     },
-    toptext: {
-        color: 'rgb(255,255,255)',
-        fontSize: 14,
 
-    },
     parentInfoView: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -504,12 +498,7 @@ const styles = StyleSheet.create({
         // marginTop: 16,
         // alignItems: "stretch",
     },
-    conView: {
-        marginTop: 35,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+
     menuIcon: {
         marginLeft: 18,
         width: 24,
@@ -525,36 +514,14 @@ const styles = StyleSheet.create({
         marginTop: 14,
         marginLeft: 32,
     },
-    settingIcon: {
-        width: 24,
-        height: 24,
-        marginLeft: 182,
-        marginTop: 16,
-    },
+
     childView: {
         width: '100%',
         // height: 200,
         zIndex: -5,
         backgroundColor: '#F2F2F2',
     },
-    newwave: {
-        marginTop: 5,
-        fontFamily: 'Roboto-Light',
-        fontSize: 14,
-        color: '#555555',
-    },
-    newwavevalue: {
-        marginTop: 3,
-        fontFamily: 'Roboto-Light',
-        fontSize: 18,
-        color: '#555555',
-    },
-    datetime: {
-        marginTop: 3,
-        fontFamily: 'Roboto-Light',
-        fontSize: 12,
-        color: 'rgba(109,112,132,0.8)',
-    },
+
     statuesvalue: {
         marginTop: 20,
         marginLeft: 14,
@@ -571,74 +538,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#6D7084',
     },
-    subTitle: {
-        fontSize: 10,
-        lineHeight: 16,
-        fontFamily: 'Roboto-Regular',
-        marginTop: 8,
-        marginLeft: 149,
-        color: '#636566',
-        marginBottom: -8,
-    },
-    avatarView: {
-        width: 64,
-        height: 64,
-        borderWidth: 5,
-        borderColor: '#9ACBD9',
-        borderRadius: 100,
-        //backgroundColor: 'transparent',
-        //overflow: 'hidden',
-        opacity: 0.1,
-        zIndex: 1,
-        backgroundColor: '#FFFFFF',
-        marginTop: 15,
-        marginLeft: 48,
-    },
-    avatar: {
-        width: 45.8,
-        height: 45.8,
-        borderRadius: 100
-    },
-    helloText: {
-
-        fontSize: 16,
-        lineHeight: 24,
-        fontFamily: 'Roboto-Regular',
-        color: '#FFFFFF',
-        marginLeft: 152,
-        marginTop: -65,
 
 
-    },
-    editText: {
-        fontSize: 14,
-        lineHeight: 22,
-        fontFamily: 'PingFangTC-Light',
-        color: '#FFFFFF',
-        marginLeft: 152,
-        marginTop: 4,
 
-    },
-    kidname: {
-        justifyContent: 'center',
-        left: 54,
-        top: -12,
-        fontFamily: 'Roboto-Regular',
-        fontSize: 16,
-        color: '#FFFFFF',
-        letterSpacing: 0.5,
-        lineHeight: 24,
-        // width: 50,
-        height: 24,
-        // backgroundColor:'red'
-    },
-    underbar: {
-        // top: 262,
-        width: 384,
-        // height: 300,
-        // marginBottom:10,
-        backgroundColor: '#F2F2F2'
-    },
     datetimestyle: {
         color: 'rgba(0,0,0,0.6)',
     },
@@ -675,18 +577,7 @@ const styles = StyleSheet.create({
         elevation: 0.8,
         borderRadius: 4,
     },
-    kid3cardimgstyle: {
-        width: 56,
-        height: 56,
-        borderRadius: 50,
-        // bottom: 10,
-        marginTop: 8,
-        marginLeft: 15,
-        backgroundColor: '#9ACBD9',
-        borderWidth: 5,
-        borderColor: 'rgba(255,255,255,0.1)',
-        borderRadius: 100,
-    },
+
 
 
 });

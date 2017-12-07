@@ -201,7 +201,7 @@ class Memory extends Component {
                                 //中間小孩
                             }
                             <View >
-                                <Image style={{ zIndex: 2, marginLeft: -35, marginTop: 98, position: 'absolute' }} source={require('../images/Bitmap.png')} />
+                                <Image style={{ zIndex: 2, marginLeft: -35, marginTop: 95, position: 'absolute' }} source={require('../images/Bitmap.png')} />
                             </View>
                             {
                                 //piechart

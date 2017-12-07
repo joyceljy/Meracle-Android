@@ -3,8 +3,8 @@ import MindwaveTestComponent from '../components/MindwaveTest_component';
 import { Actions } from 'react-native-router-flux';
 import MindWaveMobile from 'react-native-mindwave-mobile';
 import { on_eeg_power_delta, on_eeg_power_low_beta, on_esense } from '../actions/mindwave_action';
-import { get_memory_point, save_memory_point,clear_memory } from '../actions/memoryPoint_action';
-import { CdNewScoreRecord,  SetAvgCdEventStatusScore } from '../actions/Home_action';
+import { get_memory_point, save_memory_point, clear_memory } from '../actions/memoryPoint_action';
+import { CdNewScoreRecord, SetAvgCdEventStatusScore } from '../actions/Home_action';
 const mwm = new MindWaveMobile()
 const mapStateToProps = (state) => ({
     //腦波部分
@@ -43,7 +43,7 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(get_memory_point(mindwaveData, login_token, login_account, childname));
     },
     GetSetAvgCdEventStatusScore: (login_account, login_token) => { //首頁圖表
-        dispatch(SetAvgCdEventStatusScore(login_account, login_token))
+        dispatch(SetAvgCdEventStatusScore(login_account, login_token))//首頁圖表
     },
     GetCdNewScoreRecord: (login_account, token) => { //取得最新資料
         dispatch(CdNewScoreRecord(login_account, token));
@@ -52,6 +52,11 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(save_memory_point(login_account, login_token, cdName, finalScore, statusSelected));
         setTimeout(() => {
             dispatch(clear_memory);
+
+            //把component的完成click註解 ，直接在這呼叫dispatch 如有錯再刪掉這兩行
+            dispatch(CdNewScoreRecord(login_account, token));//取得最新資料
+            dispatch(SetAvgCdEventStatusScore(login_account, login_token))//首頁圖表
+
             Actions.home({ type: "reset" });
         }, 2000);
     },

@@ -111,9 +111,14 @@ class HomeContainer extends HomeComponent {
         const { AvgCdEventStatusScore } = nextProps;
         const { ChildNameBGData } = nextProps
         if (pre_ChildNameBGData != ChildNameBGData) {
+            // Actions.AllkidsRecord()
             this.props.kidwavepageClick()
+
         }
-       
+        // if (AvgCdEventStatusScore || CdNewScoreRecordData) {
+        //     Actions.home({ type: "reset" })
+        // }
+
     }
 
 
