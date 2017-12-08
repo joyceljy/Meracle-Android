@@ -50,9 +50,9 @@ class MemberLoginContainer extends MemberLoginComponent {
     componentDidMount() {
 
         //若login_token有值則直接登入
-        // if (this.props.login_token != null && this.props.login_token != "") {
-        //     Actions.home({ type: "reset" });
-        // }
+         if (this.props.login_token != null && this.props.login_token != "") {
+             Actions.home({ type: "reset" });
+         }
 
 
     };
@@ -74,6 +74,7 @@ class MemberLoginContainer extends MemberLoginComponent {
         const { CdNewScoreRecordData } = nextProps;
         const { AvgCdEventStatusScore } = nextProps;
         if (previous_member_data == member_data && member_data != null && CdNewScoreRecordData != null &&  AvgCdEventStatusScore != null) {
+           Actions.pop();
             Actions.home({ type: "reset" });
         }
     }

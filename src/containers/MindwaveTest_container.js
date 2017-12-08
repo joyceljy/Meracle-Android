@@ -54,8 +54,8 @@ const mapDispatchToProps = (dispatch) => ({
             dispatch(clear_memory);
 
             //把component的完成click註解 ，直接在這呼叫dispatch 如有錯再刪掉這兩行
-            dispatch(CdNewScoreRecord(login_account, token));//取得最新資料
-            dispatch(SetAvgCdEventStatusScore(login_account, login_token))//首頁圖表
+            //dispatch(CdNewScoreRecord(login_account, token));//取得最新資料
+           // dispatch(SetAvgCdEventStatusScore(login_account, login_token))//首頁圖表
 
             Actions.home({ type: "reset" });
         }, 2000);

@@ -364,7 +364,7 @@ class Memory extends Component {
                     console.log('finalscore', countp);
 
                     this.setState({ endTestView: true });
-                }, 116000);
+                }, 120000);
             } else if (message1 != 'canStart') {
                 this.setState({ cdName: message1 });
                 // alert(message1);
